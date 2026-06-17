@@ -9,8 +9,152 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WithdrawalsRouteImport } from './routes/withdrawals'
+import { Route as VerificationRouteImport } from './routes/verification'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as SocialAccountsRouteImport } from './routes/social-accounts'
+import { Route as ShortLinksRouteImport } from './routes/short-links'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SalesRouteImport } from './routes/sales'
+import { Route as ReferralsRouteImport } from './routes/referrals'
+import { Route as QrRouteImport } from './routes/qr'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ProductsRouteImport } from './routes/products'
+import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as LeadsRouteImport } from './routes/leads'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as ContentRouteImport } from './routes/content'
+import { Route as CommissionsRouteImport } from './routes/commissions'
+import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as AmsRouteImport } from './routes/ams'
+import { Route as AiChatRouteImport } from './routes/ai-chat'
+import { Route as AchievementsRouteImport } from './routes/achievements'
+import { Route as AcademyRouteImport } from './routes/academy'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WithdrawalsRoute = WithdrawalsRouteImport.update({
+  id: '/withdrawals',
+  path: '/withdrawals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerificationRoute = VerificationRouteImport.update({
+  id: '/verification',
+  path: '/verification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SocialAccountsRoute = SocialAccountsRouteImport.update({
+  id: '/social-accounts',
+  path: '/social-accounts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShortLinksRoute = ShortLinksRouteImport.update({
+  id: '/short-links',
+  path: '/short-links',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalesRoute = SalesRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralsRoute = ReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QrRoute = QrRouteImport.update({
+  id: '/qr',
+  path: '/qr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaKitRoute = MediaKitRouteImport.update({
+  id: '/media-kit',
+  path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeadsRoute = LeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContentRoute = ContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommissionsRoute = CommissionsRouteImport.update({
+  id: '/commissions',
+  path: '/commissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampaignsRoute = CampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmsRoute = AmsRouteImport.update({
+  id: '/ams',
+  path: '/ams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiChatRoute = AiChatRouteImport.update({
+  id: '/ai-chat',
+  path: '/ai-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademyRoute = AcademyRouteImport.update({
+  id: '/academy',
+  path: '/academy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +163,368 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/academy': typeof AcademyRoute
+  '/achievements': typeof AchievementsRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ams': typeof AmsRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/campaigns': typeof CampaignsRoute
+  '/commissions': typeof CommissionsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/leads': typeof LeadsRoute
+  '/media-kit': typeof MediaKitRoute
+  '/products': typeof ProductsRoute
+  '/profile': typeof ProfileRoute
+  '/qr': typeof QrRoute
+  '/referrals': typeof ReferralsRoute
+  '/sales': typeof SalesRoute
+  '/settings': typeof SettingsRoute
+  '/short-links': typeof ShortLinksRoute
+  '/social-accounts': typeof SocialAccountsRoute
+  '/support': typeof SupportRoute
+  '/verification': typeof VerificationRoute
+  '/withdrawals': typeof WithdrawalsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academy': typeof AcademyRoute
+  '/achievements': typeof AchievementsRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ams': typeof AmsRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/campaigns': typeof CampaignsRoute
+  '/commissions': typeof CommissionsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/leads': typeof LeadsRoute
+  '/media-kit': typeof MediaKitRoute
+  '/products': typeof ProductsRoute
+  '/profile': typeof ProfileRoute
+  '/qr': typeof QrRoute
+  '/referrals': typeof ReferralsRoute
+  '/sales': typeof SalesRoute
+  '/settings': typeof SettingsRoute
+  '/short-links': typeof ShortLinksRoute
+  '/social-accounts': typeof SocialAccountsRoute
+  '/support': typeof SupportRoute
+  '/verification': typeof VerificationRoute
+  '/withdrawals': typeof WithdrawalsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academy': typeof AcademyRoute
+  '/achievements': typeof AchievementsRoute
+  '/ai-chat': typeof AiChatRoute
+  '/ams': typeof AmsRoute
+  '/analytics': typeof AnalyticsRoute
+  '/calendar': typeof CalendarRoute
+  '/campaigns': typeof CampaignsRoute
+  '/commissions': typeof CommissionsRoute
+  '/content': typeof ContentRoute
+  '/inbox': typeof InboxRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/leads': typeof LeadsRoute
+  '/media-kit': typeof MediaKitRoute
+  '/products': typeof ProductsRoute
+  '/profile': typeof ProfileRoute
+  '/qr': typeof QrRoute
+  '/referrals': typeof ReferralsRoute
+  '/sales': typeof SalesRoute
+  '/settings': typeof SettingsRoute
+  '/short-links': typeof ShortLinksRoute
+  '/social-accounts': typeof SocialAccountsRoute
+  '/support': typeof SupportRoute
+  '/verification': typeof VerificationRoute
+  '/withdrawals': typeof WithdrawalsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/academy'
+    | '/achievements'
+    | '/ai-chat'
+    | '/ams'
+    | '/analytics'
+    | '/calendar'
+    | '/campaigns'
+    | '/commissions'
+    | '/content'
+    | '/inbox'
+    | '/leaderboard'
+    | '/leads'
+    | '/media-kit'
+    | '/products'
+    | '/profile'
+    | '/qr'
+    | '/referrals'
+    | '/sales'
+    | '/settings'
+    | '/short-links'
+    | '/social-accounts'
+    | '/support'
+    | '/verification'
+    | '/withdrawals'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/academy'
+    | '/achievements'
+    | '/ai-chat'
+    | '/ams'
+    | '/analytics'
+    | '/calendar'
+    | '/campaigns'
+    | '/commissions'
+    | '/content'
+    | '/inbox'
+    | '/leaderboard'
+    | '/leads'
+    | '/media-kit'
+    | '/products'
+    | '/profile'
+    | '/qr'
+    | '/referrals'
+    | '/sales'
+    | '/settings'
+    | '/short-links'
+    | '/social-accounts'
+    | '/support'
+    | '/verification'
+    | '/withdrawals'
+  id:
+    | '__root__'
+    | '/'
+    | '/academy'
+    | '/achievements'
+    | '/ai-chat'
+    | '/ams'
+    | '/analytics'
+    | '/calendar'
+    | '/campaigns'
+    | '/commissions'
+    | '/content'
+    | '/inbox'
+    | '/leaderboard'
+    | '/leads'
+    | '/media-kit'
+    | '/products'
+    | '/profile'
+    | '/qr'
+    | '/referrals'
+    | '/sales'
+    | '/settings'
+    | '/short-links'
+    | '/social-accounts'
+    | '/support'
+    | '/verification'
+    | '/withdrawals'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcademyRoute: typeof AcademyRoute
+  AchievementsRoute: typeof AchievementsRoute
+  AiChatRoute: typeof AiChatRoute
+  AmsRoute: typeof AmsRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  CalendarRoute: typeof CalendarRoute
+  CampaignsRoute: typeof CampaignsRoute
+  CommissionsRoute: typeof CommissionsRoute
+  ContentRoute: typeof ContentRoute
+  InboxRoute: typeof InboxRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  LeadsRoute: typeof LeadsRoute
+  MediaKitRoute: typeof MediaKitRoute
+  ProductsRoute: typeof ProductsRoute
+  ProfileRoute: typeof ProfileRoute
+  QrRoute: typeof QrRoute
+  ReferralsRoute: typeof ReferralsRoute
+  SalesRoute: typeof SalesRoute
+  SettingsRoute: typeof SettingsRoute
+  ShortLinksRoute: typeof ShortLinksRoute
+  SocialAccountsRoute: typeof SocialAccountsRoute
+  SupportRoute: typeof SupportRoute
+  VerificationRoute: typeof VerificationRoute
+  WithdrawalsRoute: typeof WithdrawalsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/withdrawals': {
+      id: '/withdrawals'
+      path: '/withdrawals'
+      fullPath: '/withdrawals'
+      preLoaderRoute: typeof WithdrawalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verification': {
+      id: '/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof VerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/social-accounts': {
+      id: '/social-accounts'
+      path: '/social-accounts'
+      fullPath: '/social-accounts'
+      preLoaderRoute: typeof SocialAccountsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/short-links': {
+      id: '/short-links'
+      path: '/short-links'
+      fullPath: '/short-links'
+      preLoaderRoute: typeof ShortLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sales': {
+      id: '/sales'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof SalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referrals': {
+      id: '/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof ReferralsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qr': {
+      id: '/qr'
+      path: '/qr'
+      fullPath: '/qr'
+      preLoaderRoute: typeof QrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-kit': {
+      id: '/media-kit'
+      path: '/media-kit'
+      fullPath: '/media-kit'
+      preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leads': {
+      id: '/leads'
+      path: '/leads'
+      fullPath: '/leads'
+      preLoaderRoute: typeof LeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/content': {
+      id: '/content'
+      path: '/content'
+      fullPath: '/content'
+      preLoaderRoute: typeof ContentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commissions': {
+      id: '/commissions'
+      path: '/commissions'
+      fullPath: '/commissions'
+      preLoaderRoute: typeof CommissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campaigns': {
+      id: '/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ams': {
+      id: '/ams'
+      path: '/ams'
+      fullPath: '/ams'
+      preLoaderRoute: typeof AmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-chat': {
+      id: '/ai-chat'
+      path: '/ai-chat'
+      fullPath: '/ai-chat'
+      preLoaderRoute: typeof AiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academy': {
+      id: '/academy'
+      path: '/academy'
+      fullPath: '/academy'
+      preLoaderRoute: typeof AcademyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +537,30 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcademyRoute: AcademyRoute,
+  AchievementsRoute: AchievementsRoute,
+  AiChatRoute: AiChatRoute,
+  AmsRoute: AmsRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  CalendarRoute: CalendarRoute,
+  CampaignsRoute: CampaignsRoute,
+  CommissionsRoute: CommissionsRoute,
+  ContentRoute: ContentRoute,
+  InboxRoute: InboxRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  LeadsRoute: LeadsRoute,
+  MediaKitRoute: MediaKitRoute,
+  ProductsRoute: ProductsRoute,
+  ProfileRoute: ProfileRoute,
+  QrRoute: QrRoute,
+  ReferralsRoute: ReferralsRoute,
+  SalesRoute: SalesRoute,
+  SettingsRoute: SettingsRoute,
+  ShortLinksRoute: ShortLinksRoute,
+  SocialAccountsRoute: SocialAccountsRoute,
+  SupportRoute: SupportRoute,
+  VerificationRoute: VerificationRoute,
+  WithdrawalsRoute: WithdrawalsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
