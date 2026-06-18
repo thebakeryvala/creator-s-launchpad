@@ -1,10 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Sparkles, TrendingUp, Eye, MousePointerClick, Users, ShoppingBag, Wallet,
-  Trophy, Star, ArrowUpRight, Flame, Target, Zap, Award, Crown, ChevronRight,
-  Play, Megaphone, Package,
+  Trophy, Star, ArrowUpRight, Flame, Target, Zap, Award, ChevronRight,
+  Play, Megaphone, Package, Activity,
 } from "lucide-react";
+
 import { PageShell } from "@/components/layout/PageShell";
+import { KpiCard } from "@/components/dashboard/KpiCard";
+import { Sparkline } from "@/components/dashboard/Sparkline";
+import {
+  dashboardAnalyticsQueryOptions,
+} from "@/lib/analytics/analytics.functions";
+import type { MetricKey } from "@/lib/analytics/types";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,21 +23,40 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Promote, earn and grow from one command center." },
     ],
   }),
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(dashboardAnalyticsQueryOptions("7d")),
   component: Dashboard,
+  errorComponent: ({ error }) => (
+    <PageShell>
+      <div className="bento-card text-center py-16">
+        <h2 className="text-lg font-semibold">Analytics unavailable</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
+      </div>
+    </PageShell>
+  ),
 });
 
-const kpis = [
-  { label: "Followers", value: "—", delta: "+0%", icon: Users, tint: "text-accent-pink" },
-  { label: "Reach", value: "—", delta: "+0%", icon: TrendingUp, tint: "text-primary-glow" },
-  { label: "Views", value: "—", delta: "+0%", icon: Eye, tint: "text-accent-emerald" },
-  { label: "Clicks", value: "—", delta: "+0%", icon: MousePointerClick, tint: "text-accent-amber" },
-  { label: "Leads", value: "—", delta: "+0%", icon: Target, tint: "text-accent-pink" },
-  { label: "Sales", value: "—", delta: "+0%", icon: ShoppingBag, tint: "text-primary-glow" },
-  { label: "Commission", value: "—", delta: "+0%", icon: Wallet, tint: "text-accent-emerald" },
-  { label: "Rank", value: "—", delta: "Rookie", icon: Crown, tint: "text-accent-amber" },
+const KPI_DEFS: Array<{
+  key: MetricKey;
+  label: string;
+  icon: typeof Users;
+  tint: string;
+}> = [
+  { key: "followers",   label: "Followers",   icon: Users,            tint: "text-accent-pink" },
+  { key: "reach",       label: "Reach",       icon: TrendingUp,       tint: "text-primary-glow" },
+  { key: "views",       label: "Views",       icon: Eye,              tint: "text-accent-emerald" },
+  { key: "clicks",      label: "Clicks",      icon: MousePointerClick, tint: "text-accent-amber" },
+  { key: "leads",       label: "Leads",       icon: Target,           tint: "text-accent-pink" },
+  { key: "sales",       label: "Sales",       icon: ShoppingBag,      tint: "text-primary-glow" },
+  { key: "commissions", label: "Commission",  icon: Wallet,           tint: "text-accent-emerald" },
 ];
 
 function Dashboard() {
+  const { data: analytics } = useSuspenseQuery(dashboardAnalyticsQueryOptions("7d"));
+  const { metrics, connected } = analytics;
+  const commission = metrics.commissions;
+  const commissionDeltaPct = commission.deltaPct;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -56,6 +83,17 @@ function Dashboard() {
               <Link to="/ai-chat" className="inline-flex items-center gap-2 rounded-full bg-white/15 border border-white/25 px-5 py-2.5 text-sm font-medium backdrop-blur hover:bg-white/25 transition">
                 <Sparkles className="h-4 w-4" /> Ask AI
               </Link>
+              <span
+                className={
+                  "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium border " +
+                  (connected
+                    ? "bg-accent-emerald/15 border-accent-emerald/40 text-accent-emerald"
+                    : "bg-white/10 border-white/20 text-white/80")
+                }
+              >
+                <Activity className="h-3 w-3" />
+                {connected ? `Live · ${analytics.source}` : "Not connected"}
+              </span>
             </div>
           </div>
 
@@ -73,7 +111,9 @@ function Dashboard() {
                     <p className="font-semibold truncate">Your Creator Profile</p>
                     <Award className="h-4 w-4 text-accent-amber" />
                   </div>
-                  <p className="text-xs text-white/70">Connect Software Vala login</p>
+                  <p className="text-xs text-white/70">
+                    {connected ? "Live profile" : "Connect Software Vala login"}
+                  </p>
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center">
@@ -90,18 +130,16 @@ function Dashboard() {
       </section>
 
       {/* KPI GRID */}
-      <section className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-        {kpis.map((k) => (
-          <div key={k.label} className="bento-card !p-4">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{k.label}</p>
-                <p className="mt-1 text-xl font-bold">{k.value}</p>
-              </div>
-              <k.icon className={`h-4 w-4 ${k.tint}`} />
-            </div>
-            <p className="mt-2 text-[11px] text-muted-foreground">{k.delta}</p>
-          </div>
+      <section className="mt-6 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">
+        {KPI_DEFS.map(({ key, label, icon, tint }) => (
+          <KpiCard
+            key={key}
+            label={label}
+            icon={icon}
+            tint={tint}
+            connected={connected}
+            snap={metrics[key]}
+          />
         ))}
       </section>
 
@@ -111,9 +149,11 @@ function Dashboard() {
         <div className="bento-card lg:col-span-1">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Today's plan</h3>
-            <span className="text-xs text-muted-foreground">Live</span>
+            <span className="text-xs text-muted-foreground">
+              {connected ? "Live" : "Awaiting data"}
+            </span>
           </div>
-          <p className="mt-1 text-3xl font-bold tracking-tight">Sat, plan</p>
+          <p className="mt-1 text-3xl font-bold tracking-tight">Your day</p>
           <ul className="mt-5 divide-y divide-border">
             {[
               ["Post Reel", "Instagram", "9:00 AM"],
@@ -165,29 +205,34 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Balance */}
+        {/* Balance — wired to commission metric */}
         <div className="bento-card relative overflow-hidden">
           <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Balance</h3>
-            <div className="flex rounded-full border border-border p-0.5 text-xs">
-              <button className="px-2.5 py-1 rounded-full bg-foreground text-background">Daily</button>
-              <button className="px-2.5 py-1 text-muted-foreground">Monthly</button>
-            </div>
+            <span className="text-[11px] text-muted-foreground">{analytics.range}</span>
           </div>
-          <p className="mt-3 text-4xl font-bold tracking-tight">$0.00</p>
-          <p className="mt-1 text-xs text-muted-foreground">Pending: $0.00</p>
+          <p className="mt-3 text-4xl font-bold tracking-tight">
+            {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(commission.value)}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Previous: {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(commission.previousValue)}
+            {commissionDeltaPct !== null && (
+              <span
+                className={
+                  "ml-2 " +
+                  (commissionDeltaPct >= 0 ? "text-accent-emerald" : "text-accent-pink")
+                }
+              >
+                {commissionDeltaPct >= 0 ? "+" : ""}
+                {(commissionDeltaPct * 100).toFixed(1)}%
+              </span>
+            )}
+          </p>
 
-          <svg viewBox="0 0 200 70" className="mt-6 w-full h-20">
-            <defs>
-              <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="oklch(0.72 0.22 305)" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="oklch(0.72 0.22 305)" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M0,55 C30,45 50,50 80,35 C110,20 140,40 170,25 L200,18 L200,70 L0,70 Z" fill="url(#g)" />
-            <path d="M0,55 C30,45 50,50 80,35 C110,20 140,40 170,25 L200,18" fill="none" stroke="oklch(0.78 0.16 350)" strokeWidth="2" />
-          </svg>
+          <div className="mt-6 text-primary-glow">
+            <Sparkline data={commission.series} height={70} width={240} strokeWidth={2} fill="oklch(0.72 0.22 305 / 0.18)" />
+          </div>
 
           <Link to="/withdrawals" className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary-glow hover:underline">
             Open wallet <ChevronRight className="h-3 w-3" />
@@ -255,7 +300,9 @@ function Dashboard() {
       </section>
 
       <p className="mt-8 text-center text-[11px] text-muted-foreground">
-        Connect your Software Vala login to populate live data. No fake data is shown.
+        {connected
+          ? `Source: ${analytics.source} · updated ${new Date(analytics.generatedAt).toLocaleString()}`
+          : "Configure SOFTWARE_VALA_API_URL and SOFTWARE_VALA_API_KEY to stream live data. No mock data is shown."}
       </p>
     </PageShell>
   );
