@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Sparkles, TrendingUp, Eye, MousePointerClick, Users, ShoppingBag, Wallet,
-  Trophy, Star, ArrowUpRight, Flame, Target, Zap, Award, Crown, ChevronRight,
+  Trophy, Star, ArrowUpRight, Flame, Target, Zap, Award, ChevronRight,
   Play, Megaphone, Package, Activity,
 } from "lucide-react";
 
@@ -307,5 +307,3 @@ function Dashboard() {
     </PageShell>
   );
 }
-
-const _ = Crown; // retain import for future hero badge use
