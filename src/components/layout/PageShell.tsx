@@ -1,14 +1,37 @@
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
+/**
+ * Shared spacing + typography scale for every premium page.
+ * - container max-width: 1600px (4K-ready, capped for readability)
+ * - horizontal padding: 16 / 24 / 32 across breakpoints
+ * - vertical rhythm: 24 / 32 / 40
+ * - section gap: 24
+ */
+export function PageShell({ children }: { children: ReactNode }) {
+  return (
+    <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 space-y-6">
+      {children}
+    </div>
+  );
+}
+
 export function PageHeader({
-  title, subtitle, action,
+  title,
+  subtitle,
+  action,
 }: { title: string; subtitle?: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-muted-foreground max-w-2xl">{subtitle}</p>}
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:flex sm:flex-wrap sm:justify-between">
+      <div className="min-w-0">
+        <h1 className="truncate text-2xl sm:text-3xl lg:text-[34px] font-semibold tracking-tight">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="mt-1.5 text-sm sm:text-[15px] text-muted-foreground max-w-2xl">
+            {subtitle}
+          </p>
+        )}
       </div>
       {action}
     </div>
@@ -16,10 +39,13 @@ export function PageHeader({
 }
 
 export function EmptyState({
-  icon: Icon, title, description, action,
+  icon: Icon,
+  title,
+  description,
+  action,
 }: { icon: LucideIcon; title: string; description: string; action?: ReactNode }) {
   return (
-    <div className="bento-card flex flex-col items-center justify-center text-center py-20 px-6">
+    <div className="bento-card flex flex-col items-center justify-center text-center py-16 sm:py-20 px-6">
       <div className="grid place-items-center h-14 w-14 rounded-2xl bg-primary/15 text-primary mb-5">
         <Icon className="h-6 w-6" />
       </div>
@@ -28,8 +54,4 @@ export function EmptyState({
       {action && <div className="mt-6">{action}</div>}
     </div>
   );
-}
-
-export function PageShell({ children }: { children: ReactNode }) {
-  return <div className="mx-auto max-w-[1600px] px-4 lg:px-6 py-6 lg:py-8">{children}</div>;
 }

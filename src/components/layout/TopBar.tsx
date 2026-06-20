@@ -98,13 +98,13 @@ export function TopBar() {
           <span className="hidden md:block text-sm font-semibold tracking-tight">Software Vala</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1 ml-2">
+        <nav className="hidden xl:flex items-center gap-0.5 ml-2 min-w-0">
           {primary.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className={cn(
-                "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                 isActive(item.to)
                   ? "bg-primary/15 text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
@@ -114,9 +114,11 @@ export function TopBar() {
             </Link>
           ))}
 
-          {groups.map((group) => {
+          {groups.map((group, gi) => {
             const open = openGroup === group.label;
             const groupActive = group.items.some((i) => isActive(i.to));
+            // Right-align dropdowns for the last two groups so they never overflow the viewport edge.
+            const alignRight = gi >= groups.length - 2;
             return (
               <div
                 key={group.label}
@@ -126,7 +128,7 @@ export function TopBar() {
               >
                 <button
                   className={cn(
-                    "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center gap-1 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                     groupActive
                       ? "bg-primary/15 text-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
@@ -136,7 +138,12 @@ export function TopBar() {
                   <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} />
                 </button>
                 {open && (
-                  <div className="absolute top-full left-0 pt-2 min-w-[260px]">
+                  <div
+                    className={cn(
+                      "absolute top-full pt-2 w-[260px] max-w-[calc(100vw-2rem)]",
+                      alignRight ? "right-0" : "left-0",
+                    )}
+                  >
                     <div className="rounded-xl border border-border bg-popover p-2 shadow-2xl max-h-[70vh] overflow-y-auto">
                       {group.items.map((item) => (
                         <Link
@@ -149,8 +156,8 @@ export function TopBar() {
                               : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
                           )}
                         >
-                          <item.icon className="h-4 w-4" />
-                          {item.label}
+                          <item.icon className="h-4 w-4 shrink-0" />
+                          <span className="truncate">{item.label}</span>
                         </Link>
                       ))}
                     </div>
@@ -163,40 +170,40 @@ export function TopBar() {
 
         <div className="flex-1" />
 
-        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-56 xl:w-64">
-          <Search className="h-4 w-4 text-muted-foreground" />
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-44 lg:w-56 2xl:w-72">
+          <Search className="h-4 w-4 text-muted-foreground shrink-0" />
           <input
-            placeholder="Search campaigns, products…"
+            placeholder="Search…"
             className="bg-transparent text-sm outline-none placeholder:text-muted-foreground flex-1 min-w-0"
           />
-          <kbd className="hidden xl:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
+          <kbd className="hidden 2xl:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
         </div>
 
-        <button className="hidden xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <button className="hidden 2xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
           <Globe className="h-3.5 w-3.5" /> EN
         </button>
-        <button className="hidden xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <button className="hidden 2xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
           USD
         </button>
 
-        <Link to="/support" className="hidden md:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Support">
+        <Link to="/support" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Support">
           <LifeBuoy className="h-4 w-4" />
         </Link>
         <Link to="/notifications" className="relative grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Notifications">
           <Bell className="h-4 w-4" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent-pink" />
         </Link>
-        <Link to="/settings" className="hidden md:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Settings">
+        <Link to="/settings" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Settings">
           <Settings className="h-4 w-4" />
         </Link>
 
-        <Link to="/profile" className="flex items-center gap-2 rounded-full bg-surface border border-border pl-1 pr-3 py-1">
+        <Link to="/profile" className="flex items-center gap-2 rounded-full bg-surface border border-border pl-1 pr-3 py-1 shrink-0">
           <span className="h-7 w-7 rounded-full bg-gradient-to-br from-accent-pink to-primary" />
           <span className="hidden sm:block text-xs font-medium">Sign in</span>
         </Link>
 
         <button
-          className="lg:hidden grid place-items-center h-9 w-9 rounded-lg border border-border"
+          className="xl:hidden grid place-items-center h-9 w-9 rounded-lg border border-border shrink-0"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="Menu"
         >
@@ -205,7 +212,7 @@ export function TopBar() {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden border-t border-border bg-background max-h-[80vh] overflow-y-auto">
+        <div className="xl:hidden border-t border-border bg-background max-h-[80vh] overflow-y-auto">
           <div className="px-4 py-3 space-y-4">
             <div className="grid grid-cols-2 gap-1">
               {primary.map((i) => (
