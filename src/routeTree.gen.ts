@@ -11,26 +11,38 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WithdrawalsRouteImport } from './routes/withdrawals'
 import { Route as VerificationRouteImport } from './routes/verification'
+import { Route as UtmBuilderRouteImport } from './routes/utm-builder'
+import { Route as ThumbnailGeneratorRouteImport } from './routes/thumbnail-generator'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SocialAccountsRouteImport } from './routes/social-accounts'
 import { Route as ShortLinksRouteImport } from './routes/short-links'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SalesRouteImport } from './routes/sales'
 import { Route as ReferralsRouteImport } from './routes/referrals'
 import { Route as QrRouteImport } from './routes/qr'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ProductsRouteImport } from './routes/products'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
+import { Route as LinkInBioRouteImport } from './routes/link-in-bio'
 import { Route as LeadsRouteImport } from './routes/leads'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as EnterpriseChatRouteImport } from './routes/enterprise-chat'
 import { Route as ContentRouteImport } from './routes/content'
 import { Route as CommissionsRouteImport } from './routes/commissions'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as CampaignSchedulerRouteImport } from './routes/campaign-scheduler'
 import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as BrandAssetsRouteImport } from './routes/brand-assets'
+import { Route as BannerGeneratorRouteImport } from './routes/banner-generator'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AmsRouteImport } from './routes/ams'
+import { Route as AiToolsRouteImport } from './routes/ai-tools'
 import { Route as AiChatRouteImport } from './routes/ai-chat'
+import { Route as ActivityRouteImport } from './routes/activity'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as AcademyRouteImport } from './routes/academy'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +55,16 @@ const WithdrawalsRoute = WithdrawalsRouteImport.update({
 const VerificationRoute = VerificationRouteImport.update({
   id: '/verification',
   path: '/verification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UtmBuilderRoute = UtmBuilderRouteImport.update({
+  id: '/utm-builder',
+  path: '/utm-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThumbnailGeneratorRoute = ThumbnailGeneratorRouteImport.update({
+  id: '/thumbnail-generator',
+  path: '/thumbnail-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SupportRoute = SupportRouteImport.update({
@@ -63,6 +85,11 @@ const ShortLinksRoute = ShortLinksRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SalesRoute = SalesRouteImport.update({
@@ -90,9 +117,19 @@ const ProductsRoute = ProductsRouteImport.update({
   path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MediaKitRoute = MediaKitRouteImport.update({
   id: '/media-kit',
   path: '/media-kit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinkInBioRoute = LinkInBioRouteImport.update({
+  id: '/link-in-bio',
+  path: '/link-in-bio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeadsRoute = LeadsRouteImport.update({
@@ -105,9 +142,19 @@ const LeaderboardRoute = LeaderboardRouteImport.update({
   path: '/leaderboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KnowledgeBaseRoute = KnowledgeBaseRouteImport.update({
+  id: '/knowledge-base',
+  path: '/knowledge-base',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InboxRoute = InboxRouteImport.update({
   id: '/inbox',
   path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnterpriseChatRoute = EnterpriseChatRouteImport.update({
+  id: '/enterprise-chat',
+  path: '/enterprise-chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContentRoute = ContentRouteImport.update({
@@ -125,9 +172,24 @@ const CampaignsRoute = CampaignsRouteImport.update({
   path: '/campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignSchedulerRoute = CampaignSchedulerRouteImport.update({
+  id: '/campaign-scheduler',
+  path: '/campaign-scheduler',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandAssetsRoute = BrandAssetsRouteImport.update({
+  id: '/brand-assets',
+  path: '/brand-assets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BannerGeneratorRoute = BannerGeneratorRouteImport.update({
+  id: '/banner-generator',
+  path: '/banner-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -140,9 +202,19 @@ const AmsRoute = AmsRouteImport.update({
   path: '/ams',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiToolsRoute = AiToolsRouteImport.update({
+  id: '/ai-tools',
+  path: '/ai-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AiChatRoute = AiChatRouteImport.update({
   id: '/ai-chat',
   path: '/ai-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivityRoute = ActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AchievementsRoute = AchievementsRouteImport.update({
@@ -165,26 +237,38 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/academy': typeof AcademyRoute
   '/achievements': typeof AchievementsRoute
+  '/activity': typeof ActivityRoute
   '/ai-chat': typeof AiChatRoute
+  '/ai-tools': typeof AiToolsRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
+  '/banner-generator': typeof BannerGeneratorRoute
+  '/brand-assets': typeof BrandAssetsRoute
   '/calendar': typeof CalendarRoute
+  '/campaign-scheduler': typeof CampaignSchedulerRoute
   '/campaigns': typeof CampaignsRoute
   '/commissions': typeof CommissionsRoute
   '/content': typeof ContentRoute
+  '/enterprise-chat': typeof EnterpriseChatRoute
   '/inbox': typeof InboxRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/leaderboard': typeof LeaderboardRoute
   '/leads': typeof LeadsRoute
+  '/link-in-bio': typeof LinkInBioRoute
   '/media-kit': typeof MediaKitRoute
+  '/notifications': typeof NotificationsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/qr': typeof QrRoute
   '/referrals': typeof ReferralsRoute
   '/sales': typeof SalesRoute
+  '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
   '/short-links': typeof ShortLinksRoute
   '/social-accounts': typeof SocialAccountsRoute
   '/support': typeof SupportRoute
+  '/thumbnail-generator': typeof ThumbnailGeneratorRoute
+  '/utm-builder': typeof UtmBuilderRoute
   '/verification': typeof VerificationRoute
   '/withdrawals': typeof WithdrawalsRoute
 }
@@ -192,26 +276,38 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/academy': typeof AcademyRoute
   '/achievements': typeof AchievementsRoute
+  '/activity': typeof ActivityRoute
   '/ai-chat': typeof AiChatRoute
+  '/ai-tools': typeof AiToolsRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
+  '/banner-generator': typeof BannerGeneratorRoute
+  '/brand-assets': typeof BrandAssetsRoute
   '/calendar': typeof CalendarRoute
+  '/campaign-scheduler': typeof CampaignSchedulerRoute
   '/campaigns': typeof CampaignsRoute
   '/commissions': typeof CommissionsRoute
   '/content': typeof ContentRoute
+  '/enterprise-chat': typeof EnterpriseChatRoute
   '/inbox': typeof InboxRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/leaderboard': typeof LeaderboardRoute
   '/leads': typeof LeadsRoute
+  '/link-in-bio': typeof LinkInBioRoute
   '/media-kit': typeof MediaKitRoute
+  '/notifications': typeof NotificationsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/qr': typeof QrRoute
   '/referrals': typeof ReferralsRoute
   '/sales': typeof SalesRoute
+  '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
   '/short-links': typeof ShortLinksRoute
   '/social-accounts': typeof SocialAccountsRoute
   '/support': typeof SupportRoute
+  '/thumbnail-generator': typeof ThumbnailGeneratorRoute
+  '/utm-builder': typeof UtmBuilderRoute
   '/verification': typeof VerificationRoute
   '/withdrawals': typeof WithdrawalsRoute
 }
@@ -220,26 +316,38 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/academy': typeof AcademyRoute
   '/achievements': typeof AchievementsRoute
+  '/activity': typeof ActivityRoute
   '/ai-chat': typeof AiChatRoute
+  '/ai-tools': typeof AiToolsRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
+  '/banner-generator': typeof BannerGeneratorRoute
+  '/brand-assets': typeof BrandAssetsRoute
   '/calendar': typeof CalendarRoute
+  '/campaign-scheduler': typeof CampaignSchedulerRoute
   '/campaigns': typeof CampaignsRoute
   '/commissions': typeof CommissionsRoute
   '/content': typeof ContentRoute
+  '/enterprise-chat': typeof EnterpriseChatRoute
   '/inbox': typeof InboxRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/leaderboard': typeof LeaderboardRoute
   '/leads': typeof LeadsRoute
+  '/link-in-bio': typeof LinkInBioRoute
   '/media-kit': typeof MediaKitRoute
+  '/notifications': typeof NotificationsRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
   '/qr': typeof QrRoute
   '/referrals': typeof ReferralsRoute
   '/sales': typeof SalesRoute
+  '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
   '/short-links': typeof ShortLinksRoute
   '/social-accounts': typeof SocialAccountsRoute
   '/support': typeof SupportRoute
+  '/thumbnail-generator': typeof ThumbnailGeneratorRoute
+  '/utm-builder': typeof UtmBuilderRoute
   '/verification': typeof VerificationRoute
   '/withdrawals': typeof WithdrawalsRoute
 }
@@ -249,26 +357,38 @@ export interface FileRouteTypes {
     | '/'
     | '/academy'
     | '/achievements'
+    | '/activity'
     | '/ai-chat'
+    | '/ai-tools'
     | '/ams'
     | '/analytics'
+    | '/banner-generator'
+    | '/brand-assets'
     | '/calendar'
+    | '/campaign-scheduler'
     | '/campaigns'
     | '/commissions'
     | '/content'
+    | '/enterprise-chat'
     | '/inbox'
+    | '/knowledge-base'
     | '/leaderboard'
     | '/leads'
+    | '/link-in-bio'
     | '/media-kit'
+    | '/notifications'
     | '/products'
     | '/profile'
     | '/qr'
     | '/referrals'
     | '/sales'
+    | '/security'
     | '/settings'
     | '/short-links'
     | '/social-accounts'
     | '/support'
+    | '/thumbnail-generator'
+    | '/utm-builder'
     | '/verification'
     | '/withdrawals'
   fileRoutesByTo: FileRoutesByTo
@@ -276,26 +396,38 @@ export interface FileRouteTypes {
     | '/'
     | '/academy'
     | '/achievements'
+    | '/activity'
     | '/ai-chat'
+    | '/ai-tools'
     | '/ams'
     | '/analytics'
+    | '/banner-generator'
+    | '/brand-assets'
     | '/calendar'
+    | '/campaign-scheduler'
     | '/campaigns'
     | '/commissions'
     | '/content'
+    | '/enterprise-chat'
     | '/inbox'
+    | '/knowledge-base'
     | '/leaderboard'
     | '/leads'
+    | '/link-in-bio'
     | '/media-kit'
+    | '/notifications'
     | '/products'
     | '/profile'
     | '/qr'
     | '/referrals'
     | '/sales'
+    | '/security'
     | '/settings'
     | '/short-links'
     | '/social-accounts'
     | '/support'
+    | '/thumbnail-generator'
+    | '/utm-builder'
     | '/verification'
     | '/withdrawals'
   id:
@@ -303,26 +435,38 @@ export interface FileRouteTypes {
     | '/'
     | '/academy'
     | '/achievements'
+    | '/activity'
     | '/ai-chat'
+    | '/ai-tools'
     | '/ams'
     | '/analytics'
+    | '/banner-generator'
+    | '/brand-assets'
     | '/calendar'
+    | '/campaign-scheduler'
     | '/campaigns'
     | '/commissions'
     | '/content'
+    | '/enterprise-chat'
     | '/inbox'
+    | '/knowledge-base'
     | '/leaderboard'
     | '/leads'
+    | '/link-in-bio'
     | '/media-kit'
+    | '/notifications'
     | '/products'
     | '/profile'
     | '/qr'
     | '/referrals'
     | '/sales'
+    | '/security'
     | '/settings'
     | '/short-links'
     | '/social-accounts'
     | '/support'
+    | '/thumbnail-generator'
+    | '/utm-builder'
     | '/verification'
     | '/withdrawals'
   fileRoutesById: FileRoutesById
@@ -331,26 +475,38 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AcademyRoute: typeof AcademyRoute
   AchievementsRoute: typeof AchievementsRoute
+  ActivityRoute: typeof ActivityRoute
   AiChatRoute: typeof AiChatRoute
+  AiToolsRoute: typeof AiToolsRoute
   AmsRoute: typeof AmsRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  BannerGeneratorRoute: typeof BannerGeneratorRoute
+  BrandAssetsRoute: typeof BrandAssetsRoute
   CalendarRoute: typeof CalendarRoute
+  CampaignSchedulerRoute: typeof CampaignSchedulerRoute
   CampaignsRoute: typeof CampaignsRoute
   CommissionsRoute: typeof CommissionsRoute
   ContentRoute: typeof ContentRoute
+  EnterpriseChatRoute: typeof EnterpriseChatRoute
   InboxRoute: typeof InboxRoute
+  KnowledgeBaseRoute: typeof KnowledgeBaseRoute
   LeaderboardRoute: typeof LeaderboardRoute
   LeadsRoute: typeof LeadsRoute
+  LinkInBioRoute: typeof LinkInBioRoute
   MediaKitRoute: typeof MediaKitRoute
+  NotificationsRoute: typeof NotificationsRoute
   ProductsRoute: typeof ProductsRoute
   ProfileRoute: typeof ProfileRoute
   QrRoute: typeof QrRoute
   ReferralsRoute: typeof ReferralsRoute
   SalesRoute: typeof SalesRoute
+  SecurityRoute: typeof SecurityRoute
   SettingsRoute: typeof SettingsRoute
   ShortLinksRoute: typeof ShortLinksRoute
   SocialAccountsRoute: typeof SocialAccountsRoute
   SupportRoute: typeof SupportRoute
+  ThumbnailGeneratorRoute: typeof ThumbnailGeneratorRoute
+  UtmBuilderRoute: typeof UtmBuilderRoute
   VerificationRoute: typeof VerificationRoute
   WithdrawalsRoute: typeof WithdrawalsRoute
 }
@@ -369,6 +525,20 @@ declare module '@tanstack/react-router' {
       path: '/verification'
       fullPath: '/verification'
       preLoaderRoute: typeof VerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/utm-builder': {
+      id: '/utm-builder'
+      path: '/utm-builder'
+      fullPath: '/utm-builder'
+      preLoaderRoute: typeof UtmBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thumbnail-generator': {
+      id: '/thumbnail-generator'
+      path: '/thumbnail-generator'
+      fullPath: '/thumbnail-generator'
+      preLoaderRoute: typeof ThumbnailGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/support': {
@@ -397,6 +567,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sales': {
@@ -434,11 +611,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/media-kit': {
       id: '/media-kit'
       path: '/media-kit'
       fullPath: '/media-kit'
       preLoaderRoute: typeof MediaKitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/link-in-bio': {
+      id: '/link-in-bio'
+      path: '/link-in-bio'
+      fullPath: '/link-in-bio'
+      preLoaderRoute: typeof LinkInBioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leads': {
@@ -455,11 +646,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LeaderboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/knowledge-base': {
+      id: '/knowledge-base'
+      path: '/knowledge-base'
+      fullPath: '/knowledge-base'
+      preLoaderRoute: typeof KnowledgeBaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inbox': {
       id: '/inbox'
       path: '/inbox'
       fullPath: '/inbox'
       preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enterprise-chat': {
+      id: '/enterprise-chat'
+      path: '/enterprise-chat'
+      fullPath: '/enterprise-chat'
+      preLoaderRoute: typeof EnterpriseChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/content': {
@@ -483,11 +688,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaign-scheduler': {
+      id: '/campaign-scheduler'
+      path: '/campaign-scheduler'
+      fullPath: '/campaign-scheduler'
+      preLoaderRoute: typeof CampaignSchedulerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/calendar': {
       id: '/calendar'
       path: '/calendar'
       fullPath: '/calendar'
       preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brand-assets': {
+      id: '/brand-assets'
+      path: '/brand-assets'
+      fullPath: '/brand-assets'
+      preLoaderRoute: typeof BrandAssetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/banner-generator': {
+      id: '/banner-generator'
+      path: '/banner-generator'
+      fullPath: '/banner-generator'
+      preLoaderRoute: typeof BannerGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -504,11 +730,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AmsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-tools': {
+      id: '/ai-tools'
+      path: '/ai-tools'
+      fullPath: '/ai-tools'
+      preLoaderRoute: typeof AiToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ai-chat': {
       id: '/ai-chat'
       path: '/ai-chat'
       fullPath: '/ai-chat'
       preLoaderRoute: typeof AiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activity': {
+      id: '/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof ActivityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/achievements': {
@@ -539,26 +779,38 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcademyRoute: AcademyRoute,
   AchievementsRoute: AchievementsRoute,
+  ActivityRoute: ActivityRoute,
   AiChatRoute: AiChatRoute,
+  AiToolsRoute: AiToolsRoute,
   AmsRoute: AmsRoute,
   AnalyticsRoute: AnalyticsRoute,
+  BannerGeneratorRoute: BannerGeneratorRoute,
+  BrandAssetsRoute: BrandAssetsRoute,
   CalendarRoute: CalendarRoute,
+  CampaignSchedulerRoute: CampaignSchedulerRoute,
   CampaignsRoute: CampaignsRoute,
   CommissionsRoute: CommissionsRoute,
   ContentRoute: ContentRoute,
+  EnterpriseChatRoute: EnterpriseChatRoute,
   InboxRoute: InboxRoute,
+  KnowledgeBaseRoute: KnowledgeBaseRoute,
   LeaderboardRoute: LeaderboardRoute,
   LeadsRoute: LeadsRoute,
+  LinkInBioRoute: LinkInBioRoute,
   MediaKitRoute: MediaKitRoute,
+  NotificationsRoute: NotificationsRoute,
   ProductsRoute: ProductsRoute,
   ProfileRoute: ProfileRoute,
   QrRoute: QrRoute,
   ReferralsRoute: ReferralsRoute,
   SalesRoute: SalesRoute,
+  SecurityRoute: SecurityRoute,
   SettingsRoute: SettingsRoute,
   ShortLinksRoute: ShortLinksRoute,
   SocialAccountsRoute: SocialAccountsRoute,
   SupportRoute: SupportRoute,
+  ThumbnailGeneratorRoute: ThumbnailGeneratorRoute,
+  UtmBuilderRoute: UtmBuilderRoute,
   VerificationRoute: VerificationRoute,
   WithdrawalsRoute: WithdrawalsRoute,
 }

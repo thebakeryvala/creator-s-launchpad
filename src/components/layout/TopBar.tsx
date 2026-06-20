@@ -5,6 +5,8 @@ import {
   LayoutDashboard, Megaphone, FileVideo, Package, Link2, Users, ShoppingBag,
   Wallet, BarChart3, Trophy, Award, GraduationCap, QrCode, Calendar,
   Inbox, BadgeCheck, IdCard, Image as ImageIcon, Menu, X,
+  MessagesSquare, BookOpen, Palette, Link as LinkIcon, CalendarClock,
+  ImagePlus, LayoutTemplate, Wand2, Activity, ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -42,8 +44,14 @@ const groups: NavGroup[] = [
     label: "Creator Tools",
     items: [
       { label: "Media Kit", to: "/media-kit", icon: ImageIcon },
+      { label: "Brand Assets", to: "/brand-assets", icon: Palette },
+      { label: "Link in Bio", to: "/link-in-bio", icon: LinkIcon },
       { label: "Short Links", to: "/short-links", icon: Link2 },
+      { label: "UTM Builder", to: "/utm-builder", icon: Link2 },
       { label: "QR Center", to: "/qr", icon: QrCode },
+      { label: "Thumbnail Generator", to: "/thumbnail-generator", icon: ImagePlus },
+      { label: "Banner Generator", to: "/banner-generator", icon: LayoutTemplate },
+      { label: "Campaign Scheduler", to: "/campaign-scheduler", icon: CalendarClock },
       { label: "Calendar", to: "/calendar", icon: Calendar },
       { label: "Inbox", to: "/inbox", icon: Inbox },
       { label: "Social Accounts", to: "/social-accounts", icon: BadgeCheck },
@@ -54,8 +62,21 @@ const groups: NavGroup[] = [
   {
     label: "AI",
     items: [
-      { label: "AMS", to: "/ams", icon: Sparkles },
       { label: "AI Chat", to: "/ai-chat", icon: Bot },
+      { label: "AMS", to: "/ams", icon: Sparkles },
+      { label: "AI Toolkit", to: "/ai-tools", icon: Wand2 },
+      { label: "Enterprise Chat", to: "/enterprise-chat", icon: MessagesSquare },
+      { label: "Knowledge Base", to: "/knowledge-base", icon: BookOpen },
+    ],
+  },
+  {
+    label: "Account",
+    items: [
+      { label: "Activity", to: "/activity", icon: Activity },
+      { label: "Notifications", to: "/notifications", icon: Bell },
+      { label: "Security", to: "/security", icon: ShieldCheck },
+      { label: "Settings", to: "/settings", icon: Settings },
+      { label: "Support", to: "/support", icon: LifeBuoy },
     ],
   },
 ];
@@ -70,7 +91,6 @@ export function TopBar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-3 px-4 lg:px-6">
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-glow text-primary-foreground font-bold">
             SV
@@ -78,7 +98,6 @@ export function TopBar() {
           <span className="hidden md:block text-sm font-semibold tracking-tight">Software Vala</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1 ml-2">
           {primary.map((item) => (
             <Link
@@ -117,8 +136,8 @@ export function TopBar() {
                   <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} />
                 </button>
                 {open && (
-                  <div className="absolute top-full left-0 pt-2 min-w-[240px]">
-                    <div className="rounded-xl border border-border bg-popover p-2 shadow-2xl">
+                  <div className="absolute top-full left-0 pt-2 min-w-[260px]">
+                    <div className="rounded-xl border border-border bg-popover p-2 shadow-2xl max-h-[70vh] overflow-y-auto">
                       {group.items.map((item) => (
                         <Link
                           key={item.to}
@@ -144,31 +163,29 @@ export function TopBar() {
 
         <div className="flex-1" />
 
-        {/* Search */}
-        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-64">
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-56 xl:w-64">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
             placeholder="Search campaigns, products…"
-            className="bg-transparent text-sm outline-none placeholder:text-muted-foreground flex-1"
+            className="bg-transparent text-sm outline-none placeholder:text-muted-foreground flex-1 min-w-0"
           />
-          <kbd className="hidden lg:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
+          <kbd className="hidden xl:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
         </div>
 
-        {/* Right cluster */}
-        <button className="hidden md:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <button className="hidden xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
           <Globe className="h-3.5 w-3.5" /> EN
         </button>
-        <button className="hidden md:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <button className="hidden xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
           USD
         </button>
 
         <Link to="/support" className="hidden md:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Support">
           <LifeBuoy className="h-4 w-4" />
         </Link>
-        <button className="relative grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Notifications">
+        <Link to="/notifications" className="relative grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Notifications">
           <Bell className="h-4 w-4" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent-pink" />
-        </button>
+        </Link>
         <Link to="/settings" className="hidden md:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Settings">
           <Settings className="h-4 w-4" />
         </Link>
@@ -187,7 +204,6 @@ export function TopBar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div className="lg:hidden border-t border-border bg-background max-h-[80vh] overflow-y-auto">
           <div className="px-4 py-3 space-y-4">
