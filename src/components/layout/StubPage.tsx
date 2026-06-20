@@ -58,18 +58,22 @@ export function StubPage({
   return (
     <PageShell>
       {/* HERO */}
-      <section className="hero-surface relative overflow-hidden p-6 md:p-8">
+      <section className="hero-surface relative overflow-hidden p-5 sm:p-7 lg:p-9">
         <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-accent-pink/40 blur-3xl" />
 
-        <div className="relative grid lg:grid-cols-[1fr_auto] gap-6 items-start">
+        <div className="relative grid lg:grid-cols-[minmax(0,1fr)_auto] gap-6 items-start">
           <div className="min-w-0">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-[11px] font-medium backdrop-blur">
-              <Icon className="h-3.5 w-3.5" />
+            <div className="inline-flex max-w-full items-center gap-2 rounded-full bg-white/15 border border-white/25 px-3 py-1 text-[11px] font-medium backdrop-blur">
+              <Icon className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">{title}</span>
             </div>
-            <h1 className="mt-4 text-3xl md:text-4xl font-bold tracking-tight">{title}</h1>
-            <p className="mt-2 text-sm md:text-base text-white/80 max-w-2xl">{subtitle}</p>
+            <h1 className="mt-4 text-2xl sm:text-3xl lg:text-[34px] font-semibold tracking-tight">
+              {title}
+            </h1>
+            <p className="mt-1.5 text-sm sm:text-[15px] text-white/80 max-w-2xl">
+              {subtitle}
+            </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
               <Link
@@ -93,14 +97,14 @@ export function StubPage({
 
       {/* KPI STRIP */}
       {kpis && kpis.length > 0 && (
-        <section className="mt-6 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3">
+        <section className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-3">
           {kpis.map((k) => (
             <div key={k.label} className="bento-card !p-4">
-              <div className="flex items-start justify-between">
-                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{k.label}</p>
-                {k.icon && <k.icon className={cn("h-4 w-4", k.tint ?? "text-primary-glow")} />}
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground truncate">{k.label}</p>
+                {k.icon && <k.icon className={cn("h-4 w-4 shrink-0", k.tint ?? "text-primary-glow")} />}
               </div>
-              <p className="mt-1 text-xl font-bold">
+              <p className="mt-1 text-xl font-bold truncate">
                 {k.value ?? "—"}
                 {k.unit && <span className="ml-1 text-xs font-normal text-muted-foreground">{k.unit}</span>}
               </p>
@@ -111,7 +115,7 @@ export function StubPage({
 
       {/* SECTION TABS */}
       {sections && sections.length > 0 && (
-        <div className="mt-6 -mx-1 overflow-x-auto">
+        <div className="-mx-1 overflow-x-auto">
           <div className="flex min-w-max items-center gap-2 px-1">
             {sections.map((s, i) => (
               <button
@@ -132,7 +136,7 @@ export function StubPage({
       )}
 
       {/* CONTENT */}
-      <section className="mt-6 grid lg:grid-cols-3 gap-4">
+      <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {features && features.length > 0 ? (
           features.map((f) => (
             <div key={f.title} className="bento-card">
@@ -147,7 +151,7 @@ export function StubPage({
             </div>
           ))
         ) : (
-          <div className="lg:col-span-3 bento-card flex flex-col items-center justify-center text-center py-20 px-6">
+          <div className="sm:col-span-2 lg:col-span-3 bento-card flex flex-col items-center justify-center text-center py-16 sm:py-20 px-6">
             <div className="grid place-items-center h-14 w-14 rounded-2xl bg-primary/15 text-primary mb-5">
               <Icon className="h-6 w-6" />
             </div>
@@ -162,7 +166,7 @@ export function StubPage({
         )}
       </section>
 
-      <p className="mt-8 text-center text-[11px] text-muted-foreground inline-flex w-full items-center justify-center gap-2">
+      <p className="text-center text-[11px] text-muted-foreground inline-flex w-full items-center justify-center gap-2">
         <Sparkles className="h-3 w-3" />
         Production-ready · awaiting Software Vala API · no mock data
       </p>
