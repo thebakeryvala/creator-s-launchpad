@@ -98,13 +98,13 @@ export function TopBar() {
           <span className="hidden md:block text-sm font-semibold tracking-tight">Software Vala</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1 ml-2">
+        <nav className="hidden xl:flex items-center gap-0.5 ml-2 min-w-0">
           {primary.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className={cn(
-                "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                "px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                 isActive(item.to)
                   ? "bg-primary/15 text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
@@ -114,9 +114,11 @@ export function TopBar() {
             </Link>
           ))}
 
-          {groups.map((group) => {
+          {groups.map((group, gi) => {
             const open = openGroup === group.label;
             const groupActive = group.items.some((i) => isActive(i.to));
+            // Right-align dropdowns for the last two groups so they never overflow the viewport edge.
+            const alignRight = gi >= groups.length - 2;
             return (
               <div
                 key={group.label}
@@ -126,7 +128,7 @@ export function TopBar() {
               >
                 <button
                   className={cn(
-                    "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center gap-1 px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap",
                     groupActive
                       ? "bg-primary/15 text-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
@@ -136,7 +138,12 @@ export function TopBar() {
                   <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} />
                 </button>
                 {open && (
-                  <div className="absolute top-full left-0 pt-2 min-w-[260px]">
+                  <div
+                    className={cn(
+                      "absolute top-full pt-2 w-[260px] max-w-[calc(100vw-2rem)]",
+                      alignRight ? "right-0" : "left-0",
+                    )}
+                  >
                     <div className="rounded-xl border border-border bg-popover p-2 shadow-2xl max-h-[70vh] overflow-y-auto">
                       {group.items.map((item) => (
                         <Link
@@ -149,8 +156,8 @@ export function TopBar() {
                               : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
                           )}
                         >
-                          <item.icon className="h-4 w-4" />
-                          {item.label}
+                          <item.icon className="h-4 w-4 shrink-0" />
+                          <span className="truncate">{item.label}</span>
                         </Link>
                       ))}
                     </div>
