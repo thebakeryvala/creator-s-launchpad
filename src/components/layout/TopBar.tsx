@@ -7,6 +7,8 @@ import {
   Inbox, BadgeCheck, IdCard, Image as ImageIcon, Menu, X,
   MessagesSquare, BookOpen, Palette, Link as LinkIcon, CalendarClock,
   ImagePlus, LayoutTemplate, Wand2, Activity, ShieldCheck,
+  Receipt, Users2, Star, KeyRound, RefreshCcw, TrendingUp, Banknote,
+  Ticket, Flame, FileText, Code2, UsersRound, Store, FileEdit, Library,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,58 +17,94 @@ type NavGroup = { label: string; items: NavItem[] };
 
 const primary: NavItem[] = [
   { label: "Dashboard", to: "/", icon: LayoutDashboard },
-  { label: "Campaigns", to: "/campaigns", icon: Megaphone },
-  { label: "Content", to: "/content", icon: FileVideo },
+  { label: "AI Studio", to: "/ai-studio", icon: Sparkles },
   { label: "Products", to: "/products", icon: Package },
+  { label: "Marketplace", to: "/marketplace", icon: Store },
 ];
 
 const groups: NavGroup[] = [
   {
-    label: "Earnings",
+    label: "Catalog",
     items: [
-      { label: "Referrals", to: "/referrals", icon: Link2 },
-      { label: "Leads", to: "/leads", icon: Users },
-      { label: "Sales", to: "/sales", icon: ShoppingBag },
-      { label: "Commissions", to: "/commissions", icon: Wallet },
-      { label: "Withdrawals", to: "/withdrawals", icon: Wallet },
+      { label: "Products", to: "/products", icon: Package },
+      { label: "Drafts", to: "/drafts", icon: FileEdit },
+      { label: "Content", to: "/content", icon: FileVideo },
+      { label: "Media Library", to: "/media-library", icon: Library },
+      { label: "Brand Assets", to: "/brand-assets", icon: Palette },
+      { label: "Documentation", to: "/documentation", icon: FileText },
     ],
   },
   {
-    label: "Grow",
+    label: "Commerce",
+    items: [
+      { label: "Orders", to: "/orders", icon: Receipt },
+      { label: "Customers", to: "/customers", icon: Users2 },
+      { label: "Reviews", to: "/reviews", icon: Star },
+      { label: "Licenses", to: "/licenses", icon: KeyRound },
+      { label: "Subscriptions", to: "/subscriptions", icon: RefreshCcw },
+      { label: "Sales", to: "/sales", icon: ShoppingBag },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { label: "Revenue", to: "/revenue", icon: TrendingUp },
+      { label: "Wallet", to: "/wallet", icon: Wallet },
+      { label: "Payouts", to: "/payouts", icon: Banknote },
+      { label: "Withdrawals", to: "/withdrawals", icon: Wallet },
+      { label: "Commissions", to: "/commissions", icon: Wallet },
+      { label: "Referrals", to: "/referrals", icon: Link2 },
+      { label: "Leads", to: "/leads", icon: Users },
+    ],
+  },
+  {
+    label: "Marketing",
+    items: [
+      { label: "Marketing", to: "/marketing", icon: Megaphone },
+      { label: "Campaigns", to: "/campaigns", icon: Megaphone },
+      { label: "Campaign Scheduler", to: "/campaign-scheduler", icon: CalendarClock },
+      { label: "Coupons", to: "/coupons", icon: Ticket },
+      { label: "Promotions", to: "/promotions", icon: Flame },
+      { label: "Short Links", to: "/short-links", icon: Link2 },
+      { label: "UTM Builder", to: "/utm-builder", icon: Link2 },
+      { label: "QR Center", to: "/qr", icon: QrCode },
+      { label: "Link in Bio", to: "/link-in-bio", icon: LinkIcon },
+      { label: "Media Kit", to: "/media-kit", icon: ImageIcon },
+      { label: "Thumbnail Generator", to: "/thumbnail-generator", icon: ImagePlus },
+      { label: "Banner Generator", to: "/banner-generator", icon: LayoutTemplate },
+    ],
+  },
+  {
+    label: "Insights",
     items: [
       { label: "Analytics", to: "/analytics", icon: BarChart3 },
       { label: "Leaderboard", to: "/leaderboard", icon: Trophy },
       { label: "Achievements", to: "/achievements", icon: Award },
       { label: "Academy", to: "/academy", icon: GraduationCap },
-    ],
-  },
-  {
-    label: "Creator Tools",
-    items: [
-      { label: "Media Kit", to: "/media-kit", icon: ImageIcon },
-      { label: "Brand Assets", to: "/brand-assets", icon: Palette },
-      { label: "Link in Bio", to: "/link-in-bio", icon: LinkIcon },
-      { label: "Short Links", to: "/short-links", icon: Link2 },
-      { label: "UTM Builder", to: "/utm-builder", icon: Link2 },
-      { label: "QR Center", to: "/qr", icon: QrCode },
-      { label: "Thumbnail Generator", to: "/thumbnail-generator", icon: ImagePlus },
-      { label: "Banner Generator", to: "/banner-generator", icon: LayoutTemplate },
-      { label: "Campaign Scheduler", to: "/campaign-scheduler", icon: CalendarClock },
       { label: "Calendar", to: "/calendar", icon: Calendar },
-      { label: "Inbox", to: "/inbox", icon: Inbox },
-      { label: "Social Accounts", to: "/social-accounts", icon: BadgeCheck },
-      { label: "Verification", to: "/verification", icon: IdCard },
-      { label: "Public Profile", to: "/profile", icon: User },
     ],
   },
   {
     label: "AI",
     items: [
+      { label: "AI Studio", to: "/ai-studio", icon: Sparkles },
       { label: "AI Chat", to: "/ai-chat", icon: Bot },
       { label: "AMS", to: "/ams", icon: Sparkles },
       { label: "AI Toolkit", to: "/ai-tools", icon: Wand2 },
       { label: "Enterprise Chat", to: "/enterprise-chat", icon: MessagesSquare },
       { label: "Knowledge Base", to: "/knowledge-base", icon: BookOpen },
+    ],
+  },
+  {
+    label: "Operate",
+    items: [
+      { label: "Messages", to: "/messages", icon: MessagesSquare },
+      { label: "Inbox", to: "/inbox", icon: Inbox },
+      { label: "Team", to: "/team", icon: UsersRound },
+      { label: "API Center", to: "/api-center", icon: Code2 },
+      { label: "Social Accounts", to: "/social-accounts", icon: BadgeCheck },
+      { label: "Verification", to: "/verification", icon: IdCard },
+      { label: "Public Profile", to: "/profile", icon: User },
     ],
   },
   {
@@ -117,7 +155,6 @@ export function TopBar() {
           {groups.map((group, gi) => {
             const open = openGroup === group.label;
             const groupActive = group.items.some((i) => isActive(i.to));
-            // Right-align dropdowns for the last two groups so they never overflow the viewport edge.
             const alignRight = gi >= groups.length - 2;
             return (
               <div
