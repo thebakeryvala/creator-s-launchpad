@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopBar } from "@/components/layout/TopBar";
+import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 
 function NotFoundComponent() {
   return (
@@ -118,12 +119,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
-        <TopBar />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-      </div>
+      <AuthzProvider>
+        <div className="min-h-screen flex flex-col">
+          <TopBar />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
+      </AuthzProvider>
     </QueryClientProvider>
   );
 }

@@ -1,0 +1,402 @@
+/**
+ * Premium reusable data table.
+ *
+ * Frontend-ready, backend-agnostic:
+ *   - controlled `data` + `total` so any pagination strategy works
+ *   - `onQueryChange` emits a complete `DataQuery` whenever filters /
+ *     sort / page / pageSize / search / selection change — wire this to
+ *     your Software Vala API.
+ *   - bulk actions are gated by RBAC permissions (Permission strings)
+ *
+ * No mock data. Empty / loading / error states are first-class.
+ */
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight,
+  ChevronsLeft, ChevronsRight, Filter, Loader2, Search, X,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/components/ui/table";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useAuthz } from "@/lib/rbac/AuthzProvider";
+import type { Permission } from "@/lib/rbac/permissions";
+
+export type SortDir = "asc" | "desc";
+
+export interface DataColumn<T> {
+  key: string;
+  header: string;
+  /** Sortable column key sent to the backend; defaults to `key`. */
+  sortKey?: string;
+  sortable?: boolean;
+  className?: string;
+  headerClassName?: string;
+  align?: "left" | "right" | "center";
+  /** Cell renderer. Falls back to `row[key]`. */
+  render?: (row: T) => ReactNode;
+}
+
+export interface DataFilter {
+  key: string;
+  label: string;
+  /** Static option list. For async options, set in parent and re-render. */
+  options: { value: string; label: string }[];
+}
+
+export interface BulkAction<T> {
+  id: string;
+  label: string;
+  icon?: ReactNode;
+  /** Hide the action unless the user has this permission. */
+  permission?: Permission;
+  variant?: "default" | "destructive";
+  onRun: (rows: T[]) => void | Promise<void>;
+}
+
+export interface DataQuery {
+  search: string;
+  filters: Record<string, string | undefined>;
+  sort: { key: string; dir: SortDir } | null;
+  page: number;
+  pageSize: number;
+}
+
+export interface DataTableProps<T> {
+  columns: DataColumn<T>[];
+  data: T[];
+  total: number;
+  rowKey: (row: T) => string;
+  /** RBAC — required to view the table at all. Falls back to empty state. */
+  viewPermission?: Permission;
+  filters?: DataFilter[];
+  bulkActions?: BulkAction<T>[];
+  searchPlaceholder?: string;
+  defaultPageSize?: number;
+  pageSizeOptions?: number[];
+  isLoading?: boolean;
+  error?: string | null;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  /** Single change event for everything — search/filter/sort/paginate. */
+  onQueryChange?: (q: DataQuery) => void;
+  /** Optional right-side toolbar slot (e.g. "New" button). */
+  toolbar?: ReactNode;
+  className?: string;
+}
+
+export function DataTable<T>({
+  columns, data, total, rowKey,
+  viewPermission, filters = [], bulkActions = [],
+  searchPlaceholder = "Search…",
+  defaultPageSize = 25,
+  pageSizeOptions = [10, 25, 50, 100],
+  isLoading = false, error = null,
+  emptyTitle = "No records yet",
+  emptyDescription = "Connect your Software Vala backend to populate this table.",
+  onQueryChange,
+  toolbar,
+  className,
+}: DataTableProps<T>) {
+  const { can } = useAuthz();
+  const allowed = !viewPermission || can(viewPermission);
+
+  const [search, setSearch] = useState("");
+  const [filterValues, setFilterValues] = useState<Record<string, string | undefined>>({});
+  const [sort, setSort] = useState<{ key: string; dir: SortDir } | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(defaultPageSize);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  // Emit a single DataQuery whenever inputs change.
+  useEffect(() => {
+    if (!allowed) return;
+    onQueryChange?.({ search, filters: filterValues, sort, page, pageSize });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, JSON.stringify(filterValues), JSON.stringify(sort), page, pageSize, allowed]);
+
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  const safePage = Math.min(page, pageCount);
+
+  const visibleActions = useMemo(
+    () => bulkActions.filter((a) => !a.permission || can(a.permission)),
+    [bulkActions, can],
+  );
+
+  const allSelected = data.length > 0 && data.every((r) => selected.has(rowKey(r)));
+  const someSelected = !allSelected && data.some((r) => selected.has(rowKey(r)));
+
+  const toggleAll = () => {
+    const next = new Set(selected);
+    if (allSelected) data.forEach((r) => next.delete(rowKey(r)));
+    else data.forEach((r) => next.add(rowKey(r)));
+    setSelected(next);
+  };
+  const toggleOne = (id: string) => {
+    const next = new Set(selected);
+    next.has(id) ? next.delete(id) : next.add(id);
+    setSelected(next);
+  };
+
+  const handleSort = (col: DataColumn<T>) => {
+    if (!col.sortable) return;
+    const key = col.sortKey ?? col.key;
+    setSort((prev) =>
+      !prev || prev.key !== key
+        ? { key, dir: "asc" }
+        : prev.dir === "asc"
+          ? { key, dir: "desc" }
+          : null,
+    );
+    setPage(1);
+  };
+
+  const activeFilterCount = Object.values(filterValues).filter(Boolean).length;
+  const clearFilters = () => { setFilterValues({}); setPage(1); };
+
+  if (!allowed) {
+    return (
+      <div className="bento-card py-16 text-center">
+        <p className="text-sm text-muted-foreground">
+          You don't have permission to view this list.
+        </p>
+      </div>
+    );
+  }
+
+  const selectedRows = data.filter((r) => selected.has(rowKey(r)));
+
+  return (
+    <div className={cn("bento-card !p-0 overflow-hidden", className)}>
+      {/* TOOLBAR */}
+      <div className="flex flex-wrap items-center gap-2 p-3 sm:p-4 border-b border-border">
+        <div className="relative flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+            placeholder={searchPlaceholder}
+            className="pl-9 h-9"
+          />
+        </div>
+
+        {filters.map((f) => (
+          <Select
+            key={f.key}
+            value={filterValues[f.key] ?? "__all__"}
+            onValueChange={(v) => {
+              setFilterValues((prev) => ({ ...prev, [f.key]: v === "__all__" ? undefined : v }));
+              setPage(1);
+            }}
+          >
+            <SelectTrigger className="h-9 w-auto min-w-[140px]">
+              <SelectValue placeholder={f.label} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All {f.label}</SelectItem>
+              {f.options.map((o) => (
+                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ))}
+
+        {activeFilterCount > 0 && (
+          <Button variant="ghost" size="sm" onClick={clearFilters} className="h-9 gap-1.5">
+            <X className="h-3.5 w-3.5" /> Clear
+            <Badge variant="secondary" className="ml-1">{activeFilterCount}</Badge>
+          </Button>
+        )}
+
+        <div className="ml-auto flex items-center gap-2">
+          {selected.size > 0 && visibleActions.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="sm" variant="outline" className="h-9 gap-1.5">
+                  <Filter className="h-3.5 w-3.5" />
+                  {selected.size} selected
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-52">
+                <DropdownMenuLabel>Bulk actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {visibleActions.map((a) => (
+                  <DropdownMenuItem
+                    key={a.id}
+                    className={a.variant === "destructive" ? "text-destructive focus:text-destructive" : ""}
+                    onSelect={() => a.onRun(selectedRows)}
+                  >
+                    {a.icon}
+                    {a.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          {toolbar}
+        </div>
+      </div>
+
+      {/* TABLE */}
+      <div className="relative">
+        {isLoading && (
+          <div className="absolute inset-0 z-10 grid place-items-center bg-background/60 backdrop-blur-sm">
+            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+          </div>
+        )}
+
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/40 hover:bg-muted/40">
+              {visibleActions.length > 0 && (
+                <TableHead className="w-10 pl-4">
+                  <Checkbox
+                    checked={allSelected ? true : someSelected ? "indeterminate" : false}
+                    onCheckedChange={toggleAll}
+                    aria-label="Select all"
+                  />
+                </TableHead>
+              )}
+              {columns.map((c) => {
+                const isSorted = sort?.key === (c.sortKey ?? c.key);
+                return (
+                  <TableHead
+                    key={c.key}
+                    className={cn(
+                      "text-xs font-semibold uppercase tracking-wider text-muted-foreground",
+                      c.align === "right" && "text-right",
+                      c.align === "center" && "text-center",
+                      c.sortable && "cursor-pointer select-none hover:text-foreground",
+                      c.headerClassName,
+                    )}
+                    onClick={() => handleSort(c)}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      {c.header}
+                      {c.sortable && (
+                        isSorted ? (
+                          sort!.dir === "asc"
+                            ? <ArrowUp className="h-3 w-3" />
+                            : <ArrowDown className="h-3 w-3" />
+                        ) : <ArrowUpDown className="h-3 w-3 opacity-40" />
+                      )}
+                    </span>
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {error ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length + (visibleActions.length > 0 ? 1 : 0)}
+                  className="py-16 text-center text-sm text-destructive"
+                >
+                  {error}
+                </TableCell>
+              </TableRow>
+            ) : data.length === 0 && !isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length + (visibleActions.length > 0 ? 1 : 0)}
+                  className="py-16 text-center"
+                >
+                  <p className="text-sm font-medium">{emptyTitle}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{emptyDescription}</p>
+                </TableCell>
+              </TableRow>
+            ) : (
+              data.map((row) => {
+                const id = rowKey(row);
+                const isSel = selected.has(id);
+                return (
+                  <TableRow key={id} data-state={isSel ? "selected" : undefined}>
+                    {visibleActions.length > 0 && (
+                      <TableCell className="pl-4">
+                        <Checkbox
+                          checked={isSel}
+                          onCheckedChange={() => toggleOne(id)}
+                          aria-label="Select row"
+                        />
+                      </TableCell>
+                    )}
+                    {columns.map((c) => (
+                      <TableCell
+                        key={c.key}
+                        className={cn(
+                          c.align === "right" && "text-right",
+                          c.align === "center" && "text-center",
+                          c.className,
+                        )}
+                      >
+                        {c.render ? c.render(row) : (row as Record<string, unknown>)[c.key] as ReactNode ?? "—"}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* PAGINATION */}
+      <div className="flex flex-wrap items-center gap-3 p-3 sm:p-4 border-t border-border">
+        <div className="text-xs text-muted-foreground">
+          {total === 0 ? "0 results" : (
+            <>
+              <span className="font-medium text-foreground">
+                {(safePage - 1) * pageSize + 1}–{Math.min(safePage * pageSize, total)}
+              </span>{" "}
+              of <span className="font-medium text-foreground">{total.toLocaleString()}</span>
+            </>
+          )}
+        </div>
+
+        <div className="ml-auto flex items-center gap-2">
+          <span className="hidden sm:inline text-xs text-muted-foreground">Rows</span>
+          <Select value={String(pageSize)} onValueChange={(v) => { setPageSize(Number(v)); setPage(1); }}>
+            <SelectTrigger className="h-8 w-[72px]"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {pageSizeOptions.map((n) => (
+                <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="flex items-center gap-1">
+            <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage <= 1} onClick={() => setPage(1)}>
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage <= 1} onClick={() => setPage(safePage - 1)}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="px-2 text-xs text-muted-foreground tabular-nums">
+              {safePage} / {pageCount}
+            </span>
+            <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage >= pageCount} onClick={() => setPage(safePage + 1)}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage >= pageCount} onClick={() => setPage(pageCount)}>
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
