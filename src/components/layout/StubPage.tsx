@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 import { PageShell } from "@/components/layout/PageShell";
+import { RequirePermission } from "@/components/auth/RequirePermission";
+import type { Permission } from "@/lib/rbac/permissions";
 import { cn } from "@/lib/utils";
 
 export interface FeatureCard {
