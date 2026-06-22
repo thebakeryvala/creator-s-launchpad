@@ -40,6 +40,8 @@ export interface StubPageProps {
   preview?: React.ReactNode;
   emptyTitle?: string;
   emptyDescription?: string;
+  /** RBAC — required permission to view this module. Renders 403 panel otherwise. */
+  permission?: Permission | Permission[];
 }
 
 export function StubPage({
@@ -54,10 +56,11 @@ export function StubPage({
   preview,
   emptyTitle,
   emptyDescription,
+  permission,
 }: StubPageProps) {
   const [active, setActive] = useState(0);
 
-  return (
+  const body = (
     <PageShell>
       {/* HERO */}
       <section className="hero-surface relative overflow-hidden p-5 sm:p-7 lg:p-9">
