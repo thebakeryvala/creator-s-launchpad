@@ -177,4 +177,7 @@ export function StubPage({
       </p>
     </PageShell>
   );
+
+  if (permission) return <RequirePermission permission={permission}>{body}</RequirePermission>;
+  return body;
 }
