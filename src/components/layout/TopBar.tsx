@@ -7,8 +7,11 @@ import {
   Inbox, BadgeCheck, IdCard, Image as ImageIcon, Menu, X,
   MessagesSquare, BookOpen, Palette, Link as LinkIcon, CalendarClock,
   ImagePlus, LayoutTemplate, Wand2, Activity, ShieldCheck,
-  Receipt, Users2, Star, KeyRound, RefreshCcw, TrendingUp, Banknote,
-  Ticket, Flame, FileText, Code2, UsersRound, Store, FileEdit, Library,
+  Users2, KeyRound, TrendingUp, Banknote, FileText, UsersRound, Store,
+  Download, ClipboardCheck, Handshake, Flame, Eye, Crown, Gauge, Zap,
+  Star, Lock, Album, Heart, RefreshCcw, DollarSign, CalendarHeart, FileSignature,
+  Contact, Newspaper, Vault, Brain, Building, Building2, Tv, Dna, BookMarked,
+  Mic, Map, Briefcase, Gift, Target, CalendarDays, Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,71 +20,126 @@ type NavGroup = { label: string; items: NavItem[] };
 
 const primary: NavItem[] = [
   { label: "Dashboard", to: "/", icon: LayoutDashboard },
-  { label: "AI Studio", to: "/ai-studio", icon: Sparkles },
+  { label: "Campaigns", to: "/campaigns", icon: Megaphone },
+  { label: "Content", to: "/content-center", icon: FileVideo },
   { label: "Products", to: "/products", icon: Package },
-  { label: "Marketplace", to: "/marketplace", icon: Store },
+  { label: "AI Studio", to: "/ai-studio", icon: Sparkles },
 ];
 
 const groups: NavGroup[] = [
   {
-    label: "Catalog",
+    label: "Promote",
     items: [
+      { label: "Marketplace", to: "/marketplace", icon: Store },
+      { label: "Campaigns", to: "/campaigns", icon: Megaphone },
       { label: "Products", to: "/products", icon: Package },
-      { label: "Drafts", to: "/drafts", icon: FileEdit },
-      { label: "Content", to: "/content", icon: FileVideo },
-      { label: "Media Library", to: "/media-library", icon: Library },
-      { label: "Brand Assets", to: "/brand-assets", icon: Palette },
-      { label: "Documentation", to: "/documentation", icon: FileText },
+      { label: "Brand Collaboration", to: "/brand-collaboration", icon: Handshake },
+      { label: "Sponsorship Center", to: "/sponsorship", icon: Handshake },
+      { label: "Collaboration Center", to: "/collaboration", icon: Users },
+      { label: "Contract Center", to: "/contracts", icon: FileSignature },
+      { label: "Booking Center", to: "/booking", icon: Calendar },
     ],
   },
   {
-    label: "Commerce",
+    label: "Content",
     items: [
-      { label: "Orders", to: "/orders", icon: Receipt },
-      { label: "Customers", to: "/customers", icon: Users2 },
-      { label: "Reviews", to: "/reviews", icon: Star },
-      { label: "Licenses", to: "/licenses", icon: KeyRound },
-      { label: "Subscriptions", to: "/subscriptions", icon: RefreshCcw },
+      { label: "Content Center", to: "/content-center", icon: FileVideo },
+      { label: "Content Calendar", to: "/content-calendar", icon: CalendarDays },
+      { label: "Content Approval", to: "/content-approval", icon: ClipboardCheck },
+      { label: "Content Vault", to: "/content-vault", icon: Vault },
+      { label: "Download Center", to: "/download-center", icon: Download },
+      { label: "Media Library", to: "/media-library", icon: ImageIcon },
+      { label: "Brand Assets", to: "/brand-assets", icon: Palette },
+      { label: "Thumbnail Generator", to: "/thumbnail-generator", icon: ImagePlus },
+      { label: "Banner Generator", to: "/banner-generator", icon: LayoutTemplate },
+      { label: "Media Kit", to: "/media-kit", icon: ImageIcon },
+      { label: "Press Kit", to: "/press-kit", icon: Newspaper },
+    ],
+  },
+  {
+    label: "Audience",
+    items: [
+      { label: "Social Accounts", to: "/social-accounts", icon: BadgeCheck },
+      { label: "Multi-Channel", to: "/multi-channel", icon: LayoutDashboard },
+      { label: "Fan Club", to: "/fan-club", icon: Heart },
+      { label: "Subscriptions", to: "/creator-subscriptions", icon: RefreshCcw },
+      { label: "Influence Map", to: "/influence-map", icon: Map },
+      { label: "Community Mgr (AI)", to: "/ai-community-manager", icon: MessagesSquare },
+      { label: "Inbox", to: "/inbox", icon: Inbox },
+      { label: "Messages", to: "/messages", icon: MessagesSquare },
+    ],
+  },
+  {
+    label: "Referral",
+    items: [
+      { label: "Referrals", to: "/referrals", icon: Link2 },
+      { label: "Short Links", to: "/short-links", icon: Link2 },
+      { label: "UTM Builder", to: "/utm-builder", icon: Link2 },
+      { label: "QR Center", to: "/qr", icon: QrCode },
+      { label: "Link in Bio", to: "/link-in-bio", icon: LinkIcon },
+    ],
+  },
+  {
+    label: "Performance",
+    items: [
+      { label: "Live Performance", to: "/live-performance", icon: Activity },
+      { label: "Leads", to: "/leads", icon: Users },
       { label: "Sales", to: "/sales", icon: ShoppingBag },
+      { label: "Commissions", to: "/commissions", icon: Wallet },
+      { label: "Analytics", to: "/analytics", icon: BarChart3 },
+      { label: "Top Content", to: "/top-content", icon: Flame },
+      { label: "Competitor Insights", to: "/competitor-insights", icon: Eye },
+      { label: "Market Intelligence", to: "/market-intelligence", icon: BarChart3 },
+      { label: "Opportunity Engine", to: "/opportunity-engine", icon: Flame },
     ],
   },
   {
     label: "Finance",
     items: [
-      { label: "Revenue", to: "/revenue", icon: TrendingUp },
+      { label: "Creator Banking", to: "/creator-banking", icon: Banknote },
       { label: "Wallet", to: "/wallet", icon: Wallet },
+      { label: "Revenue", to: "/revenue", icon: TrendingUp },
       { label: "Payouts", to: "/payouts", icon: Banknote },
       { label: "Withdrawals", to: "/withdrawals", icon: Wallet },
-      { label: "Commissions", to: "/commissions", icon: Wallet },
-      { label: "Referrals", to: "/referrals", icon: Link2 },
-      { label: "Leads", to: "/leads", icon: Users },
+      { label: "Media Value", to: "/media-value", icon: DollarSign },
+      { label: "Loyalty", to: "/loyalty", icon: Gift },
     ],
   },
   {
-    label: "Marketing",
+    label: "Rank & Awards",
     items: [
-      { label: "Marketing", to: "/marketing", icon: Megaphone },
-      { label: "Campaigns", to: "/campaigns", icon: Megaphone },
-      { label: "Campaign Scheduler", to: "/campaign-scheduler", icon: CalendarClock },
-      { label: "Coupons", to: "/coupons", icon: Ticket },
-      { label: "Promotions", to: "/promotions", icon: Flame },
-      { label: "Short Links", to: "/short-links", icon: Link2 },
-      { label: "UTM Builder", to: "/utm-builder", icon: Link2 },
-      { label: "QR Center", to: "/qr", icon: QrCode },
-      { label: "Link in Bio", to: "/link-in-bio", icon: LinkIcon },
-      { label: "Media Kit", to: "/media-kit", icon: ImageIcon },
-      { label: "Thumbnail Generator", to: "/thumbnail-generator", icon: ImagePlus },
-      { label: "Banner Generator", to: "/banner-generator", icon: LayoutTemplate },
-    ],
-  },
-  {
-    label: "Insights",
-    items: [
-      { label: "Analytics", to: "/analytics", icon: BarChart3 },
       { label: "Leaderboard", to: "/leaderboard", icon: Trophy },
+      { label: "Rank & XP", to: "/rank", icon: TrendingUp },
+      { label: "Creator Levels", to: "/creator-levels", icon: TrendingUp },
+      { label: "Prestige", to: "/prestige", icon: Award },
       { label: "Achievements", to: "/achievements", icon: Award },
-      { label: "Academy", to: "/academy", icon: GraduationCap },
-      { label: "Calendar", to: "/calendar", icon: Calendar },
+      { label: "Badges", to: "/achievements", icon: BadgeCheck },
+      { label: "Trophy Room", to: "/trophy-room", icon: Trophy },
+      { label: "Hall of Fame", to: "/hall-of-fame", icon: Crown },
+      { label: "Award Ceremony", to: "/award-ceremony", icon: Trophy },
+      { label: "Record Book", to: "/record-book", icon: BookOpen },
+      { label: "Founder Spotlight", to: "/founder-spotlight", icon: Star },
+      { label: "Secret Achievements", to: "/secret-achievements", icon: Lock },
+      { label: "Challenges", to: "/challenges", icon: Target },
+      { label: "Streaks", to: "/streaks", icon: Flame },
+      { label: "Memory Capsule", to: "/memory-capsule", icon: Album },
+    ],
+  },
+  {
+    label: "Brand",
+    items: [
+      { label: "Personal Brand", to: "/personal-brand", icon: Sparkles },
+      { label: "Social Score", to: "/social-score", icon: Gauge },
+      { label: "Power Score", to: "/power-score", icon: Zap },
+      { label: "Creator Economy Score", to: "/creator-economy-score", icon: Gauge },
+      { label: "Brand Safety", to: "/brand-safety", icon: ShieldCheck },
+      { label: "Reputation Engine", to: "/reputation", icon: Star },
+      { label: "Creator DNA", to: "/creator-dna", icon: Dna },
+      { label: "Public Profile", to: "/profile", icon: User },
+      { label: "Creator Passport", to: "/creator-passport", icon: IdCard },
+      { label: "Influencer Store", to: "/influencer-store", icon: Store },
+      { label: "Website Builder", to: "/website-builder", icon: Globe },
+      { label: "Verification", to: "/verification", icon: IdCard },
     ],
   },
   {
@@ -91,20 +149,66 @@ const groups: NavGroup[] = [
       { label: "AI Chat", to: "/ai-chat", icon: Bot },
       { label: "AMS", to: "/ams", icon: Sparkles },
       { label: "AI Toolkit", to: "/ai-tools", icon: Wand2 },
+      { label: "Digital Twin", to: "/digital-twin", icon: Bot },
+      { label: "AI Social Manager", to: "/ai-social-manager", icon: Sparkles },
+      { label: "AI Community Manager", to: "/ai-community-manager", icon: MessagesSquare },
+      { label: "AI Sales Agent", to: "/ai-sales-agent", icon: Bot },
+      { label: "AI Brand Negotiator", to: "/ai-brand-negotiator", icon: Handshake },
+      { label: "AI Avatar", to: "/ai-avatar", icon: Bot },
+      { label: "AI Content Factory", to: "/ai-content-factory", icon: Sparkles },
+      { label: "AI Video Factory", to: "/ai-video-factory", icon: FileVideo },
+      { label: "AI Podcast Factory", to: "/ai-podcast-factory", icon: Mic },
+      { label: "AI Newsroom", to: "/ai-newsroom", icon: Newspaper },
+      { label: "Brand Matching AI", to: "/brand-matching", icon: Sparkles },
+      { label: "Creator Intelligence", to: "/creator-intelligence", icon: Brain },
       { label: "Enterprise Chat", to: "/enterprise-chat", icon: MessagesSquare },
       { label: "Knowledge Base", to: "/knowledge-base", icon: BookOpen },
     ],
   },
   {
-    label: "Operate",
+    label: "Learn & Events",
     items: [
-      { label: "Messages", to: "/messages", icon: MessagesSquare },
-      { label: "Inbox", to: "/inbox", icon: Inbox },
+      { label: "Academy", to: "/academy", icon: GraduationCap },
+      { label: "Creator University", to: "/creator-university", icon: GraduationCap },
+      { label: "Knowledge Vault", to: "/knowledge-vault", icon: BookOpen },
+      { label: "Success Playbook", to: "/success-playbook", icon: BookMarked },
+      { label: "Events", to: "/events", icon: CalendarHeart },
+      { label: "Creator TV", to: "/creator-tv", icon: Tv },
+      { label: "Calendar", to: "/calendar", icon: Calendar },
+    ],
+  },
+  {
+    label: "Business",
+    items: [
+      { label: "Command Center", to: "/command-center", icon: LayoutDashboard },
+      { label: "CEO Dashboard", to: "/ceo-dashboard", icon: Briefcase },
+      { label: "CFO Dashboard", to: "/cfo-dashboard", icon: Banknote },
+      { label: "Growth Dashboard", to: "/growth-dashboard", icon: TrendingUp },
+      { label: "Creator ERP", to: "/creator-erp", icon: Briefcase },
+      { label: "Creator CRM", to: "/creator-crm", icon: Contact },
+      { label: "Creator Marketplace", to: "/creator-marketplace", icon: ShoppingBag },
+      { label: "Creator App Store", to: "/creator-app-store", icon: Store },
+      { label: "Company Mode", to: "/company-mode", icon: Building },
+      { label: "Agency Mode", to: "/agency-mode", icon: Building2 },
+      { label: "White Label", to: "/white-label", icon: Palette },
+      { label: "Employees", to: "/employees", icon: Users2 },
       { label: "Team", to: "/team", icon: UsersRound },
+      { label: "Assets Vault", to: "/assets-vault", icon: Vault },
+      { label: "Documentation", to: "/documentation", icon: FileText },
       { label: "API Center", to: "/api-center", icon: Code2 },
-      { label: "Social Accounts", to: "/social-accounts", icon: BadgeCheck },
-      { label: "Verification", to: "/verification", icon: IdCard },
-      { label: "Public Profile", to: "/profile", icon: User },
+    ],
+  },
+  {
+    label: "Commerce",
+    items: [
+      { label: "Orders", to: "/orders", icon: ShoppingBag },
+      { label: "Customers", to: "/customers", icon: Users2 },
+      { label: "Reviews", to: "/reviews", icon: Star },
+      { label: "Licenses", to: "/licenses", icon: KeyRound },
+      { label: "Subscriptions", to: "/subscriptions", icon: RefreshCcw },
+      { label: "Coupons", to: "/coupons", icon: Gift },
+      { label: "Promotions", to: "/promotions", icon: Flame },
+      { label: "Drafts", to: "/drafts", icon: FileText },
     ],
   },
   {
@@ -155,7 +259,7 @@ export function TopBar() {
           {groups.map((group, gi) => {
             const open = openGroup === group.label;
             const groupActive = group.items.some((i) => isActive(i.to));
-            const alignRight = gi >= groups.length - 2;
+            const alignRight = gi >= groups.length - 3;
             return (
               <div
                 key={group.label}
@@ -177,14 +281,14 @@ export function TopBar() {
                 {open && (
                   <div
                     className={cn(
-                      "absolute top-full pt-2 w-[260px] max-w-[calc(100vw-2rem)]",
+                      "absolute top-full pt-2 w-[280px] max-w-[calc(100vw-2rem)]",
                       alignRight ? "right-0" : "left-0",
                     )}
                   >
                     <div className="rounded-xl border border-border bg-popover p-2 shadow-2xl max-h-[70vh] overflow-y-auto">
                       {group.items.map((item) => (
                         <Link
-                          key={item.to}
+                          key={item.to + item.label}
                           to={item.to}
                           className={cn(
                             "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -272,7 +376,7 @@ export function TopBar() {
                 <div className="grid grid-cols-2 gap-1">
                   {g.items.map((i) => (
                     <Link
-                      key={i.to}
+                      key={i.to + i.label}
                       to={i.to}
                       onClick={() => setMobileOpen(false)}
                       className={cn(
