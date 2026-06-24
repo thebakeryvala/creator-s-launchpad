@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopBar } from "@/components/layout/TopBar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
+import { I18nProvider } from "@/lib/i18n/I18nProvider";
 
 function NotFoundComponent() {
   return (
@@ -120,12 +121,14 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthzProvider>
-        <div className="min-h-screen flex flex-col">
-          <TopBar />
-          <main className="flex-1">
-            <Outlet />
-          </main>
-        </div>
+        <I18nProvider>
+          <div className="min-h-screen flex flex-col">
+            <TopBar />
+            <main className="flex-1">
+              <Outlet />
+            </main>
+          </div>
+        </I18nProvider>
       </AuthzProvider>
     </QueryClientProvider>
   );
