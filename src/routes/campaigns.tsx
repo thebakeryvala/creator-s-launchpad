@@ -1,9 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Megaphone, CalendarClock, CheckCircle2, Clock, BookOpen, Gift, BarChart3,
-  TrendingUp, Users, Wallet, Target,
+  Megaphone, CheckCircle2, Clock, TrendingUp, Target, Wallet, Plus, Download,
 } from "lucide-react";
-import { StubPage } from "@/components/layout/StubPage";
+import { ListPage } from "@/components/layout/ListPage";
+import { DataTable, type DataColumn } from "@/components/data/DataTable";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+
+interface CampaignRow {
+  id: string; name: string; brand: string; status: string;
+  reward: number; reach: number; deadline: string;
+}
 
 export const Route = createFileRoute("/campaigns")({
   head: () => ({
@@ -14,33 +22,69 @@ export const Route = createFileRoute("/campaigns")({
       { property: "og:description", content: "Browse, join and manage promotion campaigns." },
     ],
   }),
-  component: () => (
-    <StubPage
+  component: CampaignsPage,
+});
+
+function CampaignsPage() {
+  const { formatCurrency, formatNumber, formatDate, t } = useI18n();
+
+  const columns: DataColumn<CampaignRow>[] = [
+    { key: "name",     header: "Campaign", sortable: true, render: (r) => <span className="font-medium">{r.name}</span> },
+    { key: "brand",    header: "Brand", sortable: true },
+    { key: "status",   header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge> },
+    { key: "reward",   header: "Reward", sortable: true, align: "right", render: (r) => formatCurrency(r.reward) },
+    { key: "reach",    header: "Reach", sortable: true, align: "right", render: (r) => formatNumber(r.reach) },
+    { key: "deadline", header: "Deadline", sortable: true, render: (r) => formatDate(r.deadline) },
+  ];
+
+  return (
+    <ListPage
       title="Campaigns"
-      subtitle="Browse, join and track every promotion campaign from brands you collaborate with. Track rules, rewards and performance side-by-side."
+      subtitle="Browse, join and track every promotion campaign from brands you collaborate with."
       icon={Megaphone}
       ctaLabel="Browse Marketplace"
       ctaTo="/products"
+      permission="campaigns:view"
       sections={["Available", "Active", "Upcoming", "Completed", "Rules", "Rewards", "Analytics"]}
       kpis={[
-        { label: "Active", icon: CheckCircle2, tint: "text-accent-emerald" },
+        { label: "Active",    icon: CheckCircle2, tint: "text-accent-emerald" },
         { label: "Available", icon: Megaphone, tint: "text-primary-glow" },
-        { label: "Upcoming", icon: Clock, tint: "text-accent-amber" },
-        { label: "Reach", icon: TrendingUp, tint: "text-primary-glow" },
-        { label: "Leads", icon: Target, tint: "text-accent-pink" },
-        { label: "Rewards", icon: Wallet, tint: "text-accent-emerald", unit: "USD" },
+        { label: "Upcoming",  icon: Clock, tint: "text-accent-amber" },
+        { label: "Reach",     icon: TrendingUp, tint: "text-primary-glow" },
+        { label: "Leads",     icon: Target, tint: "text-accent-pink" },
+        { label: "Rewards",   icon: Wallet, tint: "text-accent-emerald" },
       ]}
-      features={[
-        { icon: Megaphone,    title: "Available Campaigns",  description: "Open briefs you qualify for, sorted by reward and fit score." },
-        { icon: CheckCircle2, title: "Active Campaigns",     description: "In-flight collabs with live progress, deadlines and deliverables." },
-        { icon: Clock,        title: "Upcoming",             description: "Scheduled launches you've joined. Get assets ready in advance." },
-        { icon: CalendarClock,title: "Completed",            description: "Closed campaigns with final results, payouts and ratings." },
-        { icon: BookOpen,     title: "Rules & Briefs",       description: "Brand guidelines, do/don't lists, FTC disclosure and exclusivity." },
-        { icon: Gift,         title: "Rewards",              description: "Cash, flat fees, performance bonuses and product gifts per campaign." },
-        { icon: BarChart3,    title: "Campaign Analytics",   description: "Reach, clicks, leads, sales and ROI broken down by post and channel." },
-        { icon: Users,        title: "Brand Roster",         description: "Brands that invited you, repeat collaborators and partnership history." },
-        { icon: Wallet,       title: "Earnings From Campaigns", description: "Per-campaign commission, pending, approved and paid balances." },
-      ]}
-    />
-  ),
-});
+    >
+      <DataTable<CampaignRow>
+        columns={columns}
+        data={[]}
+        total={0}
+        rowKey={(r) => r.id}
+        viewPermission="campaigns:view"
+        searchPlaceholder={t("search", "Search campaigns…")}
+        filters={[
+          { key: "status",   label: "Status",   options: [
+            { value: "available", label: "Available" },
+            { value: "active",    label: "Active" },
+            { value: "upcoming",  label: "Upcoming" },
+            { value: "completed", label: "Completed" },
+          ]},
+          { key: "category", label: "Category", options: [
+            { value: "saas",    label: "SaaS" },
+            { value: "d2c",     label: "D2C" },
+            { value: "service", label: "Service" },
+          ]},
+        ]}
+        bulkActions={[
+          { id: "export", label: t("export", "Export"), permission: "analytics:export", onRun: () => {} },
+        ]}
+        toolbar={
+          <>
+            <Button size="sm" variant="outline" className="h-9 gap-1.5"><Download className="h-3.5 w-3.5" /> {t("export", "Export")}</Button>
+            <Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>
+          </>
+        }
+      />
+    </ListPage>
+  );
+}
