@@ -14,6 +14,11 @@ import {
   Mic, Map, Briefcase, Gift, Target, CalendarDays, Code2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useI18n, LANGUAGES, CURRENCIES } from "@/lib/i18n/I18nProvider";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type NavItem = { label: string; to: string; icon: React.ComponentType<{ className?: string }> };
 type NavGroup = { label: string; items: NavItem[] };
@@ -227,6 +232,7 @@ export function TopBar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { language, currency, setLanguage, setCurrency, t } = useI18n();
 
   const isActive = (to: string) => (to === "/" ? pathname === "/" : pathname.startsWith(to));
 
@@ -320,12 +326,60 @@ export function TopBar() {
           <kbd className="hidden 2xl:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
         </div>
 
-        <button className="hidden 2xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
-          <Globe className="h-3.5 w-3.5" /> EN
-        </button>
-        <button className="hidden 2xl:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
-          USD
-        </button>
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-44 lg:w-56 2xl:w-72">
+          <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+          <input
+            placeholder={t("search", "Search…")}
+            className="bg-transparent text-sm outline-none placeholder:text-muted-foreground flex-1 min-w-0"
+          />
+          <kbd className="hidden 2xl:inline text-[10px] text-muted-foreground border border-border px-1.5 rounded">⌘K</kbd>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground" aria-label={t("language", "Language")}>
+              <Globe className="h-3.5 w-3.5" /> {language.code.toUpperCase()}
+              <ChevronDown className="h-3 w-3 opacity-60" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56 max-h-[70vh] overflow-y-auto">
+            <DropdownMenuLabel>{t("language", "Language")}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {LANGUAGES.map((l) => (
+              <DropdownMenuItem
+                key={l.code}
+                onSelect={() => setLanguage(l.code)}
+                className={cn("justify-between gap-2", language.code === l.code && "bg-primary/10 text-foreground")}
+              >
+                <span className="truncate">{l.native}</span>
+                <span className="text-[10px] uppercase text-muted-foreground">{l.code}</span>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground" aria-label={t("currency", "Currency")}>
+              <span className="font-semibold">{currency.symbol}</span> {currency.code}
+              <ChevronDown className="h-3 w-3 opacity-60" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-52 max-h-[70vh] overflow-y-auto">
+            <DropdownMenuLabel>{t("currency", "Currency")}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {CURRENCIES.map((c) => (
+              <DropdownMenuItem
+                key={c.code}
+                onSelect={() => setCurrency(c.code)}
+                className={cn("justify-between gap-2", currency.code === c.code && "bg-primary/10 text-foreground")}
+              >
+                <span className="truncate">{c.label}</span>
+                <span className="text-[10px] font-semibold">{c.symbol} {c.code}</span>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <Link to="/support" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground" aria-label="Support">
           <LifeBuoy className="h-4 w-4" />
