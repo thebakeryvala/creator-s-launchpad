@@ -43,10 +43,10 @@ export type Permission =
   | "revenue:view" | "revenue:export"
   | "wallet:view"
   | "payouts:view" | "payouts:request" | "payouts:approve"
-  | "commissions:view"
+  | "commissions:view" | "commissions:approve"
   | "referrals:view" | "referrals:manage"
   // Marketing
-  | "campaigns:view" | "campaigns:manage"
+  | "campaigns:view" | "campaigns:manage" | "campaigns:update" | "campaigns:approve"
   | "scheduler:view" | "scheduler:manage"
   | "coupons:view" | "coupons:manage"
   | "promotions:view" | "promotions:manage"
