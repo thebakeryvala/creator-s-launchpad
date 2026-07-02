@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ShoppingBag, Download } from "lucide-react";
+import { ShoppingBag, CheckCircle, Archive, RefreshCw } from "lucide-react";
 import { ListPage } from "@/components/layout/ListPage";
 import { DataTable, type DataColumn } from "@/components/data/DataTable";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 
 interface SaleRow {
@@ -23,13 +22,19 @@ function SalesPage() {
   const { formatCurrency, formatDate, t } = useI18n();
 
   const columns: DataColumn<SaleRow>[] = [
-    { key: "orderId",    header: "Order", sortable: true, render: (r) => <span className="font-mono text-xs">{r.orderId}</span> },
-    { key: "product",    header: "Product", sortable: true },
-    { key: "customer",   header: "Customer" },
-    { key: "status",     header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge> },
-    { key: "total",      header: "Total", sortable: true, align: "right", render: (r) => formatCurrency(r.total) },
-    { key: "commission", header: "Commission", sortable: true, align: "right", render: (r) => formatCurrency(r.commission) },
-    { key: "createdAt",  header: "Date", sortable: true, render: (r) => formatDate(r.createdAt) },
+    { key: "orderId",    header: "Order", sortable: true, alwaysVisible: true,
+      render: (r) => <span className="font-mono text-xs">{r.orderId}</span>,
+      exportValue: (r) => r.orderId },
+    { key: "product",    header: "Product", sortable: true, exportValue: (r) => r.product },
+    { key: "customer",   header: "Customer", exportValue: (r) => r.customer },
+    { key: "status",     header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge>,
+      exportValue: (r) => r.status },
+    { key: "total",      header: "Total", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.total), exportValue: (r) => r.total },
+    { key: "commission", header: "Commission", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.commission), exportValue: (r) => r.commission },
+    { key: "createdAt",  header: "Date", sortable: true,
+      render: (r) => formatDate(r.createdAt), exportValue: (r) => r.createdAt },
   ];
 
   return (
@@ -41,11 +46,15 @@ function SalesPage() {
       sections={["Orders", "Revenue", "Customers", "Conversions", "Top Products", "Analytics"]}
     >
       <DataTable<SaleRow>
+        tableId="sales"
+        resource="sales"
         columns={columns}
         data={[]}
         total={0}
         rowKey={(r) => r.id}
         viewPermission="orders:view"
+        realtime={{ channel: "sales" }}
+        onRefresh={() => {}}
         searchPlaceholder={t("search", "Search orders…")}
         filters={[
           { key: "status", label: "Status", options: [
@@ -61,11 +70,21 @@ function SalesPage() {
           ]},
         ]}
         bulkActions={[
-          { id: "export", label: t("export", "Export"), permission: "orders:export", onRun: () => {} },
+          { id: "approve", label: "Mark paid", icon: <CheckCircle className="h-3.5 w-3.5" />,
+            permission: "orders:update",
+            confirm: { title: "Mark selected orders as paid?", confirmLabel: "Mark paid" },
+            audit: { action: "sales.mark_paid", resource: "sales" },
+            onRun: () => {} },
+          { id: "status", label: "Change status", icon: <RefreshCw className="h-3.5 w-3.5" />,
+            permission: "orders:update",
+            audit: { action: "sales.status", resource: "sales" },
+            onRun: () => {} },
+          { id: "archive", label: "Archive", icon: <Archive className="h-3.5 w-3.5" />,
+            permission: "orders:update", variant: "destructive",
+            confirm: { title: "Archive selected orders?", destructive: true, confirmLabel: "Archive" },
+            audit: { action: "sales.archive", resource: "sales" },
+            onRun: () => {} },
         ]}
-        toolbar={
-          <Button size="sm" variant="outline" className="h-9 gap-1.5"><Download className="h-3.5 w-3.5" /> {t("export", "Export")}</Button>
-        }
       />
     </ListPage>
   );

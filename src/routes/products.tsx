@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Package, Sparkles, Flame, Star, Rocket, Bot, Plus, Download,
+  Package, Sparkles, Flame, Star, Rocket, Bot, Plus,
+  CheckCircle, Archive, RefreshCw,
 } from "lucide-react";
 import { ListPage } from "@/components/layout/ListPage";
 import { DataTable, type DataColumn } from "@/components/data/DataTable";
@@ -29,13 +30,21 @@ function ProductsPage() {
   const { formatCurrency, formatNumber, t } = useI18n();
 
   const columns: DataColumn<ProductRow>[] = [
-    { key: "name",       header: "Product", sortable: true, render: (r) => <span className="font-medium">{r.name}</span> },
-    { key: "category",   header: "Category", sortable: true },
-    { key: "status",     header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge> },
-    { key: "price",      header: "Price", sortable: true, align: "right", render: (r) => formatCurrency(r.price) },
-    { key: "commission", header: "Commission", sortable: true, align: "right", render: (r) => formatCurrency(r.commission) },
-    { key: "sales",      header: "Sales", sortable: true, align: "right", render: (r) => formatNumber(r.sales) },
-    { key: "conversion", header: "Conv.", sortable: true, align: "right", render: (r) => `${formatNumber(r.conversion, { maximumFractionDigits: 2 })}%` },
+    { key: "name",       header: "Product", sortable: true, alwaysVisible: true,
+      render: (r) => <span className="font-medium">{r.name}</span>,
+      exportValue: (r) => r.name },
+    { key: "category",   header: "Category", sortable: true, exportValue: (r) => r.category },
+    { key: "status",     header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge>,
+      exportValue: (r) => r.status },
+    { key: "price",      header: "Price", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.price), exportValue: (r) => r.price },
+    { key: "commission", header: "Commission", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.commission), exportValue: (r) => r.commission },
+    { key: "sales",      header: "Sales", sortable: true, align: "right",
+      render: (r) => formatNumber(r.sales), exportValue: (r) => r.sales },
+    { key: "conversion", header: "Conv.", sortable: true, align: "right",
+      render: (r) => `${formatNumber(r.conversion, { maximumFractionDigits: 2 })}%`,
+      exportValue: (r) => r.conversion },
   ];
 
   return (
@@ -57,11 +66,15 @@ function ProductsPage() {
       ]}
     >
       <DataTable<ProductRow>
+        tableId="products"
+        resource="products"
         columns={columns}
         data={[]}
         total={0}
         rowKey={(r) => r.id}
         viewPermission="products:view"
+        realtime={{ channel: "products" }}
+        onRefresh={() => {}}
         searchPlaceholder={t("search", "Search products…")}
         filters={[
           { key: "status", label: "Status", options: [
@@ -83,15 +96,26 @@ function ProductsPage() {
           ]},
         ]}
         bulkActions={[
-          { id: "export",  label: t("export", "Export"), permission: "analytics:export", onRun: () => {} },
-          { id: "delete",  label: "Delete", permission: "products:delete", variant: "destructive", onRun: () => {} },
+          { id: "approve", label: "Publish", icon: <CheckCircle className="h-3.5 w-3.5" />,
+            permission: "products:update",
+            confirm: { title: "Publish selected products?", confirmLabel: "Publish" },
+            audit: { action: "products.publish", resource: "products" },
+            onRun: () => {} },
+          { id: "status", label: "Change status", icon: <RefreshCw className="h-3.5 w-3.5" />,
+            permission: "products:update",
+            audit: { action: "products.status", resource: "products" },
+            onRun: () => {} },
+          { id: "archive", label: "Archive", icon: <Archive className="h-3.5 w-3.5" />,
+            permission: "products:update",
+            confirm: { title: "Archive selected products?", destructive: true, confirmLabel: "Archive" },
+            audit: { action: "products.archive", resource: "products" },
+            onRun: () => {} },
+          { id: "delete", label: "Delete", permission: "products:delete", variant: "destructive",
+            confirm: { title: "Delete selected products?", description: "This cannot be undone.", destructive: true, confirmLabel: "Delete" },
+            audit: { action: "products.delete", resource: "products" },
+            onRun: () => {} },
         ]}
-        toolbar={
-          <>
-            <Button size="sm" variant="outline" className="h-9 gap-1.5"><Download className="h-3.5 w-3.5" /> {t("export", "Export")}</Button>
-            <Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>
-          </>
-        }
+        toolbar={<Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>}
       />
     </ListPage>
   );

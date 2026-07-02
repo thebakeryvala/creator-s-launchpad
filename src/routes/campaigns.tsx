@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
-  Megaphone, CheckCircle2, Clock, TrendingUp, Target, Wallet, Plus, Download,
+  Megaphone, CheckCircle2, Clock, TrendingUp, Target, Wallet, Plus,
+  CheckCircle, Archive, UserPlus, RefreshCw,
 } from "lucide-react";
 import { ListPage } from "@/components/layout/ListPage";
 import { DataTable, type DataColumn } from "@/components/data/DataTable";
@@ -29,12 +30,18 @@ function CampaignsPage() {
   const { formatCurrency, formatNumber, formatDate, t } = useI18n();
 
   const columns: DataColumn<CampaignRow>[] = [
-    { key: "name",     header: "Campaign", sortable: true, render: (r) => <span className="font-medium">{r.name}</span> },
-    { key: "brand",    header: "Brand", sortable: true },
-    { key: "status",   header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge> },
-    { key: "reward",   header: "Reward", sortable: true, align: "right", render: (r) => formatCurrency(r.reward) },
-    { key: "reach",    header: "Reach", sortable: true, align: "right", render: (r) => formatNumber(r.reach) },
-    { key: "deadline", header: "Deadline", sortable: true, render: (r) => formatDate(r.deadline) },
+    { key: "name",     header: "Campaign", sortable: true, alwaysVisible: true,
+      render: (r) => <span className="font-medium">{r.name}</span>,
+      exportValue: (r) => r.name },
+    { key: "brand",    header: "Brand", sortable: true, exportValue: (r) => r.brand },
+    { key: "status",   header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge>,
+      exportValue: (r) => r.status },
+    { key: "reward",   header: "Reward", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.reward), exportValue: (r) => r.reward },
+    { key: "reach",    header: "Reach", sortable: true, align: "right",
+      render: (r) => formatNumber(r.reach), exportValue: (r) => r.reach },
+    { key: "deadline", header: "Deadline", sortable: true,
+      render: (r) => formatDate(r.deadline), exportValue: (r) => r.deadline },
   ];
 
   return (
@@ -56,11 +63,15 @@ function CampaignsPage() {
       ]}
     >
       <DataTable<CampaignRow>
+        tableId="campaigns"
+        resource="campaigns"
         columns={columns}
         data={[]}
         total={0}
         rowKey={(r) => r.id}
         viewPermission="campaigns:view"
+        realtime={{ channel: "campaigns" }}
+        onRefresh={() => {}}
         searchPlaceholder={t("search", "Search campaigns…")}
         filters={[
           { key: "status",   label: "Status",   options: [
@@ -76,14 +87,27 @@ function CampaignsPage() {
           ]},
         ]}
         bulkActions={[
-          { id: "export", label: t("export", "Export"), permission: "analytics:export", onRun: () => {} },
+          { id: "approve", label: "Approve", icon: <CheckCircle className="h-3.5 w-3.5" />,
+            permission: "campaigns:approve",
+            confirm: { title: "Approve selected campaigns?", confirmLabel: "Approve" },
+            audit: { action: "campaigns.approve", resource: "campaigns" },
+            onRun: () => {} },
+          { id: "assign", label: "Assign owner", icon: <UserPlus className="h-3.5 w-3.5" />,
+            permission: "campaigns:update",
+            confirm: { title: "Assign owner", description: "Reassign selected campaigns to another owner." },
+            audit: { action: "campaigns.assign", resource: "campaigns" },
+            onRun: () => {} },
+          { id: "archive", label: "Archive", icon: <Archive className="h-3.5 w-3.5" />,
+            permission: "campaigns:update",
+            confirm: { title: "Archive selected campaigns?", destructive: true, confirmLabel: "Archive" },
+            audit: { action: "campaigns.archive", resource: "campaigns" },
+            onRun: () => {} },
+          { id: "status", label: "Change status", icon: <RefreshCw className="h-3.5 w-3.5" />,
+            permission: "campaigns:update",
+            audit: { action: "campaigns.status", resource: "campaigns" },
+            onRun: () => {} },
         ]}
-        toolbar={
-          <>
-            <Button size="sm" variant="outline" className="h-9 gap-1.5"><Download className="h-3.5 w-3.5" /> {t("export", "Export")}</Button>
-            <Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>
-          </>
-        }
+        toolbar={<Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>}
       />
     </ListPage>
   );

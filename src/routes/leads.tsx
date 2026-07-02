@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Users, Plus, Download } from "lucide-react";
+import { Users, Plus, CheckCircle, Archive, UserPlus, RefreshCw } from "lucide-react";
 import { ListPage } from "@/components/layout/ListPage";
 import { DataTable, type DataColumn } from "@/components/data/DataTable";
 import { Badge } from "@/components/ui/badge";
@@ -23,11 +23,16 @@ function LeadsPage() {
   const { formatCurrency, formatDate, t } = useI18n();
 
   const columns: DataColumn<LeadRow>[] = [
-    { key: "name",      header: "Lead", sortable: true, render: (r) => <span className="font-medium">{r.name}</span> },
-    { key: "source",    header: "Source", sortable: true },
-    { key: "status",    header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge> },
-    { key: "value",     header: "Value", sortable: true, align: "right", render: (r) => formatCurrency(r.value) },
-    { key: "createdAt", header: "Created", sortable: true, render: (r) => formatDate(r.createdAt) },
+    { key: "name",      header: "Lead", sortable: true, alwaysVisible: true,
+      render: (r) => <span className="font-medium">{r.name}</span>,
+      exportValue: (r) => r.name },
+    { key: "source",    header: "Source", sortable: true, exportValue: (r) => r.source },
+    { key: "status",    header: "Status", render: (r) => <Badge variant="secondary">{r.status}</Badge>,
+      exportValue: (r) => r.status },
+    { key: "value",     header: "Value", sortable: true, align: "right",
+      render: (r) => formatCurrency(r.value), exportValue: (r) => r.value },
+    { key: "createdAt", header: "Created", sortable: true,
+      render: (r) => formatDate(r.createdAt), exportValue: (r) => r.createdAt },
   ];
 
   return (
@@ -38,10 +43,14 @@ function LeadsPage() {
       sections={["All", "Generated", "Qualified", "Converted", "History", "Analytics"]}
     >
       <DataTable<LeadRow>
+        tableId="leads"
+        resource="leads"
         columns={columns}
         data={[]}
         total={0}
         rowKey={(r) => r.id}
+        realtime={{ channel: "leads" }}
+        onRefresh={() => {}}
         searchPlaceholder={t("search", "Search leads…")}
         filters={[
           { key: "status", label: "Status", options: [
@@ -59,14 +68,24 @@ function LeadsPage() {
           ]},
         ]}
         bulkActions={[
-          { id: "export", label: t("export", "Export"), permission: "analytics:export", onRun: () => {} },
+          { id: "qualify", label: "Mark qualified", icon: <CheckCircle className="h-3.5 w-3.5" />,
+            confirm: { title: "Mark selected leads as qualified?", confirmLabel: "Qualify" },
+            audit: { action: "leads.qualify", resource: "leads" },
+            onRun: () => {} },
+          { id: "assign", label: "Assign owner", icon: <UserPlus className="h-3.5 w-3.5" />,
+            confirm: { title: "Assign owner", description: "Reassign selected leads." },
+            audit: { action: "leads.assign", resource: "leads" },
+            onRun: () => {} },
+          { id: "status", label: "Change status", icon: <RefreshCw className="h-3.5 w-3.5" />,
+            audit: { action: "leads.status", resource: "leads" },
+            onRun: () => {} },
+          { id: "archive", label: "Archive", icon: <Archive className="h-3.5 w-3.5" />,
+            variant: "destructive",
+            confirm: { title: "Archive selected leads?", destructive: true, confirmLabel: "Archive" },
+            audit: { action: "leads.archive", resource: "leads" },
+            onRun: () => {} },
         ]}
-        toolbar={
-          <>
-            <Button size="sm" variant="outline" className="h-9 gap-1.5"><Download className="h-3.5 w-3.5" /> {t("export", "Export")}</Button>
-            <Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>
-          </>
-        }
+        toolbar={<Button size="sm" className="h-9 gap-1.5"><Plus className="h-3.5 w-3.5" /> {t("new", "New")}</Button>}
       />
     </ListPage>
   );
