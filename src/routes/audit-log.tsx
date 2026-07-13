@@ -113,11 +113,13 @@ function AuditLogPage() {
         tableId="audit-log"
         resource="audit-log"
         columns={columns}
-        data={rows}
-        total={rows.length}
+        data={paged}
+        total={filtered.length}
         rowKey={(r) => r.id}
         realtime={{ channel: "audit" }}
+        onQueryChange={setQuery}
         onRefresh={() => setTick((n) => n + 1)}
+
         searchPlaceholder={t("search", "Search audit log…")}
         emptyTitle="No audit entries yet"
         emptyDescription="Bulk actions and exports are logged here as soon as they run."
