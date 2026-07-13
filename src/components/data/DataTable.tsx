@@ -471,6 +471,12 @@ export function DataTable<T>({
                 <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setPresetDialogOpen(true); }}>
                   <Save className="h-3.5 w-3.5 me-2" /> Save current as view
                 </DropdownMenuItem>
+                {presets.length > 0 && (
+                  <DropdownMenuItem onSelect={(e) => { e.preventDefault(); setManagerOpen(true); }}>
+                    <Settings2 className="h-3.5 w-3.5 me-2" /> Manage views…
+                  </DropdownMenuItem>
+                )}
+
               </DropdownMenuContent>
             </DropdownMenu>
           )}
