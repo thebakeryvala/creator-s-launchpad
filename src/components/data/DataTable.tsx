@@ -223,6 +223,7 @@ export function DataTable<T>({
 
   const [presetDialogOpen, setPresetDialogOpen] = useState(false);
   const [presetName, setPresetName] = useState("");
+  const [managerOpen, setManagerOpen] = useState(false);
 
   const applyPreset = (p: SavedPreset) => {
     setSearch(p.query.search);
@@ -241,6 +242,19 @@ export function DataTable<T>({
   };
   const deletePreset = (id: string) =>
     setPresets((prev) => prev.filter((p) => p.id !== id));
+  const renamePreset = (id: string, name: string) =>
+    setPresets((prev) => prev.map((p) => (p.id === id ? { ...p, name } : p)));
+  const movePreset = (id: string, dir: -1 | 1) =>
+    setPresets((prev) => {
+      const idx = prev.findIndex((p) => p.id === id);
+      if (idx < 0) return prev;
+      const target = idx + dir;
+      if (target < 0 || target >= prev.length) return prev;
+      const next = [...prev];
+      [next[idx], next[target]] = [next[target], next[idx]];
+      return next;
+    });
+
 
   // ---- Realtime -----------------------------------------------------------
   const rt = useRealtime(
