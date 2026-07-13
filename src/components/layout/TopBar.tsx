@@ -220,10 +220,12 @@ const groups: NavGroup[] = [
     label: "Account",
     items: [
       { label: "Activity", to: "/activity", icon: Activity },
+      { label: "Audit Log", to: "/audit-log", icon: ShieldCheck },
       { label: "Notifications", to: "/notifications", icon: Bell },
       { label: "Security", to: "/security", icon: ShieldCheck },
       { label: "Settings", to: "/settings", icon: Settings },
       { label: "Support", to: "/support", icon: LifeBuoy },
+
     ],
   },
 ];

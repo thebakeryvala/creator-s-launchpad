@@ -120,6 +120,7 @@ import { Route as BrandAssetsRouteImport } from './routes/brand-assets'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as BannerGeneratorRouteImport } from './routes/banner-generator'
 import { Route as AwardCeremonyRouteImport } from './routes/award-ceremony'
+import { Route as AuditLogRouteImport } from './routes/audit-log'
 import { Route as AssetsVaultRouteImport } from './routes/assets-vault'
 import { Route as ApiCenterRouteImport } from './routes/api-center'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
@@ -697,6 +698,11 @@ const AwardCeremonyRoute = AwardCeremonyRouteImport.update({
   path: '/award-ceremony',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuditLogRoute = AuditLogRouteImport.update({
+  id: '/audit-log',
+  path: '/audit-log',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssetsVaultRoute = AssetsVaultRouteImport.update({
   id: '/assets-vault',
   path: '/assets-vault',
@@ -825,6 +831,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
   '/booking': typeof BookingRoute
@@ -959,6 +966,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
   '/booking': typeof BookingRoute
@@ -1094,6 +1102,7 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
   '/booking': typeof BookingRoute
@@ -1230,6 +1239,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-center'
     | '/assets-vault'
+    | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
     | '/booking'
@@ -1364,6 +1374,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-center'
     | '/assets-vault'
+    | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
     | '/booking'
@@ -1498,6 +1509,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/api-center'
     | '/assets-vault'
+    | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
     | '/booking'
@@ -1633,6 +1645,7 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   ApiCenterRoute: typeof ApiCenterRoute
   AssetsVaultRoute: typeof AssetsVaultRoute
+  AuditLogRoute: typeof AuditLogRoute
   AwardCeremonyRoute: typeof AwardCeremonyRoute
   BannerGeneratorRoute: typeof BannerGeneratorRoute
   BookingRoute: typeof BookingRoute
@@ -2525,6 +2538,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AwardCeremonyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/audit-log': {
+      id: '/audit-log'
+      path: '/audit-log'
+      fullPath: '/audit-log'
+      preLoaderRoute: typeof AuditLogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assets-vault': {
       id: '/assets-vault'
       path: '/assets-vault'
@@ -2697,6 +2717,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   ApiCenterRoute: ApiCenterRoute,
   AssetsVaultRoute: AssetsVaultRoute,
+  AuditLogRoute: AuditLogRoute,
   AwardCeremonyRoute: AwardCeremonyRoute,
   BannerGeneratorRoute: BannerGeneratorRoute,
   BookingRoute: BookingRoute,
