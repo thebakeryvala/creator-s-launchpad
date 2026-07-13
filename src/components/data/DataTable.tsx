@@ -20,9 +20,10 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight,
   ChevronsLeft, ChevronsRight, Columns3, FileDown, FileSpreadsheet,
-  Filter, Loader2, RefreshCw, Save, Search, Settings2, Star,
+  Filter, Loader2, Pencil, RefreshCw, Save, Search, Settings2, Star,
   Trash2, X, Zap,
 } from "lucide-react";
+
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
