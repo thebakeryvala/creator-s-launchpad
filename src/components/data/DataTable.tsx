@@ -775,8 +775,146 @@ export function DataTable<T>({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* MANAGE VIEWS DIALOG */}
+      <Dialog open={managerOpen} onOpenChange={setManagerOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Manage saved views</DialogTitle>
+            <DialogDescription>
+              Rename, reorder or delete your saved filter and sorting presets for this module.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="max-h-[50vh] overflow-y-auto space-y-1.5">
+            {presets.length === 0 && (
+              <p className="text-xs text-muted-foreground py-6 text-center">No saved views yet.</p>
+            )}
+            {presets.map((p, idx) => (
+              <div key={p.id} className="flex items-center gap-2 rounded-md border border-border p-2">
+                <Pencil className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                <Input
+                  value={p.name}
+                  onChange={(e) => renamePreset(p.id, e.target.value)}
+                  className="h-8 flex-1"
+                />
+                <button
+                  onClick={() => movePreset(p.id, -1)}
+                  disabled={idx === 0}
+                  className="text-muted-foreground disabled:opacity-30 hover:text-foreground"
+                  aria-label="Move up"
+                ><ArrowUp className="h-4 w-4" /></button>
+                <button
+                  onClick={() => movePreset(p.id, 1)}
+                  disabled={idx === presets.length - 1}
+                  className="text-muted-foreground disabled:opacity-30 hover:text-foreground"
+                  aria-label="Move down"
+                ><ArrowDown className="h-4 w-4" /></button>
+                <button
+                  onClick={() => deletePreset(p.id)}
+                  className="text-muted-foreground hover:text-destructive"
+                  aria-label="Delete view"
+                ><Trash2 className="h-4 w-4" /></button>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setManagerOpen(false)}>Done</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* EXPORT CONFIG DIALOG */}
+      <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Configure export</DialogTitle>
+            <DialogDescription>
+              Pick fields to include. Values use your active locale and currency
+              formatting — the preview below matches what your CSV / XLSX will contain.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 md:grid-cols-[220px_1fr]">
+            <div className="space-y-1.5 max-h-[45vh] overflow-y-auto pr-1">
+              <div className="flex items-center justify-between text-xs text-muted-foreground px-1 pb-1">
+                <span>Fields ({effectiveExportKeys.length}/{exportColumns.length})</span>
+                <button
+                  onClick={() => setExportKeys(exportColumns.map((c) => c.key))}
+                  className="hover:text-foreground"
+                >All</button>
+              </div>
+              {exportColumns.map((c) => {
+                const on = effectiveExportKeys.includes(c.key);
+                return (
+                  <label key={c.key} className="flex items-center gap-2 px-1.5 py-1 rounded hover:bg-muted/50 cursor-pointer">
+                    <Checkbox
+                      checked={on}
+                      onCheckedChange={() =>
+                        setExportKeys((prev) => {
+                          const base = prev ?? visibleColumns.map((v) => v.key);
+                          return on ? base.filter((k) => k !== c.key) : [...base, c.key];
+                        })
+                      }
+                    />
+                    <span className="text-sm truncate">{c.header}</span>
+                  </label>
+                );
+              })}
+            </div>
+
+            <div className="border border-border rounded-md overflow-hidden">
+              <div className="bg-muted/40 px-3 py-1.5 text-[11px] uppercase tracking-wider text-muted-foreground">
+                Preview · first {Math.min(5, data.length)} of {data.length.toLocaleString()} rows
+              </div>
+              <div className="overflow-x-auto max-h-[45vh]">
+                <table className="w-full text-xs">
+                  <thead className="bg-muted/20">
+                    <tr>
+                      {exportColumnsSelected.map((c) => (
+                        <th key={c.key} className="text-left font-semibold px-2.5 py-1.5 whitespace-nowrap">
+                          {c.header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.slice(0, 5).map((row, i) => (
+                      <tr key={i} className="border-t border-border">
+                        {exportColumnsSelected.map((c) => (
+                          <td key={c.key} className="px-2.5 py-1.5 whitespace-nowrap tabular-nums">
+                            {String(c.value(row) ?? "—")}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                    {data.length === 0 && (
+                      <tr><td className="px-2.5 py-4 text-muted-foreground" colSpan={exportColumnsSelected.length || 1}>
+                        No rows to export.
+                      </td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button variant="ghost" onClick={() => setExportOpen(false)}>Cancel</Button>
+            <Button
+              variant="outline"
+              disabled={exportColumnsSelected.length === 0 || data.length === 0}
+              onClick={() => doExport("csv")}
+            ><FileDown className="h-3.5 w-3.5 me-1.5" /> Export CSV</Button>
+            <Button
+              disabled={exportColumnsSelected.length === 0 || data.length === 0}
+              onClick={() => doExport("xlsx")}
+            ><FileSpreadsheet className="h-3.5 w-3.5 me-1.5" /> Export XLSX</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
+
 }
 
 // Re-export types some routes import from this module
