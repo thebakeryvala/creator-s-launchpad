@@ -3,10 +3,11 @@ import { useMemo, useState } from "react";
 import { ShieldCheck } from "lucide-react";
 
 import { ListPage } from "@/components/layout/ListPage";
-import { DataTable, type DataColumn } from "@/components/data/DataTable";
+import { DataTable, type DataColumn, type DataQuery } from "@/components/data/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { readAuditLog, type AuditEntry } from "@/lib/audit/audit";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+
 
 export const Route = createFileRoute("/audit-log")({
   head: () => ({
