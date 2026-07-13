@@ -338,28 +338,27 @@ export function DataTable<T>({
     })),
     [visibleColumns],
   );
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportKeys, setExportKeys] = useState<string[] | null>(null);
+  const effectiveExportKeys = exportKeys ?? visibleColumns.map((c) => c.key);
+  const exportColumnsSelected: ExportColumn<T>[] = useMemo(
+    () => exportColumns.filter((c) => effectiveExportKeys.includes(c.key)),
+    [exportColumns, effectiveExportKeys],
+  );
   const doExport = (fmt: "csv" | "xlsx") => {
     const name = timestampedFilename(resource, fmt);
-    if (fmt === "csv") exportCsv(exportColumns, data, name);
-    else exportXlsx(exportColumns, data, name, resource);
+    if (fmt === "csv") exportCsv(exportColumnsSelected, data, name);
+    else exportXlsx(exportColumnsSelected, data, name, resource);
     logAudit({
       actorId: user?.id,
       action: `export.${fmt}`,
       resource,
       count: data.length,
-      meta: { filters: filterValues, search, sort },
+      meta: { filters: filterValues, search, sort, columns: effectiveExportKeys },
     });
+    setExportOpen(false);
   };
 
-  if (!allowed) {
-    return (
-      <div className="bento-card py-16 text-center">
-        <p className="text-sm text-muted-foreground">
-          You don't have permission to view this list.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className={cn("bento-card !p-0 overflow-hidden", className)}>
