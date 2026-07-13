@@ -359,8 +359,18 @@ export function DataTable<T>({
     setExportOpen(false);
   };
 
+  if (!allowed) {
+    return (
+      <div className="bento-card py-16 text-center">
+        <p className="text-sm text-muted-foreground">
+          You don't have permission to view this list.
+        </p>
+      </div>
+    );
+  }
 
   return (
+
     <div className={cn("bento-card !p-0 overflow-hidden", className)}>
       {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-2 p-3 sm:p-4 border-b border-border">
