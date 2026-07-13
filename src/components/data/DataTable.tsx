@@ -526,22 +526,20 @@ export function DataTable<T>({
 
           {/* Export */}
           {exportable && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="sm" variant="outline" className="h-9 gap-1.5" disabled={data.length === 0}>
-                  <FileDown className="h-3.5 w-3.5" /> Export
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={() => doExport("csv")}>
-                  <FileDown className="h-3.5 w-3.5 me-2" /> Export CSV
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => doExport("xlsx")}>
-                  <FileSpreadsheet className="h-3.5 w-3.5 me-2" /> Export XLSX
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-9 gap-1.5"
+              disabled={data.length === 0}
+              onClick={() => {
+                setExportKeys(visibleColumns.map((c) => c.key));
+                setExportOpen(true);
+              }}
+            >
+              <FileDown className="h-3.5 w-3.5" /> Export
+            </Button>
           )}
+
 
           {/* Bulk actions */}
           {selected.size > 0 && visibleActions.length > 0 && (
