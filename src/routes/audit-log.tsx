@@ -22,21 +22,48 @@ export const Route = createFileRoute("/audit-log")({
 function AuditLogPage() {
   const { formatDate, t } = useI18n();
   const [tick, setTick] = useState(0);
+  const [query, setQuery] = useState<DataQuery | null>(null);
 
-  const rows = useMemo<AuditEntry[]>(() => {
-    // read on every render tick so the manual refresh + realtime updates pull fresh entries
+  const all = useMemo<AuditEntry[]>(() => {
     void tick;
     return readAuditLog().slice().reverse();
   }, [tick]);
 
-  const actions = useMemo(
-    () => Array.from(new Set(rows.map((r) => r.action))).sort(),
-    [rows],
-  );
-  const resources = useMemo(
-    () => Array.from(new Set(rows.map((r) => r.resource))).sort(),
-    [rows],
-  );
+  const actions = useMemo(() => Array.from(new Set(all.map((r) => r.action))).sort(), [all]);
+  const resources = useMemo(() => Array.from(new Set(all.map((r) => r.resource))).sort(), [all]);
+
+  const filtered = useMemo(() => {
+    if (!query) return all;
+    const q = query.search.trim().toLowerCase();
+    let out = all.filter((r) => {
+      if (query.filters.action && r.action !== query.filters.action) return false;
+      if (query.filters.resource && r.resource !== query.filters.resource) return false;
+      if (!q) return true;
+      return (
+        r.action.toLowerCase().includes(q) ||
+        r.resource.toLowerCase().includes(q) ||
+        (r.actorId ?? "").toLowerCase().includes(q) ||
+        (r.ids?.join(",") ?? "").toLowerCase().includes(q)
+      );
+    });
+    if (query.sort) {
+      const { key, dir } = query.sort;
+      const sign = dir === "asc" ? 1 : -1;
+      out = [...out].sort((a, b) => {
+        const av = (a as unknown as Record<string, unknown>)[key];
+        const bv = (b as unknown as Record<string, unknown>)[key];
+        if (av == null) return 1;
+        if (bv == null) return -1;
+        return av > bv ? sign : av < bv ? -sign : 0;
+      });
+    }
+    return out;
+  }, [all, query]);
+
+  const pageSize = query?.pageSize ?? 25;
+  const page = query?.page ?? 1;
+  const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
+
 
   const columns: DataColumn<AuditEntry>[] = [
     {
