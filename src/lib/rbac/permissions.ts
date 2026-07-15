@@ -62,7 +62,9 @@ export type Permission =
   // Account
   | "settings:view" | "settings:update"
   | "security:view" | "security:manage"
-  | "notifications:view";
+  | "notifications:view"
+  | "audit:view" | "audit:export";
+
 
 /**
  * Default role → permission grants.
@@ -86,6 +88,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "ai:view","ai:run","ams:view","knowledge-base:view",
     "messages:view","messages:send","team:view","api-center:view",
     "settings:view","security:view","notifications:view",
+    "audit:view","audit:export",
   ],
   creator: [
     "dashboard:view","analytics:view",
@@ -123,6 +126,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "revenue:view","revenue:export","wallet:view",
     "payouts:view","payouts:request","payouts:approve",
     "commissions:view","referrals:view","notifications:view","settings:view",
+    "audit:view","audit:export",
   ],
   support: [
     "dashboard:view","orders:view","customers:view","customers:update",
