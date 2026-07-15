@@ -416,23 +416,44 @@ export function DataTable<T>({
           {realtime && (
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px]",
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] tabular-nums",
                 rt.connected
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-500"
                   : "border-border text-muted-foreground",
               )}
-              title={rt.lastEventAt ? `Last event ${new Date(rt.lastEventAt).toLocaleTimeString()}` : "Live"}
+              title={
+                rt.connected
+                  ? `Live sync active on “${realtime.channel}”. ` +
+                    (rt.lastEventAt
+                      ? `Last update ${new Date(rt.lastEventAt).toLocaleTimeString()}. `
+                      : "No events received yet in this session. ") +
+                    "Rows refresh automatically when the backend broadcasts a change."
+                  : "Live sync idle — reconnecting on next event."
+              }
             >
               <Zap className="h-3 w-3" />
               {rt.connected ? "Live" : "Idle"}
+              {rt.lastEventAt && (
+                <span className="hidden md:inline text-muted-foreground/80">
+                  · {new Date(rt.lastEventAt).toLocaleTimeString()}
+                </span>
+              )}
             </span>
           )}
 
           {onRefresh && (
-            <Button size="sm" variant="ghost" className="h-9 gap-1.5" onClick={onRefresh}>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-9 gap-1.5"
+              onClick={onRefresh}
+              title="Manual refresh — re-run the current search, filters and sort against the source. Use if realtime sync is idle or a change did not appear automatically."
+              aria-label="Refresh"
+            >
               <RefreshCw className={cn("h-3.5 w-3.5", isLoading && "animate-spin")} />
             </Button>
           )}
+
 
           {/* Presets */}
           {tableId && (
