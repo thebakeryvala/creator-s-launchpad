@@ -88,6 +88,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "ai:view","ai:run","ams:view","knowledge-base:view",
     "messages:view","messages:send","team:view","api-center:view",
     "settings:view","security:view","notifications:view",
+    "audit:view","audit:export",
   ],
   creator: [
     "dashboard:view","analytics:view",
