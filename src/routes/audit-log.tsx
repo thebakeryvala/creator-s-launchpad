@@ -158,14 +158,14 @@ function AuditLogPage() {
         const href = resolveLink(r);
         if (!href) return <span className="text-sm">{r.resource}</span>;
         return (
-          <Link
-            to={href}
+          <a
+            href={href}
             className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
             title={`Open ${r.resource}`}
           >
             {r.resource}
             <ExternalLink className="h-3 w-3 opacity-70" />
-          </Link>
+          </a>
         );
       },
       exportValue: (r) => r.resource,
@@ -203,12 +203,12 @@ function AuditLogPage() {
         if (!label) return <span className="text-muted-foreground">—</span>;
         if (!href) return <span className="font-mono text-[11px] text-muted-foreground truncate max-w-[260px] inline-block align-middle">{label}</span>;
         return (
-          <Link
-            to={href}
+          <a
+            href={href}
             className="font-mono text-[11px] text-primary hover:underline truncate max-w-[260px] inline-block align-middle"
           >
             {label}
-          </Link>
+          </a>
         );
       },
       exportValue: (r) => r.ids?.join("|") ?? "",
