@@ -62,7 +62,9 @@ export type Permission =
   // Account
   | "settings:view" | "settings:update"
   | "security:view" | "security:manage"
-  | "notifications:view";
+  | "notifications:view"
+  | "audit:view" | "audit:export";
+
 
 /**
  * Default role → permission grants.
