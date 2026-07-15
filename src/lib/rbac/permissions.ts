@@ -126,8 +126,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "revenue:view","revenue:export","wallet:view",
     "payouts:view","payouts:request","payouts:approve",
     "commissions:view","referrals:view","notifications:view","settings:view",
-  ],
-  support: [
+    "audit:view","audit:export",
     "dashboard:view","orders:view","customers:view","customers:update",
     "reviews:view","reviews:moderate","licenses:view","subscriptions:view",
     "messages:view","messages:send","knowledge-base:view","notifications:view","settings:view",
