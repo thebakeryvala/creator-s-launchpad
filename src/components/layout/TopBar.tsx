@@ -394,10 +394,73 @@ export function TopBar() {
           <Settings className="h-4 w-4" />
         </Link>
 
-        <Link to="/profile" className="flex items-center gap-2 rounded-full bg-surface border border-border pl-1 pr-3 py-1 shrink-0">
-          <span className="h-7 w-7 rounded-full bg-gradient-to-br from-accent-pink to-primary" />
-          <span className="hidden sm:block text-xs font-medium">Sign in</span>
-        </Link>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className="group flex items-center gap-2.5 rounded-full bg-surface border border-border pl-1 pr-2 sm:pr-3 py-1 shrink-0 shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-200"
+              aria-label="Boss profile menu"
+            >
+              <span className="relative shrink-0">
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-accent-pink via-primary to-primary-glow text-primary-foreground text-[11px] font-bold ring-1 ring-white/10">
+                  BV
+                </span>
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-accent-emerald ring-2 ring-background" aria-label="Online" />
+              </span>
+              <span className="hidden sm:flex flex-col items-start leading-tight min-w-0">
+                <span className="text-xs font-semibold truncate max-w-[120px]">Boss Vala</span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 text-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide">
+                  <Crown className="h-2.5 w-2.5" /> Founder
+                </span>
+              </span>
+              <ChevronDown className="hidden sm:block h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64 p-0 overflow-hidden shadow-2xl">
+            <div className="p-4 bg-gradient-to-br from-primary/15 via-accent-pink/10 to-transparent border-b border-border">
+              <div className="flex items-center gap-3">
+                <span className="relative shrink-0">
+                  <span className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-accent-pink via-primary to-primary-glow text-primary-foreground text-sm font-bold ring-1 ring-white/10">
+                    BV
+                  </span>
+                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-accent-emerald ring-2 ring-popover" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-semibold truncate">Boss Vala</div>
+                  <div className="text-[11px] text-muted-foreground truncate">boss@softwarevala.com</div>
+                  <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-primary/20 text-primary text-[10px] font-semibold px-1.5 py-0.5">
+                      <Crown className="h-2.5 w-2.5" /> Founder
+                    </span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent-emerald/15 text-accent-emerald text-[10px] font-semibold px-1.5 py-0.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent-emerald" /> Online
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-1">
+              <DropdownMenuItem asChild>
+                <Link to="/profile" className="cursor-pointer"><User className="h-4 w-4 mr-2" /> Public Profile</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/command-center" className="cursor-pointer"><LayoutDashboard className="h-4 w-4 mr-2" /> Boss Panel</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/settings" className="cursor-pointer"><Settings className="h-4 w-4 mr-2" /> Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/security" className="cursor-pointer"><ShieldCheck className="h-4 w-4 mr-2" /> Security</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/support" className="cursor-pointer"><LifeBuoy className="h-4 w-4 mr-2" /> Support</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-destructive focus:text-destructive cursor-pointer">
+                <KeyRound className="h-4 w-4 mr-2" /> Sign out
+              </DropdownMenuItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <button
           className="xl:hidden grid place-items-center h-9 w-9 rounded-lg border border-border shrink-0"
