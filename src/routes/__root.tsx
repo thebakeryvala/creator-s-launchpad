@@ -128,6 +128,7 @@ function RootComponent() {
             <main className="flex-1">
               <Outlet />
             </main>
+            <Mascot />
           </div>
         </I18nProvider>
       </AuthzProvider>
