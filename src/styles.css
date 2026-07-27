@@ -129,3 +129,95 @@
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-hero);
 }
+
+/* ─────────────── AI Mascot: "Vala Spark" ─────────────── */
+.sv-mascot { will-change: transform, opacity; transform: translateZ(0); }
+.sv-mascot__body { transform-origin: 50% 90%; }
+.sv-mascot__img { user-select: none; -webkit-user-drag: none; }
+
+.sv-mascot--hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+
+/* Peek: slide down from top-right, small idle bob, slide back up */
+.sv-mascot--peek {
+  top: 56px; right: 24px;
+  animation: sv-peek 4200ms cubic-bezier(.2,.8,.2,1) both;
+}
+.sv-mascot--peek .sv-mascot__body { animation: sv-bob 1600ms ease-in-out infinite; }
+@keyframes sv-peek {
+  0%   { transform: translateY(-140px) rotate(-6deg); opacity: 0; }
+  15%  { transform: translateY(-30px)  rotate(-4deg); opacity: 1; }
+  70%  { transform: translateY(-30px)  rotate(-4deg); opacity: 1; }
+  100% { transform: translateY(-160px) rotate(-8deg); opacity: 0; }
+}
+
+/* Walk: cross the viewport near the bottom, gentle sway */
+.sv-mascot--walk {
+  bottom: 24px; left: -160px;
+  animation: sv-walk 9000ms linear both;
+}
+.sv-mascot--walk .sv-mascot__body { animation: sv-step 520ms ease-in-out infinite; }
+@keyframes sv-walk {
+  0%   { transform: translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 200px)); opacity: 0; }
+}
+@keyframes sv-step {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%     { transform: translateY(-6px) rotate(2deg); }
+}
+
+/* Wave: appear bottom-right, wiggle, disappear */
+.sv-mascot--wave {
+  bottom: 96px; right: 32px;
+  animation: sv-appear 2600ms ease-out both;
+}
+.sv-mascot--wave .sv-mascot__body { animation: sv-wave 640ms ease-in-out 3; transform-origin: 30% 70%; }
+@keyframes sv-appear {
+  0%   { transform: translateY(30px) scale(.9); opacity: 0; }
+  15%  { transform: translateY(0)    scale(1);  opacity: 1; }
+  80%  { transform: translateY(0)    scale(1);  opacity: 1; }
+  100% { transform: translateY(20px) scale(.95); opacity: 0; }
+}
+@keyframes sv-wave {
+  0%,100% { transform: rotate(-6deg); }
+  50%     { transform: rotate(10deg); }
+}
+
+/* Celebrate: centered pop with hop + sparkles */
+.sv-mascot--celebrate {
+  bottom: 96px; right: 32px;
+  animation: sv-appear 2600ms ease-out both;
+}
+.sv-mascot--celebrate .sv-mascot__body { animation: sv-hop 420ms ease-in-out 4; }
+@keyframes sv-hop {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-18px) scale(1.05); }
+}
+.sv-mascot__sparkles span {
+  position: absolute; left: 50%; top: 50%;
+  width: 8px; height: 8px; border-radius: 999px;
+  background: radial-gradient(circle, var(--color-primary-glow) 0%, transparent 70%);
+  opacity: 0; animation: sv-spark 1400ms ease-out forwards;
+}
+.sv-mascot__sparkles span:nth-child(1){ --dx: -60px; --dy: -70px; animation-delay: 0ms; }
+.sv-mascot__sparkles span:nth-child(2){ --dx:  60px; --dy: -60px; background: radial-gradient(circle, var(--color-accent-pink) 0%, transparent 70%); animation-delay: 80ms; }
+.sv-mascot__sparkles span:nth-child(3){ --dx: -80px; --dy:  20px; background: radial-gradient(circle, var(--color-accent-amber) 0%, transparent 70%); animation-delay: 160ms; }
+.sv-mascot__sparkles span:nth-child(4){ --dx:  80px; --dy:  30px; background: radial-gradient(circle, var(--color-accent-emerald) 0%, transparent 70%); animation-delay: 240ms; }
+.sv-mascot__sparkles span:nth-child(5){ --dx:   0px; --dy: -90px; animation-delay: 320ms; }
+.sv-mascot__sparkles span:nth-child(6){ --dx:  30px; --dy:  60px; background: radial-gradient(circle, var(--color-accent-pink) 0%, transparent 70%); animation-delay: 400ms; }
+@keyframes sv-spark {
+  0%   { transform: translate(-50%, -50%) scale(.3); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); opacity: 0; }
+}
+
+/* Idle bob shared */
+@keyframes sv-bob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-mascot, .sv-mascot * { animation: none !important; }
+}
