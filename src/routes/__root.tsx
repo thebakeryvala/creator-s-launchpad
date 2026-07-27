@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopBar } from "@/components/layout/TopBar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
+import { Mascot } from "@/components/mascot/Mascot";
 
 function NotFoundComponent() {
   return (
@@ -127,6 +128,7 @@ function RootComponent() {
             <main className="flex-1">
               <Outlet />
             </main>
+            <Mascot />
           </div>
         </I18nProvider>
       </AuthzProvider>
