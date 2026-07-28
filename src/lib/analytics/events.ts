@@ -54,7 +54,7 @@ export function trackEvent(name: string, props?: Record<string, unknown>): Analy
   if (typeof window !== "undefined") {
     persist([...read(), evt]);
     try {
-      window.__lovableEvents?.trackEvent?.(name, props);
+      (window.__lovableEvents as LovableTracker | undefined)?.trackEvent?.(name, props);
     } catch {
       /* ignore */
     }
