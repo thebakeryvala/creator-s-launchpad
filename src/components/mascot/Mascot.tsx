@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Settings2, Sparkles, X } from "lucide-react";
 import mascotAsset from "@/assets/mascot.png.asset.json";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics/events";
 
 type Action = "idle" | "peek" | "walk" | "wave" | "celebrate";
 export type MascotIntensity = "subtle" | "extra-subtle";
@@ -24,9 +25,11 @@ export type MascotIntensity = "subtle" | "extra-subtle";
 const STORAGE_KEY = "sv.mascot.enabled";
 const INTENSITY_KEY = "sv.mascot.intensity";
 const CELEBRATE_EVENT = "sv:mascot:celebrate";
+const PERF_DOWNGRADE_EVENT = "sv:mascot:perf-downgrade";
 const CELEBRATE_MIN_INTERVAL = 4000; // ms — rate limit
 
 let lastCelebrateAt = 0;
+let blockedCelebrateCount = 0;
 
 /**
  * Trigger the mascot celebration from anywhere in the app.
@@ -40,8 +43,17 @@ let lastCelebrateAt = 0;
 export function celebrateMascot(reason?: string) {
   if (typeof window === "undefined") return false;
   const now = Date.now();
-  if (now - lastCelebrateAt < CELEBRATE_MIN_INTERVAL) return false;
+  if (now - lastCelebrateAt < CELEBRATE_MIN_INTERVAL) {
+    blockedCelebrateCount += 1;
+    trackEvent("mascot.celebrate.blocked", {
+      reason: reason ?? "unknown",
+      msSinceLast: now - lastCelebrateAt,
+      totalBlocked: blockedCelebrateCount,
+    });
+    return false;
+  }
   lastCelebrateAt = now;
+  trackEvent("mascot.celebrate.triggered", { reason: reason ?? "unknown" });
   window.dispatchEvent(new CustomEvent(CELEBRATE_EVENT, { detail: { reason } }));
   return true;
 }
@@ -167,20 +179,86 @@ export function Mascot() {
   // Celebrate listener — works even under reduced-motion (just a brief cue).
   useEffect(() => {
     if (!enabled) return;
-    const onCelebrate = () => {
+    const onCelebrate = (e: Event) => {
+      const detail = (e as CustomEvent<{ reason?: string }>).detail;
       clearTimers();
       setAction("celebrate");
+      trackEvent("mascot.celebrate.played", {
+        reason: detail?.reason ?? "unknown",
+        reduced,
+        intensity,
+      });
       schedule(() => setAction("idle"), reduced ? 900 : 2600);
     };
     window.addEventListener(CELEBRATE_EVENT, onCelebrate);
     return () => window.removeEventListener(CELEBRATE_EVENT, onCelebrate);
-  }, [enabled, reduced, schedule, clearTimers]);
+  }, [enabled, reduced, intensity, schedule, clearTimers]);
+
+  // Runtime performance safeguard — watches for long tasks and low frame
+  // rate. If the main thread is under sustained pressure, auto-downgrades
+  // the mascot to "extra-subtle" so it never contributes to jank. Only
+  // downgrades (never upgrades) and only once per session.
+  useEffect(() => {
+    if (!enabled || reduced) return;
+    if (intensity === "extra-subtle") return;
+    let downgraded = false;
+    const downgrade = (cause: string, detail: Record<string, unknown>) => {
+      if (downgraded) return;
+      downgraded = true;
+      setIntensity("extra-subtle");
+      try { window.localStorage.setItem(INTENSITY_KEY, "extra-subtle"); } catch { /* ignore */ }
+      trackEvent("mascot.perf.downgrade", { cause, ...detail });
+      try {
+        window.dispatchEvent(new CustomEvent(PERF_DOWNGRADE_EVENT, { detail: { cause, ...detail } }));
+      } catch { /* ignore */ }
+    };
+
+    // 1) Long Task observer (>50ms blocks). Downgrade after 3 within 10s.
+    let longTaskObserver: PerformanceObserver | undefined;
+    const longTasks: number[] = [];
+    try {
+      longTaskObserver = new PerformanceObserver((list) => {
+        const now = performance.now();
+        for (const entry of list.getEntries()) {
+          if (entry.duration > 50) longTasks.push(now);
+        }
+        while (longTasks.length && now - longTasks[0] > 10_000) longTasks.shift();
+        if (longTasks.length >= 3) {
+          downgrade("long-tasks", { count: longTasks.length, windowMs: 10_000 });
+        }
+      });
+      longTaskObserver.observe({ type: "longtask", buffered: true });
+    } catch { /* longtask unsupported (Safari) */ }
+
+    // 2) FPS sampler via rAF. Downgrade if avg < 45 FPS across a 2s window.
+    let rafId = 0;
+    let frames = 0;
+    let windowStart = performance.now();
+    const tick = (t: number) => {
+      frames += 1;
+      const dt = t - windowStart;
+      if (dt >= 2000) {
+        const fps = (frames * 1000) / dt;
+        if (fps < 45) downgrade("low-fps", { fps: Math.round(fps) });
+        frames = 0;
+        windowStart = t;
+      }
+      if (!downgraded) rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      longTaskObserver?.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [enabled, reduced, intensity]);
 
   const toggle = (v: boolean) => {
     setEnabled(v);
     try {
       window.localStorage.setItem(STORAGE_KEY, v ? "1" : "0");
     } catch { /* ignore */ }
+    trackEvent(v ? "mascot.enabled" : "mascot.disabled", { intensity, reduced });
     if (!v) {
       clearTimers();
       setAction("idle");
@@ -189,6 +267,7 @@ export function Mascot() {
   const setIntensityPersist = (v: MascotIntensity) => {
     setIntensity(v);
     try { window.localStorage.setItem(INTENSITY_KEY, v); } catch { /* ignore */ }
+    trackEvent("mascot.intensity.changed", { intensity: v, source: "user" });
   };
 
   if (!mounted) return null;
