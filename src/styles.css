@@ -131,11 +131,16 @@
 }
 
 /* ─────────────── AI Mascot: "Vala Spark" ─────────────── */
-.sv-mascot { will-change: transform, opacity; transform: translateZ(0); }
+.sv-mascot { transform: translateZ(0); backface-visibility: hidden; contain: layout paint; }
 .sv-mascot__body { transform-origin: 50% 90%; }
 .sv-mascot__img { user-select: none; -webkit-user-drag: none; }
 
+/* Extra-subtle intensity: softer amplitude via CSS variable */
+.sv-mascot--xs { --sv-amp: 0.6; }
+.sv-mascot { --sv-amp: 1; }
+
 .sv-mascot--hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+
 
 /* Peek: slide down from top-right, small idle bob, slide back up */
 .sv-mascot--peek {
