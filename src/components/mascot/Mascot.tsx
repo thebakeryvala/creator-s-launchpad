@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Settings2, Sparkles, X } from "lucide-react";
 import mascotAsset from "@/assets/mascot.png.asset.json";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics/events";
 
 type Action = "idle" | "peek" | "walk" | "wave" | "celebrate";
 export type MascotIntensity = "subtle" | "extra-subtle";
@@ -24,9 +25,11 @@ export type MascotIntensity = "subtle" | "extra-subtle";
 const STORAGE_KEY = "sv.mascot.enabled";
 const INTENSITY_KEY = "sv.mascot.intensity";
 const CELEBRATE_EVENT = "sv:mascot:celebrate";
+const PERF_DOWNGRADE_EVENT = "sv:mascot:perf-downgrade";
 const CELEBRATE_MIN_INTERVAL = 4000; // ms — rate limit
 
 let lastCelebrateAt = 0;
+let blockedCelebrateCount = 0;
 
 /**
  * Trigger the mascot celebration from anywhere in the app.
@@ -40,8 +43,17 @@ let lastCelebrateAt = 0;
 export function celebrateMascot(reason?: string) {
   if (typeof window === "undefined") return false;
   const now = Date.now();
-  if (now - lastCelebrateAt < CELEBRATE_MIN_INTERVAL) return false;
+  if (now - lastCelebrateAt < CELEBRATE_MIN_INTERVAL) {
+    blockedCelebrateCount += 1;
+    trackEvent("mascot.celebrate.blocked", {
+      reason: reason ?? "unknown",
+      msSinceLast: now - lastCelebrateAt,
+      totalBlocked: blockedCelebrateCount,
+    });
+    return false;
+  }
   lastCelebrateAt = now;
+  trackEvent("mascot.celebrate.triggered", { reason: reason ?? "unknown" });
   window.dispatchEvent(new CustomEvent(CELEBRATE_EVENT, { detail: { reason } }));
   return true;
 }
