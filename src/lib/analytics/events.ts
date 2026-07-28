@@ -22,12 +22,6 @@ type LovableTracker = {
   trackEvent?: (name: string, props?: Record<string, unknown>) => void;
 };
 
-declare global {
-  interface Window {
-    __lovableEvents?: Window["__lovableEvents"] & LovableTracker;
-  }
-}
-
 function read(): AnalyticsEvent[] {
   if (typeof window === "undefined") return [];
   try {
