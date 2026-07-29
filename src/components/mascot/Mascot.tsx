@@ -105,6 +105,15 @@ function readIntensity(): MascotIntensity {
     return "subtle";
   }
 }
+function readSkin(): MascotSkin {
+  if (typeof window === "undefined") return "aurora";
+  try {
+    const v = window.localStorage.getItem(SKIN_KEY) as MascotSkin | null;
+    return MASCOT_SKINS.some((s) => s.id === v) ? (v as MascotSkin) : "aurora";
+  } catch {
+    return "aurora";
+  }
+}
 
 // Prefer idle scheduling so ambient animation never competes with user work.
 const idle = (fn: () => void, timeout = 2000) => {
