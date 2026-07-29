@@ -411,6 +411,32 @@ export function Mascot() {
                   ))}
                 </div>
               </div>
+              <div className="mt-3">
+                <div className="text-muted-foreground mb-1.5">Colorway</div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {MASCOT_SKINS.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setSkinPersist(s.id)}
+                      title={s.label}
+                      aria-label={`${s.label} colorway`}
+                      aria-pressed={skin === s.id}
+                      className={cn(
+                        "flex flex-col items-center gap-1 rounded-md border px-1 py-1.5 text-[10px] transition-colors",
+                        skin === s.id
+                          ? "border-primary/60 bg-primary/15 text-foreground"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-primary/30",
+                      )}
+                    >
+                      <span
+                        className="h-3.5 w-3.5 rounded-full border border-border"
+                        style={{ background: s.swatch }}
+                      />
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               {reduced && (
                 <p className="mt-3 text-[10px] leading-snug text-muted-foreground">
                   Reduced-motion is on in your OS — animations are minimized automatically.
@@ -432,11 +458,13 @@ export function Mascot() {
         <div
           className={cn(
             "sv-mascot pointer-events-none absolute",
+            `sv-mascot--skin-${skin}`,
             intensity === "extra-subtle" && "sv-mascot--xs",
             action === "peek" && "sv-mascot--peek",
             action === "walk" && "sv-mascot--walk",
             action === "wave" && "sv-mascot--wave",
             action === "celebrate" && "sv-mascot--celebrate",
+            action === "react" && "sv-mascot--react",
             action === "idle" && "sv-mascot--hidden",
           )}
           style={{
@@ -459,6 +487,9 @@ export function Mascot() {
                 blink && "brightness-75",
               )}
             />
+            {action === "react" && reactionLine && (
+              <div className="sv-mascot__bubble">{reactionLine}</div>
+            )}
             {action === "celebrate" && (
               <div className="sv-mascot__sparkles pointer-events-none absolute inset-0">
                 <span /><span /><span /><span /><span /><span />
@@ -467,6 +498,7 @@ export function Mascot() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
