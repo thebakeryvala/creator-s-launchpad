@@ -260,10 +260,12 @@
 }
 
 /* Optional colorways — same character, shifted hue only */
-.sv-mascot--skin-aurora .sv-mascot__img { filter: none; }
-.sv-mascot--skin-ember  .sv-mascot__img { filter: hue-rotate(58deg) saturate(1.06); }
-.sv-mascot--skin-mint   .sv-mascot__img { filter: hue-rotate(-140deg) saturate(0.98); }
-.sv-mascot--skin-azure  .sv-mascot__img { filter: hue-rotate(-48deg) saturate(1.02); }
+.sv-mascot--skin-aurora { --sv-hue: 0deg; --sv-sat: 1; }
+.sv-mascot--skin-ember  { --sv-hue: 58deg; --sv-sat: 1.06; }
+.sv-mascot--skin-mint   { --sv-hue: -140deg; --sv-sat: 0.98; }
+.sv-mascot--skin-azure  { --sv-hue: -48deg; --sv-sat: 1.02; }
+.sv-mascot__img { filter: hue-rotate(var(--sv-hue, 0deg)) saturate(var(--sv-sat, 1)); }
+.sv-mascot__img.sv-blink { filter: hue-rotate(var(--sv-hue, 0deg)) saturate(var(--sv-sat, 1)) brightness(0.75); }
 
 /* Idle bob shared */
 @keyframes sv-bob {

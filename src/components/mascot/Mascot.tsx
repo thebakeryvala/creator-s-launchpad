@@ -484,7 +484,7 @@ export function Mascot() {
               draggable={false}
               className={cn(
                 "sv-mascot__img h-[128px] w-[128px] drop-shadow-[0_20px_30px_rgba(120,60,220,0.35)] transition-[filter] duration-200",
-                blink && "brightness-75",
+                blink && "sv-blink",
               )}
             />
             {action === "react" && reactionLine && (
