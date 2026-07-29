@@ -14,15 +14,43 @@
  *    frequency, amplitude and duration.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { Settings2, Sparkles, X } from "lucide-react";
 import mascotAsset from "@/assets/mascot.png.asset.json";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/events";
 
-type Action = "idle" | "peek" | "walk" | "wave" | "celebrate";
+type Action = "idle" | "peek" | "walk" | "wave" | "celebrate" | "react";
 export type MascotIntensity = "subtle" | "extra-subtle";
+export type MascotSkin = "aurora" | "ember" | "mint" | "azure";
 
+export const MASCOT_SKINS: { id: MascotSkin; label: string; swatch: string }[] = [
+  { id: "aurora", label: "Aurora", swatch: "var(--color-primary)" },
+  { id: "ember", label: "Ember", swatch: "var(--color-accent-pink)" },
+  { id: "mint", label: "Mint", swatch: "var(--color-accent-emerald)" },
+  { id: "azure", label: "Azure", swatch: "var(--color-chart-5)" },
+];
+
+/**
+ * Context-aware reactions: a very short (~2s) pose + one-line caption shown
+ * when the user lands on a key section. Rate-limited per route so it never
+ * becomes noisy.
+ */
+const ROUTE_REACTIONS: { match: RegExp; key: string; line: string }[] = [
+  { match: /^\/products/, key: "products", line: "Catalog time — let's ship something." },
+  { match: /^\/leads/, key: "leads", line: "Fresh leads. Let's convert." },
+  { match: /^\/sales/, key: "sales", line: "Numbers looking sharp." },
+  { match: /^\/commissions/, key: "commissions", line: "Counting your cut…" },
+  { match: /^\/campaigns/, key: "campaigns", line: "New campaign energy." },
+  { match: /^\/analytics/, key: "analytics", line: "Let's read the signals." },
+  { match: /^\/wallet|^\/payouts|^\/revenue/, key: "money", line: "Money moves." },
+  { match: /^\/ai-/, key: "ai", line: "AI mode engaged." },
+  { match: /^\/$/, key: "home", line: "Welcome back, star." },
+];
+
+const REACTION_COOLDOWN = 10 * 60 * 1000; // per route, per session-ish
 const STORAGE_KEY = "sv.mascot.enabled";
+const SKIN_KEY = "sv.mascot.skin";
 const INTENSITY_KEY = "sv.mascot.intensity";
 const CELEBRATE_EVENT = "sv:mascot:celebrate";
 const PERF_DOWNGRADE_EVENT = "sv:mascot:perf-downgrade";
