@@ -14,15 +14,43 @@
  *    frequency, amplitude and duration.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { Settings2, Sparkles, X } from "lucide-react";
 import mascotAsset from "@/assets/mascot.png.asset.json";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/events";
 
-type Action = "idle" | "peek" | "walk" | "wave" | "celebrate";
+type Action = "idle" | "peek" | "walk" | "wave" | "celebrate" | "react";
 export type MascotIntensity = "subtle" | "extra-subtle";
+export type MascotSkin = "aurora" | "ember" | "mint" | "azure";
 
+export const MASCOT_SKINS: { id: MascotSkin; label: string; swatch: string }[] = [
+  { id: "aurora", label: "Aurora", swatch: "var(--color-primary)" },
+  { id: "ember", label: "Ember", swatch: "var(--color-accent-pink)" },
+  { id: "mint", label: "Mint", swatch: "var(--color-accent-emerald)" },
+  { id: "azure", label: "Azure", swatch: "var(--color-chart-5)" },
+];
+
+/**
+ * Context-aware reactions: a very short (~2s) pose + one-line caption shown
+ * when the user lands on a key section. Rate-limited per route so it never
+ * becomes noisy.
+ */
+const ROUTE_REACTIONS: { match: RegExp; key: string; line: string }[] = [
+  { match: /^\/products/, key: "products", line: "Catalog time — let's ship something." },
+  { match: /^\/leads/, key: "leads", line: "Fresh leads. Let's convert." },
+  { match: /^\/sales/, key: "sales", line: "Numbers looking sharp." },
+  { match: /^\/commissions/, key: "commissions", line: "Counting your cut…" },
+  { match: /^\/campaigns/, key: "campaigns", line: "New campaign energy." },
+  { match: /^\/analytics/, key: "analytics", line: "Let's read the signals." },
+  { match: /^\/wallet|^\/payouts|^\/revenue/, key: "money", line: "Money moves." },
+  { match: /^\/ai-/, key: "ai", line: "AI mode engaged." },
+  { match: /^\/$/, key: "home", line: "Welcome back, star." },
+];
+
+const REACTION_COOLDOWN = 10 * 60 * 1000; // per route, per session-ish
 const STORAGE_KEY = "sv.mascot.enabled";
+const SKIN_KEY = "sv.mascot.skin";
 const INTENSITY_KEY = "sv.mascot.intensity";
 const CELEBRATE_EVENT = "sv:mascot:celebrate";
 const PERF_DOWNGRADE_EVENT = "sv:mascot:perf-downgrade";
@@ -77,6 +105,15 @@ function readIntensity(): MascotIntensity {
     return "subtle";
   }
 }
+function readSkin(): MascotSkin {
+  if (typeof window === "undefined") return "aurora";
+  try {
+    const v = window.localStorage.getItem(SKIN_KEY) as MascotSkin | null;
+    return MASCOT_SKINS.some((s) => s.id === v) ? (v as MascotSkin) : "aurora";
+  } catch {
+    return "aurora";
+  }
+}
 
 // Prefer idle scheduling so ambient animation never competes with user work.
 const idle = (fn: () => void, timeout = 2000) => {
@@ -90,16 +127,21 @@ export function Mascot() {
   const [mounted, setMounted] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [intensity, setIntensity] = useState<MascotIntensity>("subtle");
+  const [skin, setSkin] = useState<MascotSkin>("aurora");
   const [action, setAction] = useState<Action>("idle");
+  const [reactionLine, setReactionLine] = useState<string | null>(null);
   const [blink, setBlink] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const timers = useRef<number[]>([]);
+  const lastReactionAt = useRef<Record<string, number>>({});
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     setMounted(true);
     setEnabled(readBool(STORAGE_KEY));
+    setSkin(readSkin());
     setIntensity(readIntensity());
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
@@ -175,6 +217,35 @@ export function Mascot() {
       window.clearTimeout(t2);
     };
   }, [enabled, reduced, visible]);
+
+  // Context-aware reaction on navigation to key sections.
+  useEffect(() => {
+    if (!enabled || reduced || !visible) return;
+    const hit = ROUTE_REACTIONS.find((r) => r.match.test(pathname));
+    if (!hit) return;
+    const now = Date.now();
+    if (now - (lastReactionAt.current[hit.key] ?? 0) < REACTION_COOLDOWN) return;
+    lastReactionAt.current[hit.key] = now;
+
+    let cancelled = false;
+    const start = window.setTimeout(() => {
+      if (cancelled) return;
+      setReactionLine(hit.line);
+      setAction("react");
+      trackEvent("mascot.reaction.played", { route: hit.key, pathname, intensity });
+    }, 450);
+    const end = window.setTimeout(() => {
+      if (cancelled) return;
+      setAction((a) => (a === "react" ? "idle" : a));
+      setReactionLine(null);
+    }, intensity === "extra-subtle" ? 2200 : 3000);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(start);
+      window.clearTimeout(end);
+    };
+  }, [pathname, enabled, reduced, visible, intensity]);
 
   // Celebrate listener — works even under reduced-motion (just a brief cue).
   useEffect(() => {
@@ -269,6 +340,11 @@ export function Mascot() {
     try { window.localStorage.setItem(INTENSITY_KEY, v); } catch { /* ignore */ }
     trackEvent("mascot.intensity.changed", { intensity: v, source: "user" });
   };
+  const setSkinPersist = (v: MascotSkin) => {
+    setSkin(v);
+    try { window.localStorage.setItem(SKIN_KEY, v); } catch { /* ignore */ }
+    trackEvent("mascot.skin.changed", { skin: v });
+  };
 
   if (!mounted) return null;
 
@@ -335,6 +411,32 @@ export function Mascot() {
                   ))}
                 </div>
               </div>
+              <div className="mt-3">
+                <div className="text-muted-foreground mb-1.5">Colorway</div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {MASCOT_SKINS.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setSkinPersist(s.id)}
+                      title={s.label}
+                      aria-label={`${s.label} colorway`}
+                      aria-pressed={skin === s.id}
+                      className={cn(
+                        "flex flex-col items-center gap-1 rounded-md border px-1 py-1.5 text-[10px] transition-colors",
+                        skin === s.id
+                          ? "border-primary/60 bg-primary/15 text-foreground"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-primary/30",
+                      )}
+                    >
+                      <span
+                        className="h-3.5 w-3.5 rounded-full border border-border"
+                        style={{ background: s.swatch }}
+                      />
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
               {reduced && (
                 <p className="mt-3 text-[10px] leading-snug text-muted-foreground">
                   Reduced-motion is on in your OS — animations are minimized automatically.
@@ -356,11 +458,13 @@ export function Mascot() {
         <div
           className={cn(
             "sv-mascot pointer-events-none absolute",
+            `sv-mascot--skin-${skin}`,
             intensity === "extra-subtle" && "sv-mascot--xs",
             action === "peek" && "sv-mascot--peek",
             action === "walk" && "sv-mascot--walk",
             action === "wave" && "sv-mascot--wave",
             action === "celebrate" && "sv-mascot--celebrate",
+            action === "react" && "sv-mascot--react",
             action === "idle" && "sv-mascot--hidden",
           )}
           style={{
@@ -380,9 +484,12 @@ export function Mascot() {
               draggable={false}
               className={cn(
                 "sv-mascot__img h-[128px] w-[128px] drop-shadow-[0_20px_30px_rgba(120,60,220,0.35)] transition-[filter] duration-200",
-                blink && "brightness-75",
+                blink && "sv-blink",
               )}
             />
+            {action === "react" && reactionLine && (
+              <div className="sv-mascot__bubble">{reactionLine}</div>
+            )}
             {action === "celebrate" && (
               <div className="sv-mascot__sparkles pointer-events-none absolute inset-0">
                 <span /><span /><span /><span /><span /><span />
@@ -391,6 +498,7 @@ export function Mascot() {
           </div>
         </div>
       )}
+
     </div>
   );
 }
