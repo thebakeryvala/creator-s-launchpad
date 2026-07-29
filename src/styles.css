@@ -217,11 +217,60 @@
   100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1); opacity: 0; }
 }
 
+/* React: quick context-aware pop-in near the bottom-right with a caption */
+.sv-mascot--react {
+  bottom: 88px; right: 28px;
+  animation: sv-react 3000ms cubic-bezier(.2,.8,.2,1) both;
+}
+.sv-mascot--xs.sv-mascot--react { animation-duration: 2200ms; }
+.sv-mascot--react .sv-mascot__body { animation: sv-nod 900ms ease-in-out 2; }
+@keyframes sv-react {
+  0%   { transform: translateY(24px) scale(.94); opacity: 0; }
+  12%  { transform: translateY(0)    scale(1);   opacity: 1; }
+  82%  { transform: translateY(0)    scale(1);   opacity: 1; }
+  100% { transform: translateY(16px) scale(.96); opacity: 0; }
+}
+@keyframes sv-nod {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  35%     { transform: translateY(calc(-5px * var(--sv-amp, 1))) rotate(-3deg); }
+  70%     { transform: translateY(0) rotate(2deg); }
+}
+
+.sv-mascot__bubble {
+  position: absolute;
+  bottom: calc(100% - 6px);
+  right: 8px;
+  max-width: 15rem;
+  white-space: nowrap;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.6875rem;
+  line-height: 1.1rem;
+  color: var(--color-popover-foreground);
+  background-color: var(--color-popover);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  animation: sv-bubble 3000ms ease-out both;
+}
+@keyframes sv-bubble {
+  0%   { opacity: 0; transform: translateY(6px); }
+  14%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(4px); }
+}
+
+/* Optional colorways — same character, shifted hue only */
+.sv-mascot--skin-aurora .sv-mascot__img { filter: none; }
+.sv-mascot--skin-ember  .sv-mascot__img { filter: hue-rotate(58deg) saturate(1.06); }
+.sv-mascot--skin-mint   .sv-mascot__img { filter: hue-rotate(-140deg) saturate(0.98); }
+.sv-mascot--skin-azure  .sv-mascot__img { filter: hue-rotate(-48deg) saturate(1.02); }
+
 /* Idle bob shared */
 @keyframes sv-bob {
   0%,100% { transform: translateY(0); }
   50%     { transform: translateY(-6px); }
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .sv-mascot, .sv-mascot * { animation: none !important; }
