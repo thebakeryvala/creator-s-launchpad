@@ -127,16 +127,21 @@ export function Mascot() {
   const [mounted, setMounted] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [intensity, setIntensity] = useState<MascotIntensity>("subtle");
+  const [skin, setSkin] = useState<MascotSkin>("aurora");
   const [action, setAction] = useState<Action>("idle");
+  const [reactionLine, setReactionLine] = useState<string | null>(null);
   const [blink, setBlink] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const timers = useRef<number[]>([]);
+  const lastReactionAt = useRef<Record<string, number>>({});
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     setMounted(true);
     setEnabled(readBool(STORAGE_KEY));
+    setSkin(readSkin());
     setIntensity(readIntensity());
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReduced(mq.matches);
