@@ -218,6 +218,35 @@ export function Mascot() {
     };
   }, [enabled, reduced, visible]);
 
+  // Context-aware reaction on navigation to key sections.
+  useEffect(() => {
+    if (!enabled || reduced || !visible) return;
+    const hit = ROUTE_REACTIONS.find((r) => r.match.test(pathname));
+    if (!hit) return;
+    const now = Date.now();
+    if (now - (lastReactionAt.current[hit.key] ?? 0) < REACTION_COOLDOWN) return;
+    lastReactionAt.current[hit.key] = now;
+
+    let cancelled = false;
+    const start = window.setTimeout(() => {
+      if (cancelled) return;
+      setReactionLine(hit.line);
+      setAction("react");
+      trackEvent("mascot.reaction.played", { route: hit.key, pathname, intensity });
+    }, 450);
+    const end = window.setTimeout(() => {
+      if (cancelled) return;
+      setAction((a) => (a === "react" ? "idle" : a));
+      setReactionLine(null);
+    }, intensity === "extra-subtle" ? 2200 : 3000);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(start);
+      window.clearTimeout(end);
+    };
+  }, [pathname, enabled, reduced, visible, intensity]);
+
   // Celebrate listener — works even under reduced-motion (just a brief cue).
   useEffect(() => {
     if (!enabled) return;
