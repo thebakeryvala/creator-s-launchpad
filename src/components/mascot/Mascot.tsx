@@ -340,6 +340,11 @@ export function Mascot() {
     try { window.localStorage.setItem(INTENSITY_KEY, v); } catch { /* ignore */ }
     trackEvent("mascot.intensity.changed", { intensity: v, source: "user" });
   };
+  const setSkinPersist = (v: MascotSkin) => {
+    setSkin(v);
+    try { window.localStorage.setItem(SKIN_KEY, v); } catch { /* ignore */ }
+    trackEvent("mascot.skin.changed", { skin: v });
+  };
 
   if (!mounted) return null;
 
