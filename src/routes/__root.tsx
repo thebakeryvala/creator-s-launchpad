@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopBar } from "@/components/layout/TopBar";
+import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Mascot } from "@/components/mascot/Mascot";
