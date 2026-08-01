@@ -67,7 +67,7 @@ export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMo
         "group/item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-all duration-200",
         collapsed && "justify-center px-0",
         isActive(item.to)
-          ? "bg-primary/15 text-foreground shadow-[inset_2px_0_0_0_hsl(var(--primary))]"
+          ? "bg-primary/15 text-foreground ring-1 ring-primary/25"
           : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
       )}
     >
