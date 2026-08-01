@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { TopBar } from "@/components/layout/TopBar";
+import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Mascot } from "@/components/mascot/Mascot";
@@ -118,16 +119,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { collapsed, toggleCollapsed, mobileOpen, setMobileOpen } = useSidebarState();
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthzProvider>
         <I18nProvider>
-          <div className="min-h-screen flex flex-col">
-            <TopBar />
-            <main className="flex-1">
-              <Outlet />
-            </main>
+          <div className="min-h-screen flex w-full">
+            <AppSidebar
+              collapsed={collapsed}
+              onToggleCollapsed={toggleCollapsed}
+              mobileOpen={mobileOpen}
+              onCloseMobile={() => setMobileOpen(false)}
+            />
+            <div className="flex-1 min-w-0 flex flex-col">
+              <TopBar onOpenMenu={() => setMobileOpen(true)} />
+              <main className="flex-1 min-w-0">
+                <Outlet />
+              </main>
+            </div>
             <Mascot />
           </div>
         </I18nProvider>
