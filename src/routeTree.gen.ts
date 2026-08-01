@@ -81,19 +81,31 @@ import { Route as DownloadCenterRouteImport } from './routes/download-center'
 import { Route as DocumentationRouteImport } from './routes/documentation'
 import { Route as DigitalTwinRouteImport } from './routes/digital-twin'
 import { Route as CustomersRouteImport } from './routes/customers'
+import { Route as CreatorsRouteImport } from './routes/creators'
 import { Route as CreatorUniversityRouteImport } from './routes/creator-university'
 import { Route as CreatorTvRouteImport } from './routes/creator-tv'
+import { Route as CreatorTiersRouteImport } from './routes/creator-tiers'
+import { Route as CreatorTasksRouteImport } from './routes/creator-tasks'
+import { Route as CreatorSupportDeskRouteImport } from './routes/creator-support-desk'
 import { Route as CreatorSubscriptionsRouteImport } from './routes/creator-subscriptions'
+import { Route as CreatorReportsRouteImport } from './routes/creator-reports'
+import { Route as CreatorPerformanceRouteImport } from './routes/creator-performance'
+import { Route as CreatorPayoutsRouteImport } from './routes/creator-payouts'
 import { Route as CreatorPassportRouteImport } from './routes/creator-passport'
+import { Route as CreatorOnboardingRouteImport } from './routes/creator-onboarding'
 import { Route as CreatorMarketplaceRouteImport } from './routes/creator-marketplace'
 import { Route as CreatorMapRouteImport } from './routes/creator-map'
+import { Route as CreatorManagerRouteImport } from './routes/creator-manager'
 import { Route as CreatorLevelsRouteImport } from './routes/creator-levels'
 import { Route as CreatorIntelligenceRouteImport } from './routes/creator-intelligence'
 import { Route as CreatorErpRouteImport } from './routes/creator-erp'
 import { Route as CreatorEconomyScoreRouteImport } from './routes/creator-economy-score'
 import { Route as CreatorDnaRouteImport } from './routes/creator-dna'
 import { Route as CreatorCrmRouteImport } from './routes/creator-crm'
+import { Route as CreatorComplianceRouteImport } from './routes/creator-compliance'
 import { Route as CreatorBankingRouteImport } from './routes/creator-banking'
+import { Route as CreatorAssignmentsRouteImport } from './routes/creator-assignments'
+import { Route as CreatorApplicationsRouteImport } from './routes/creator-applications'
 import { Route as CreatorAppStoreRouteImport } from './routes/creator-app-store'
 import { Route as CouponsRouteImport } from './routes/coupons'
 import { Route as ContractsRouteImport } from './routes/contracts'
@@ -503,6 +515,11 @@ const CustomersRoute = CustomersRouteImport.update({
   path: '/customers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorsRoute = CreatorsRouteImport.update({
+  id: '/creators',
+  path: '/creators',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreatorUniversityRoute = CreatorUniversityRouteImport.update({
   id: '/creator-university',
   path: '/creator-university',
@@ -513,14 +530,49 @@ const CreatorTvRoute = CreatorTvRouteImport.update({
   path: '/creator-tv',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorTiersRoute = CreatorTiersRouteImport.update({
+  id: '/creator-tiers',
+  path: '/creator-tiers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorTasksRoute = CreatorTasksRouteImport.update({
+  id: '/creator-tasks',
+  path: '/creator-tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorSupportDeskRoute = CreatorSupportDeskRouteImport.update({
+  id: '/creator-support-desk',
+  path: '/creator-support-desk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreatorSubscriptionsRoute = CreatorSubscriptionsRouteImport.update({
   id: '/creator-subscriptions',
   path: '/creator-subscriptions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorReportsRoute = CreatorReportsRouteImport.update({
+  id: '/creator-reports',
+  path: '/creator-reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorPerformanceRoute = CreatorPerformanceRouteImport.update({
+  id: '/creator-performance',
+  path: '/creator-performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorPayoutsRoute = CreatorPayoutsRouteImport.update({
+  id: '/creator-payouts',
+  path: '/creator-payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreatorPassportRoute = CreatorPassportRouteImport.update({
   id: '/creator-passport',
   path: '/creator-passport',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorOnboardingRoute = CreatorOnboardingRouteImport.update({
+  id: '/creator-onboarding',
+  path: '/creator-onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreatorMarketplaceRoute = CreatorMarketplaceRouteImport.update({
@@ -531,6 +583,11 @@ const CreatorMarketplaceRoute = CreatorMarketplaceRouteImport.update({
 const CreatorMapRoute = CreatorMapRouteImport.update({
   id: '/creator-map',
   path: '/creator-map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorManagerRoute = CreatorManagerRouteImport.update({
+  id: '/creator-manager',
+  path: '/creator-manager',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreatorLevelsRoute = CreatorLevelsRouteImport.update({
@@ -563,9 +620,24 @@ const CreatorCrmRoute = CreatorCrmRouteImport.update({
   path: '/creator-crm',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreatorComplianceRoute = CreatorComplianceRouteImport.update({
+  id: '/creator-compliance',
+  path: '/creator-compliance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreatorBankingRoute = CreatorBankingRouteImport.update({
   id: '/creator-banking',
   path: '/creator-banking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorAssignmentsRoute = CreatorAssignmentsRouteImport.update({
+  id: '/creator-assignments',
+  path: '/creator-assignments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreatorApplicationsRoute = CreatorApplicationsRouteImport.update({
+  id: '/creator-applications',
+  path: '/creator-applications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreatorAppStoreRoute = CreatorAppStoreRouteImport.update({
@@ -858,19 +930,31 @@ export interface FileRoutesByFullPath {
   '/contracts': typeof ContractsRoute
   '/coupons': typeof CouponsRoute
   '/creator-app-store': typeof CreatorAppStoreRoute
+  '/creator-applications': typeof CreatorApplicationsRoute
+  '/creator-assignments': typeof CreatorAssignmentsRoute
   '/creator-banking': typeof CreatorBankingRoute
+  '/creator-compliance': typeof CreatorComplianceRoute
   '/creator-crm': typeof CreatorCrmRoute
   '/creator-dna': typeof CreatorDnaRoute
   '/creator-economy-score': typeof CreatorEconomyScoreRoute
   '/creator-erp': typeof CreatorErpRoute
   '/creator-intelligence': typeof CreatorIntelligenceRoute
   '/creator-levels': typeof CreatorLevelsRoute
+  '/creator-manager': typeof CreatorManagerRoute
   '/creator-map': typeof CreatorMapRoute
   '/creator-marketplace': typeof CreatorMarketplaceRoute
+  '/creator-onboarding': typeof CreatorOnboardingRoute
   '/creator-passport': typeof CreatorPassportRoute
+  '/creator-payouts': typeof CreatorPayoutsRoute
+  '/creator-performance': typeof CreatorPerformanceRoute
+  '/creator-reports': typeof CreatorReportsRoute
   '/creator-subscriptions': typeof CreatorSubscriptionsRoute
+  '/creator-support-desk': typeof CreatorSupportDeskRoute
+  '/creator-tasks': typeof CreatorTasksRoute
+  '/creator-tiers': typeof CreatorTiersRoute
   '/creator-tv': typeof CreatorTvRoute
   '/creator-university': typeof CreatorUniversityRoute
+  '/creators': typeof CreatorsRoute
   '/customers': typeof CustomersRoute
   '/digital-twin': typeof DigitalTwinRoute
   '/documentation': typeof DocumentationRoute
@@ -993,19 +1077,31 @@ export interface FileRoutesByTo {
   '/contracts': typeof ContractsRoute
   '/coupons': typeof CouponsRoute
   '/creator-app-store': typeof CreatorAppStoreRoute
+  '/creator-applications': typeof CreatorApplicationsRoute
+  '/creator-assignments': typeof CreatorAssignmentsRoute
   '/creator-banking': typeof CreatorBankingRoute
+  '/creator-compliance': typeof CreatorComplianceRoute
   '/creator-crm': typeof CreatorCrmRoute
   '/creator-dna': typeof CreatorDnaRoute
   '/creator-economy-score': typeof CreatorEconomyScoreRoute
   '/creator-erp': typeof CreatorErpRoute
   '/creator-intelligence': typeof CreatorIntelligenceRoute
   '/creator-levels': typeof CreatorLevelsRoute
+  '/creator-manager': typeof CreatorManagerRoute
   '/creator-map': typeof CreatorMapRoute
   '/creator-marketplace': typeof CreatorMarketplaceRoute
+  '/creator-onboarding': typeof CreatorOnboardingRoute
   '/creator-passport': typeof CreatorPassportRoute
+  '/creator-payouts': typeof CreatorPayoutsRoute
+  '/creator-performance': typeof CreatorPerformanceRoute
+  '/creator-reports': typeof CreatorReportsRoute
   '/creator-subscriptions': typeof CreatorSubscriptionsRoute
+  '/creator-support-desk': typeof CreatorSupportDeskRoute
+  '/creator-tasks': typeof CreatorTasksRoute
+  '/creator-tiers': typeof CreatorTiersRoute
   '/creator-tv': typeof CreatorTvRoute
   '/creator-university': typeof CreatorUniversityRoute
+  '/creators': typeof CreatorsRoute
   '/customers': typeof CustomersRoute
   '/digital-twin': typeof DigitalTwinRoute
   '/documentation': typeof DocumentationRoute
@@ -1129,19 +1225,31 @@ export interface FileRoutesById {
   '/contracts': typeof ContractsRoute
   '/coupons': typeof CouponsRoute
   '/creator-app-store': typeof CreatorAppStoreRoute
+  '/creator-applications': typeof CreatorApplicationsRoute
+  '/creator-assignments': typeof CreatorAssignmentsRoute
   '/creator-banking': typeof CreatorBankingRoute
+  '/creator-compliance': typeof CreatorComplianceRoute
   '/creator-crm': typeof CreatorCrmRoute
   '/creator-dna': typeof CreatorDnaRoute
   '/creator-economy-score': typeof CreatorEconomyScoreRoute
   '/creator-erp': typeof CreatorErpRoute
   '/creator-intelligence': typeof CreatorIntelligenceRoute
   '/creator-levels': typeof CreatorLevelsRoute
+  '/creator-manager': typeof CreatorManagerRoute
   '/creator-map': typeof CreatorMapRoute
   '/creator-marketplace': typeof CreatorMarketplaceRoute
+  '/creator-onboarding': typeof CreatorOnboardingRoute
   '/creator-passport': typeof CreatorPassportRoute
+  '/creator-payouts': typeof CreatorPayoutsRoute
+  '/creator-performance': typeof CreatorPerformanceRoute
+  '/creator-reports': typeof CreatorReportsRoute
   '/creator-subscriptions': typeof CreatorSubscriptionsRoute
+  '/creator-support-desk': typeof CreatorSupportDeskRoute
+  '/creator-tasks': typeof CreatorTasksRoute
+  '/creator-tiers': typeof CreatorTiersRoute
   '/creator-tv': typeof CreatorTvRoute
   '/creator-university': typeof CreatorUniversityRoute
+  '/creators': typeof CreatorsRoute
   '/customers': typeof CustomersRoute
   '/digital-twin': typeof DigitalTwinRoute
   '/documentation': typeof DocumentationRoute
@@ -1266,19 +1374,31 @@ export interface FileRouteTypes {
     | '/contracts'
     | '/coupons'
     | '/creator-app-store'
+    | '/creator-applications'
+    | '/creator-assignments'
     | '/creator-banking'
+    | '/creator-compliance'
     | '/creator-crm'
     | '/creator-dna'
     | '/creator-economy-score'
     | '/creator-erp'
     | '/creator-intelligence'
     | '/creator-levels'
+    | '/creator-manager'
     | '/creator-map'
     | '/creator-marketplace'
+    | '/creator-onboarding'
     | '/creator-passport'
+    | '/creator-payouts'
+    | '/creator-performance'
+    | '/creator-reports'
     | '/creator-subscriptions'
+    | '/creator-support-desk'
+    | '/creator-tasks'
+    | '/creator-tiers'
     | '/creator-tv'
     | '/creator-university'
+    | '/creators'
     | '/customers'
     | '/digital-twin'
     | '/documentation'
@@ -1401,19 +1521,31 @@ export interface FileRouteTypes {
     | '/contracts'
     | '/coupons'
     | '/creator-app-store'
+    | '/creator-applications'
+    | '/creator-assignments'
     | '/creator-banking'
+    | '/creator-compliance'
     | '/creator-crm'
     | '/creator-dna'
     | '/creator-economy-score'
     | '/creator-erp'
     | '/creator-intelligence'
     | '/creator-levels'
+    | '/creator-manager'
     | '/creator-map'
     | '/creator-marketplace'
+    | '/creator-onboarding'
     | '/creator-passport'
+    | '/creator-payouts'
+    | '/creator-performance'
+    | '/creator-reports'
     | '/creator-subscriptions'
+    | '/creator-support-desk'
+    | '/creator-tasks'
+    | '/creator-tiers'
     | '/creator-tv'
     | '/creator-university'
+    | '/creators'
     | '/customers'
     | '/digital-twin'
     | '/documentation'
@@ -1536,19 +1668,31 @@ export interface FileRouteTypes {
     | '/contracts'
     | '/coupons'
     | '/creator-app-store'
+    | '/creator-applications'
+    | '/creator-assignments'
     | '/creator-banking'
+    | '/creator-compliance'
     | '/creator-crm'
     | '/creator-dna'
     | '/creator-economy-score'
     | '/creator-erp'
     | '/creator-intelligence'
     | '/creator-levels'
+    | '/creator-manager'
     | '/creator-map'
     | '/creator-marketplace'
+    | '/creator-onboarding'
     | '/creator-passport'
+    | '/creator-payouts'
+    | '/creator-performance'
+    | '/creator-reports'
     | '/creator-subscriptions'
+    | '/creator-support-desk'
+    | '/creator-tasks'
+    | '/creator-tiers'
     | '/creator-tv'
     | '/creator-university'
+    | '/creators'
     | '/customers'
     | '/digital-twin'
     | '/documentation'
@@ -1672,19 +1816,31 @@ export interface RootRouteChildren {
   ContractsRoute: typeof ContractsRoute
   CouponsRoute: typeof CouponsRoute
   CreatorAppStoreRoute: typeof CreatorAppStoreRoute
+  CreatorApplicationsRoute: typeof CreatorApplicationsRoute
+  CreatorAssignmentsRoute: typeof CreatorAssignmentsRoute
   CreatorBankingRoute: typeof CreatorBankingRoute
+  CreatorComplianceRoute: typeof CreatorComplianceRoute
   CreatorCrmRoute: typeof CreatorCrmRoute
   CreatorDnaRoute: typeof CreatorDnaRoute
   CreatorEconomyScoreRoute: typeof CreatorEconomyScoreRoute
   CreatorErpRoute: typeof CreatorErpRoute
   CreatorIntelligenceRoute: typeof CreatorIntelligenceRoute
   CreatorLevelsRoute: typeof CreatorLevelsRoute
+  CreatorManagerRoute: typeof CreatorManagerRoute
   CreatorMapRoute: typeof CreatorMapRoute
   CreatorMarketplaceRoute: typeof CreatorMarketplaceRoute
+  CreatorOnboardingRoute: typeof CreatorOnboardingRoute
   CreatorPassportRoute: typeof CreatorPassportRoute
+  CreatorPayoutsRoute: typeof CreatorPayoutsRoute
+  CreatorPerformanceRoute: typeof CreatorPerformanceRoute
+  CreatorReportsRoute: typeof CreatorReportsRoute
   CreatorSubscriptionsRoute: typeof CreatorSubscriptionsRoute
+  CreatorSupportDeskRoute: typeof CreatorSupportDeskRoute
+  CreatorTasksRoute: typeof CreatorTasksRoute
+  CreatorTiersRoute: typeof CreatorTiersRoute
   CreatorTvRoute: typeof CreatorTvRoute
   CreatorUniversityRoute: typeof CreatorUniversityRoute
+  CreatorsRoute: typeof CreatorsRoute
   CustomersRoute: typeof CustomersRoute
   DigitalTwinRoute: typeof DigitalTwinRoute
   DocumentationRoute: typeof DocumentationRoute
@@ -2265,6 +2421,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creators': {
+      id: '/creators'
+      path: '/creators'
+      fullPath: '/creators'
+      preLoaderRoute: typeof CreatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creator-university': {
       id: '/creator-university'
       path: '/creator-university'
@@ -2279,6 +2442,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreatorTvRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creator-tiers': {
+      id: '/creator-tiers'
+      path: '/creator-tiers'
+      fullPath: '/creator-tiers'
+      preLoaderRoute: typeof CreatorTiersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-tasks': {
+      id: '/creator-tasks'
+      path: '/creator-tasks'
+      fullPath: '/creator-tasks'
+      preLoaderRoute: typeof CreatorTasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-support-desk': {
+      id: '/creator-support-desk'
+      path: '/creator-support-desk'
+      fullPath: '/creator-support-desk'
+      preLoaderRoute: typeof CreatorSupportDeskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creator-subscriptions': {
       id: '/creator-subscriptions'
       path: '/creator-subscriptions'
@@ -2286,11 +2470,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreatorSubscriptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creator-reports': {
+      id: '/creator-reports'
+      path: '/creator-reports'
+      fullPath: '/creator-reports'
+      preLoaderRoute: typeof CreatorReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-performance': {
+      id: '/creator-performance'
+      path: '/creator-performance'
+      fullPath: '/creator-performance'
+      preLoaderRoute: typeof CreatorPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-payouts': {
+      id: '/creator-payouts'
+      path: '/creator-payouts'
+      fullPath: '/creator-payouts'
+      preLoaderRoute: typeof CreatorPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creator-passport': {
       id: '/creator-passport'
       path: '/creator-passport'
       fullPath: '/creator-passport'
       preLoaderRoute: typeof CreatorPassportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-onboarding': {
+      id: '/creator-onboarding'
+      path: '/creator-onboarding'
+      fullPath: '/creator-onboarding'
+      preLoaderRoute: typeof CreatorOnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creator-marketplace': {
@@ -2305,6 +2517,13 @@ declare module '@tanstack/react-router' {
       path: '/creator-map'
       fullPath: '/creator-map'
       preLoaderRoute: typeof CreatorMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-manager': {
+      id: '/creator-manager'
+      path: '/creator-manager'
+      fullPath: '/creator-manager'
+      preLoaderRoute: typeof CreatorManagerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creator-levels': {
@@ -2349,11 +2568,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreatorCrmRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creator-compliance': {
+      id: '/creator-compliance'
+      path: '/creator-compliance'
+      fullPath: '/creator-compliance'
+      preLoaderRoute: typeof CreatorComplianceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creator-banking': {
       id: '/creator-banking'
       path: '/creator-banking'
       fullPath: '/creator-banking'
       preLoaderRoute: typeof CreatorBankingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-assignments': {
+      id: '/creator-assignments'
+      path: '/creator-assignments'
+      fullPath: '/creator-assignments'
+      preLoaderRoute: typeof CreatorAssignmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/creator-applications': {
+      id: '/creator-applications'
+      path: '/creator-applications'
+      fullPath: '/creator-applications'
+      preLoaderRoute: typeof CreatorApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creator-app-store': {
@@ -2744,19 +2984,31 @@ const rootRouteChildren: RootRouteChildren = {
   ContractsRoute: ContractsRoute,
   CouponsRoute: CouponsRoute,
   CreatorAppStoreRoute: CreatorAppStoreRoute,
+  CreatorApplicationsRoute: CreatorApplicationsRoute,
+  CreatorAssignmentsRoute: CreatorAssignmentsRoute,
   CreatorBankingRoute: CreatorBankingRoute,
+  CreatorComplianceRoute: CreatorComplianceRoute,
   CreatorCrmRoute: CreatorCrmRoute,
   CreatorDnaRoute: CreatorDnaRoute,
   CreatorEconomyScoreRoute: CreatorEconomyScoreRoute,
   CreatorErpRoute: CreatorErpRoute,
   CreatorIntelligenceRoute: CreatorIntelligenceRoute,
   CreatorLevelsRoute: CreatorLevelsRoute,
+  CreatorManagerRoute: CreatorManagerRoute,
   CreatorMapRoute: CreatorMapRoute,
   CreatorMarketplaceRoute: CreatorMarketplaceRoute,
+  CreatorOnboardingRoute: CreatorOnboardingRoute,
   CreatorPassportRoute: CreatorPassportRoute,
+  CreatorPayoutsRoute: CreatorPayoutsRoute,
+  CreatorPerformanceRoute: CreatorPerformanceRoute,
+  CreatorReportsRoute: CreatorReportsRoute,
   CreatorSubscriptionsRoute: CreatorSubscriptionsRoute,
+  CreatorSupportDeskRoute: CreatorSupportDeskRoute,
+  CreatorTasksRoute: CreatorTasksRoute,
+  CreatorTiersRoute: CreatorTiersRoute,
   CreatorTvRoute: CreatorTvRoute,
   CreatorUniversityRoute: CreatorUniversityRoute,
+  CreatorsRoute: CreatorsRoute,
   CustomersRoute: CustomersRoute,
   DigitalTwinRoute: DigitalTwinRoute,
   DocumentationRoute: DocumentationRoute,
