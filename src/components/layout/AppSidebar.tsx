@@ -146,12 +146,12 @@ export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMo
 
       <nav className="flex-1 overflow-y-auto px-2 py-3 space-y-3">
         <div className="space-y-0.5">
-          {primary.map((item) => (
+          {visiblePrimary.map((item) => (
             <ItemLink key={item.to} item={item} />
           ))}
         </div>
 
-        {(filtered ?? groups).map((group) => {
+        {(filtered ?? visibleGroups).map((group) => {
           const open = filtered ? true : groupOpen(group.label, group.items);
           if (collapsed) {
             return (
