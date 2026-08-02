@@ -136,7 +136,9 @@ function RootComponent() {
             <div className="flex-1 min-w-0 flex flex-col">
               <TopBar onOpenMenu={() => setMobileOpen(true)} />
               <main className="flex-1 min-w-0">
-                <Outlet />
+                <ModuleGuard>
+                  <Outlet />
+                </ModuleGuard>
               </main>
             </div>
             <Mascot />
