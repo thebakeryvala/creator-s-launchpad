@@ -63,7 +63,21 @@ export type Permission =
   | "settings:view" | "settings:update"
   | "security:view" | "security:manage"
   | "notifications:view"
-  | "audit:view" | "audit:export";
+  | "audit:view" | "audit:export"
+  // Module groups (used by the route-level module access registry)
+  | "creator-manager:view" | "creator-manager:manage"
+  | "content:view" | "content:manage"
+  | "audience:view" | "audience:manage"
+  | "referral:view" | "referral:manage"
+  | "performance:view"
+  | "brand:view" | "brand:manage"
+  | "gamification:view"
+  | "learn:view"
+  | "business:view" | "business:manage"
+  | "marketplace:view"
+  | "support:view"
+  | "profile:view"
+  | "activity:view";
 
 
 /**
@@ -74,6 +88,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
   owner: "*",
   admin: "*",
   manager: [
+    "creator-manager:view","creator-manager:manage","content:view","content:manage","audience:view","audience:manage","referral:view","referral:manage","performance:view","brand:view","brand:manage","gamification:view","learn:view","business:view","marketplace:view","support:view","profile:view","activity:view",
     "dashboard:view","analytics:view","analytics:export",
     "products:view","products:create","products:update",
     "drafts:view","drafts:manage","media:view","media:upload",
@@ -91,6 +106,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "audit:view","audit:export",
   ],
   creator: [
+    "content:view","content:manage","audience:view","audience:manage","referral:view","referral:manage","performance:view","brand:view","brand:manage","gamification:view","learn:view","marketplace:view","support:view","profile:view","activity:view",
     "dashboard:view","analytics:view",
     "products:view","products:create","products:update",
     "drafts:view","drafts:manage","media:view","media:upload",
@@ -105,6 +121,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "settings:view","settings:update","security:view","security:manage","notifications:view",
   ],
   editor: [
+    "content:view","content:manage","audience:view","brand:view","gamification:view","learn:view","profile:view","support:view","activity:view",
     "dashboard:view","analytics:view",
     "products:view","products:update","drafts:view","drafts:manage",
     "media:view","media:upload","brand-assets:view","documentation:view","documentation:manage",
@@ -114,6 +131,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "messages:view","messages:send","notifications:view","settings:view",
   ],
   analyst: [
+    "content:view","performance:view","business:view","brand:view","learn:view","profile:view","activity:view",
     "dashboard:view","analytics:view","analytics:export",
     "products:view","orders:view","orders:export","customers:view","reviews:view",
     "licenses:view","subscriptions:view","revenue:view","revenue:export",
@@ -121,6 +139,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "utm:view","ai:view","knowledge-base:view","notifications:view","settings:view",
   ],
   finance: [
+    "business:view","performance:view","support:view","profile:view","activity:view",
     "dashboard:view","analytics:view",
     "orders:view","orders:export","customers:view","licenses:view","subscriptions:view","subscriptions:manage",
     "revenue:view","revenue:export","wallet:view",
@@ -129,11 +148,13 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[] | "*"> = {
     "audit:view","audit:export",
   ],
   support: [
+    "support:view","audience:view","learn:view","profile:view","activity:view",
     "dashboard:view","orders:view","customers:view","customers:update",
     "reviews:view","reviews:moderate","licenses:view","subscriptions:view",
     "messages:view","messages:send","knowledge-base:view","notifications:view","settings:view",
   ],
   viewer: [
+    "content:view","performance:view","brand:view","gamification:view","learn:view","profile:view",
     "dashboard:view","analytics:view","products:view","orders:view","customers:view",
     "reviews:view","revenue:view","campaigns:view","notifications:view","settings:view",
   ],

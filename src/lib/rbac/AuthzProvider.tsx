@@ -37,10 +37,11 @@ export interface AuthzProviderProps {
 }
 
 /**
- * Until the backend is wired, default to a `creator` so the dashboard is
- * usable in the preview. Replace with real session data via `user` prop.
+ * Until the backend session is wired, default to the workspace `owner`
+ * (the Boss profile shown in the top bar). Every other role is fully
+ * enforced by the module registry. Replace via the `user` prop.
  */
-const DEFAULT_USER: AuthzUser = { roles: ["creator"] };
+const DEFAULT_USER: AuthzUser = { roles: ["owner"] };
 
 export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderProps) {
   const value = useMemo<AuthzContextValue>(() => {

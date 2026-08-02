@@ -16,6 +16,7 @@ import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Mascot } from "@/components/mascot/Mascot";
+import { ModuleGuard } from "@/components/auth/ModuleGuard";
 
 function NotFoundComponent() {
   return (
@@ -135,7 +136,9 @@ function RootComponent() {
             <div className="flex-1 min-w-0 flex flex-col">
               <TopBar onOpenMenu={() => setMobileOpen(true)} />
               <main className="flex-1 min-w-0">
-                <Outlet />
+                <ModuleGuard>
+                  <Outlet />
+                </ModuleGuard>
               </main>
             </div>
             <Mascot />
