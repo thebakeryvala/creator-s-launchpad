@@ -16,6 +16,7 @@ import { AppSidebar, useSidebarState } from "@/components/layout/AppSidebar";
 import { AuthzProvider } from "@/lib/rbac/AuthzProvider";
 import { I18nProvider } from "@/lib/i18n/I18nProvider";
 import { Mascot } from "@/components/mascot/Mascot";
+import { ModuleGuard } from "@/components/auth/ModuleGuard";
 
 function NotFoundComponent() {
   return (

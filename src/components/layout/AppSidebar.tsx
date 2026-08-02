@@ -4,6 +4,8 @@ import { ChevronDown, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-re
 
 import { cn } from "@/lib/utils";
 import { primary, groups, type NavItem } from "@/lib/nav/navigation";
+import { useAuthz } from "@/lib/rbac/AuthzProvider";
+import { permissionForPath } from "@/lib/rbac/module-access";
 
 const COLLAPSE_KEY = "sv:sidebar:collapsed";
 
@@ -42,7 +44,22 @@ interface AppSidebarProps {
 
 export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMobile }: AppSidebarProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { can } = useAuthz();
   const [query, setQuery] = useState("");
+
+  // RBAC — only surface modules the current user is allowed to open.
+  const allowed = (to: string) => {
+    const perm = permissionForPath(to);
+    return !perm || can(perm);
+  };
+  const visiblePrimary = useMemo(() => primary.filter((i) => allowed(i.to)), [can]);
+  const visibleGroups = useMemo(
+    () =>
+      groups
+        .map((g) => ({ ...g, items: g.items.filter((i) => allowed(i.to)) }))
+        .filter((g) => g.items.length > 0),
+    [can],
+  );
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   const isActive = (to: string) => (to === "/" ? pathname === "/" : pathname.startsWith(to));
@@ -50,10 +67,10 @@ export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMo
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return null;
-    return groups
+    return visibleGroups
       .map((g) => ({ ...g, items: g.items.filter((i) => i.label.toLowerCase().includes(q)) }))
       .filter((g) => g.items.length > 0);
-  }, [query]);
+  }, [query, visibleGroups]);
 
   const groupOpen = (label: string, items: NavItem[]) =>
     openGroups[label] ?? items.some((i) => isActive(i.to));
