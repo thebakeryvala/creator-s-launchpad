@@ -63,7 +63,21 @@ export type Permission =
   | "settings:view" | "settings:update"
   | "security:view" | "security:manage"
   | "notifications:view"
-  | "audit:view" | "audit:export";
+  | "audit:view" | "audit:export"
+  // Module groups (used by the route-level module access registry)
+  | "creator-manager:view" | "creator-manager:manage"
+  | "content:view" | "content:manage"
+  | "audience:view" | "audience:manage"
+  | "referral:view" | "referral:manage"
+  | "performance:view"
+  | "brand:view" | "brand:manage"
+  | "gamification:view"
+  | "learn:view"
+  | "business:view" | "business:manage"
+  | "marketplace:view"
+  | "support:view"
+  | "profile:view"
+  | "activity:view";
 
 
 /**
