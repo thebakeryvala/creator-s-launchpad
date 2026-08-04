@@ -23,6 +23,10 @@ export interface AuthzUser {
 interface AuthzContextValue {
   user: AuthzUser | null;
   isAuthenticated: boolean;
+  /** True when the signed-in account is the workspace owner/admin (Boss). */
+  isBoss: boolean;
+  /** Role currently being previewed by the Boss, if any. */
+  simulatedRole: string | null;
   hasRole: (role: Role | Role[]) => boolean;
   can: (permission: Permission | Permission[]) => boolean;
   cannot: (permission: Permission | Permission[]) => boolean;
