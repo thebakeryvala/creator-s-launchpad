@@ -31,6 +31,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SecretAchievementsRouteImport } from './routes/secret-achievements'
 import { Route as SalesRouteImport } from './routes/sales'
+import { Route as RolesRouteImport } from './routes/roles'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as RevenueRouteImport } from './routes/revenue'
 import { Route as ReputationRouteImport } from './routes/reputation'
@@ -263,6 +264,11 @@ const SecretAchievementsRoute = SecretAchievementsRouteImport.update({
 const SalesRoute = SalesRouteImport.update({
   id: '/sales',
   path: '/sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RolesRoute = RolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReviewsRoute = ReviewsRouteImport.update({
@@ -1005,6 +1011,7 @@ export interface FileRoutesByFullPath {
   '/reputation': typeof ReputationRoute
   '/revenue': typeof RevenueRoute
   '/reviews': typeof ReviewsRoute
+  '/roles': typeof RolesRoute
   '/sales': typeof SalesRoute
   '/secret-achievements': typeof SecretAchievementsRoute
   '/security': typeof SecurityRoute
@@ -1152,6 +1159,7 @@ export interface FileRoutesByTo {
   '/reputation': typeof ReputationRoute
   '/revenue': typeof RevenueRoute
   '/reviews': typeof ReviewsRoute
+  '/roles': typeof RolesRoute
   '/sales': typeof SalesRoute
   '/secret-achievements': typeof SecretAchievementsRoute
   '/security': typeof SecurityRoute
@@ -1300,6 +1308,7 @@ export interface FileRoutesById {
   '/reputation': typeof ReputationRoute
   '/revenue': typeof RevenueRoute
   '/reviews': typeof ReviewsRoute
+  '/roles': typeof RolesRoute
   '/sales': typeof SalesRoute
   '/secret-achievements': typeof SecretAchievementsRoute
   '/security': typeof SecurityRoute
@@ -1449,6 +1458,7 @@ export interface FileRouteTypes {
     | '/reputation'
     | '/revenue'
     | '/reviews'
+    | '/roles'
     | '/sales'
     | '/secret-achievements'
     | '/security'
@@ -1596,6 +1606,7 @@ export interface FileRouteTypes {
     | '/reputation'
     | '/revenue'
     | '/reviews'
+    | '/roles'
     | '/sales'
     | '/secret-achievements'
     | '/security'
@@ -1743,6 +1754,7 @@ export interface FileRouteTypes {
     | '/reputation'
     | '/revenue'
     | '/reviews'
+    | '/roles'
     | '/sales'
     | '/secret-achievements'
     | '/security'
@@ -1891,6 +1903,7 @@ export interface RootRouteChildren {
   ReputationRoute: typeof ReputationRoute
   RevenueRoute: typeof RevenueRoute
   ReviewsRoute: typeof ReviewsRoute
+  RolesRoute: typeof RolesRoute
   SalesRoute: typeof SalesRoute
   SecretAchievementsRoute: typeof SecretAchievementsRoute
   SecurityRoute: typeof SecurityRoute
@@ -2069,6 +2082,13 @@ declare module '@tanstack/react-router' {
       path: '/sales'
       fullPath: '/sales'
       preLoaderRoute: typeof SalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roles': {
+      id: '/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof RolesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reviews': {
@@ -3059,6 +3079,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReputationRoute: ReputationRoute,
   RevenueRoute: RevenueRoute,
   ReviewsRoute: ReviewsRoute,
+  RolesRoute: RolesRoute,
   SalesRoute: SalesRoute,
   SecretAchievementsRoute: SecretAchievementsRoute,
   SecurityRoute: SecurityRoute,
