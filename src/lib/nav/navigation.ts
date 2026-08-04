@@ -229,6 +229,7 @@ export const groups: NavGroup[] = [
     label: "Account",
     items: [
       { label: "Activity", to: "/activity", icon: Activity },
+      { label: "Roles & Permissions", to: "/roles", icon: KeyRound },
       { label: "Audit Log", to: "/audit-log", icon: ShieldCheck },
       { label: "Notifications", to: "/notifications", icon: Bell },
       { label: "Security", to: "/security", icon: ShieldCheck },

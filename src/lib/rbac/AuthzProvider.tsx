@@ -6,10 +6,10 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import {
   permissionSetHas,
-  resolvePermissions,
   type Permission,
   type Role,
 } from "./permissions";
+import { resolveWithOverrides, useRoleStore } from "./role-store";
 
 export interface AuthzUser {
   id?: string;
@@ -23,6 +23,10 @@ export interface AuthzUser {
 interface AuthzContextValue {
   user: AuthzUser | null;
   isAuthenticated: boolean;
+  /** True when the signed-in account is the workspace owner/admin (Boss). */
+  isBoss: boolean;
+  /** Role currently being previewed by the Boss, if any. */
+  simulatedRole: string | null;
   hasRole: (role: Role | Role[]) => boolean;
   can: (permission: Permission | Permission[]) => boolean;
   cannot: (permission: Permission | Permission[]) => boolean;
@@ -44,10 +48,15 @@ export interface AuthzProviderProps {
 const DEFAULT_USER: AuthzUser = { roles: ["owner"] };
 
 export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderProps) {
+  const store = useRoleStore();
   const value = useMemo<AuthzContextValue>(() => {
-    const roles = user?.roles ?? [];
-    const set = resolvePermissions(roles);
+    const baseRoles = user?.roles ?? [];
+    // The Boss can preview the workspace as another role.
+    const isOwner = baseRoles.includes("owner") || baseRoles.includes("admin");
+    const roles = (isOwner && store.simulate ? [store.simulate as Role] : baseRoles) as Role[];
+    const set = resolveWithOverrides(roles, store);
     if (user?.permissions) for (const p of user.permissions) set.add(p);
+
 
     const can = (p: Permission | Permission[]) => {
       const list = Array.isArray(p) ? p : [p];
@@ -57,6 +66,8 @@ export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderPr
     return {
       user: user ?? null,
       isAuthenticated: !!user,
+      isBoss: isOwner,
+      simulatedRole: isOwner && store.simulate ? store.simulate : null,
       hasRole: (r) => {
         const list = Array.isArray(r) ? r : [r];
         return list.some((x) => roles.includes(x));
@@ -64,7 +75,7 @@ export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderPr
       can,
       cannot: (p) => !can(p),
     };
-  }, [user]);
+  }, [user, store]);
 
   return <AuthzContext.Provider value={value}>{children}</AuthzContext.Provider>;
 }
@@ -76,6 +87,8 @@ export function useAuthz(): AuthzContextValue {
     return {
       user: null,
       isAuthenticated: false,
+      isBoss: false,
+      simulatedRole: null,
       hasRole: () => false,
       can: () => false,
       cannot: () => true,
