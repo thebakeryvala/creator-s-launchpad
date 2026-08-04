@@ -44,10 +44,15 @@ export interface AuthzProviderProps {
 const DEFAULT_USER: AuthzUser = { roles: ["owner"] };
 
 export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderProps) {
+  const store = useRoleStore();
   const value = useMemo<AuthzContextValue>(() => {
-    const roles = user?.roles ?? [];
-    const set = resolvePermissions(roles);
+    const baseRoles = user?.roles ?? [];
+    // The Boss can preview the workspace as another role.
+    const isOwner = baseRoles.includes("owner") || baseRoles.includes("admin");
+    const roles = (isOwner && store.simulate ? [store.simulate as Role] : baseRoles) as Role[];
+    const set = resolveWithOverrides(roles, store);
     if (user?.permissions) for (const p of user.permissions) set.add(p);
+
 
     const can = (p: Permission | Permission[]) => {
       const list = Array.isArray(p) ? p : [p];
