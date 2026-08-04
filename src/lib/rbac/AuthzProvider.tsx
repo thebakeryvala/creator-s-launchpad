@@ -89,6 +89,7 @@ export function useAuthz(): AuthzContextValue {
       isAuthenticated: false,
       isBoss: false,
       simulatedRole: null,
+      hasRole: () => false,
       can: () => false,
       cannot: () => true,
     };
