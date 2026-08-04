@@ -6,10 +6,10 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import {
   permissionSetHas,
-  resolvePermissions,
   type Permission,
   type Role,
 } from "./permissions";
+import { resolveWithOverrides, useRoleStore } from "./role-store";
 
 export interface AuthzUser {
   id?: string;
