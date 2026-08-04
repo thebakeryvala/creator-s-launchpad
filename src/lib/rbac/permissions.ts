@@ -64,6 +64,7 @@ export type Permission =
   | "security:view" | "security:manage"
   | "notifications:view"
   | "audit:view" | "audit:export"
+  | "roles:manage"
   // Module groups (used by the route-level module access registry)
   | "creator-manager:view" | "creator-manager:manage"
   | "content:view" | "content:manage"

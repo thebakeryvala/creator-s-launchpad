@@ -178,6 +178,7 @@ export const MODULE_PERMISSIONS: Record<string, Permission> = {
   // Account
   "/activity": "activity:view",
   "/audit-log": "audit:view",
+  "/roles": "roles:manage",
   "/notifications": "notifications:view",
   "/security": "security:view",
   "/settings": "settings:view",

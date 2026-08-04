@@ -38,7 +38,7 @@ function useModuleMatrix() {
       items
         .map((i) => ({ ...i, permission: permissionForPath(i.to) }))
         .filter((i): i is { label: string; to: string; permission: Permission } => {
-          if (!i.permission || seen.has(i.to)) return false;
+          if (!i.permission || i.to === "/roles" || seen.has(i.to)) return false;
           seen.add(i.to);
           return true;
         });
