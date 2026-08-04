@@ -62,6 +62,8 @@ export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderPr
     return {
       user: user ?? null,
       isAuthenticated: !!user,
+      isBoss: isOwner,
+      simulatedRole: isOwner && store.simulate ? store.simulate : null,
       hasRole: (r) => {
         const list = Array.isArray(r) ? r : [r];
         return list.some((x) => roles.includes(x));
@@ -69,7 +71,7 @@ export function AuthzProvider({ user = DEFAULT_USER, children }: AuthzProviderPr
       can,
       cannot: (p) => !can(p),
     };
-  }, [user]);
+  }, [user, store]);
 
   return <AuthzContext.Provider value={value}>{children}</AuthzContext.Provider>;
 }
