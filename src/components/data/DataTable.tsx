@@ -53,6 +53,8 @@ import {
   exportCsv, exportXlsx, timestampedFilename, type ExportColumn,
 } from "@/lib/table/exporters";
 import { tablePrefs, type ColumnPref, type SavedPreset } from "@/lib/table/preferences";
+import { EmptyState } from "@/components/feedback/EmptyState";
+import { TableRowsSkeleton, FiltersSkeleton, PaginationSkeleton } from "@/components/feedback/Skeletons";
 
 export type SortDir = "asc" | "desc";
 
@@ -295,7 +297,8 @@ export function DataTable<T>({
   };
 
   const activeFilterCount = Object.values(filterValues).filter(Boolean).length;
-  const clearFilters = () => { setFilterValues({}); setPage(1); };
+  const clearFilters = () => { setFilterValues({}); setSearch(""); setPage(1); };
+  const hasActiveQuery = activeFilterCount > 0 || search.trim().length > 0;
 
   const selectedRows = data.filter((r) => selected.has(rowKey(r)));
 
