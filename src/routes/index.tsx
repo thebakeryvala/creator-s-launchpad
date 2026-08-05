@@ -8,6 +8,7 @@ import {
 
 import { PageShell } from "@/components/layout/PageShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
+import { KpiGridSkeleton, CardSkeleton, SkeletonBlock } from "@/components/feedback/Skeletons";
 import { Sparkline } from "@/components/dashboard/Sparkline";
 import {
   dashboardAnalyticsQueryOptions,
@@ -26,6 +27,26 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(dashboardAnalyticsQueryOptions("7d")),
   component: Dashboard,
+  pendingMs: 200,
+  pendingComponent: () => (
+    <PageShell>
+      <div className="hero-surface p-6 md:p-10">
+        <SkeletonBlock className="h-6 w-56" rounded="full" />
+        <SkeletonBlock className="mt-5 h-12 w-80" rounded="lg" />
+        <SkeletonBlock className="mt-4 h-4 w-full max-w-md" />
+        <div className="mt-6 flex gap-3">
+          <SkeletonBlock className="h-10 w-40" rounded="full" />
+          <SkeletonBlock className="h-10 w-32" rounded="full" />
+        </div>
+      </div>
+      <KpiGridSkeleton className="mt-6" />
+      <div className="mt-6 grid lg:grid-cols-3 gap-4">
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
+    </PageShell>
+  ),
   errorComponent: ({ error }) => (
     <PageShell>
       <div className="bento-card text-center py-16">
