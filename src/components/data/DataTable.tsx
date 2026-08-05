@@ -649,22 +649,57 @@ export function DataTable<T>({
               <TableRow>
                 <TableCell
                   colSpan={visibleColumns.length + (visibleActions.length > 0 ? 1 : 0)}
-                  className="py-16 text-center text-sm text-destructive"
+                  className="py-10 text-center"
                 >
-                  {error}
+                  <EmptyState
+                    illustration="chart"
+                    title="Couldn't load this data"
+                    description={error}
+                    compact
+                    action={
+                      onRefresh ? (
+                        <Button size="sm" variant="outline" className="focus-glow" onClick={onRefresh}>
+                          <RefreshCw className="h-3.5 w-3.5 me-1.5" /> Try again
+                        </Button>
+                      ) : undefined
+                    }
+                  />
                 </TableCell>
               </TableRow>
-            ) : data.length === 0 && !isLoading ? (
-              <TableRow>
+            ) : isLoading && data.length === 0 ? (
+              <TableRowsSkeleton
+                rows={Math.min(pageSize, 6)}
+                columns={visibleColumns.length}
+                withCheckbox={visibleActions.length > 0}
+              />
+            ) : data.length === 0 ? (
+              <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={visibleColumns.length + (visibleActions.length > 0 ? 1 : 0)}
-                  className="py-16 text-center"
+                  className="py-10 text-center"
                 >
-                  <p className="text-sm font-medium">{emptyTitle}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{emptyDescription}</p>
+                  {hasActiveQuery ? (
+                    <EmptyState
+                      illustration="search"
+                      title="No matches found"
+                      description="Try a different search term or clear the active filters to see more results."
+                      action={
+                        <Button size="sm" variant="outline" className="focus-glow" onClick={clearFilters}>
+                          <X className="h-3.5 w-3.5 me-1.5" /> Clear filters
+                        </Button>
+                      }
+                    />
+                  ) : (
+                    <EmptyState
+                      illustration="table"
+                      title={emptyTitle}
+                      description={emptyDescription}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             ) : (
+
               data.map((row) => {
                 const id = rowKey(row);
                 const isSel = selected.has(id);
