@@ -595,11 +595,12 @@ export function DataTable<T>({
 
       {/* TABLE */}
       <div className="relative">
-        {isLoading && (
+        {isLoading && data.length > 0 && (
           <div className="absolute inset-0 z-10 grid place-items-center bg-background/60 backdrop-blur-sm">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
           </div>
         )}
+
 
         <Table>
           <TableHeader>
