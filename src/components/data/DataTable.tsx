@@ -728,19 +728,19 @@ export function DataTable<T>({
             const safePage = Math.min(page, pageCount);
             return (
               <div className="flex items-center gap-1">
-                <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage <= 1} onClick={() => setPage(1)}>
+                <Button variant="outline" size="icon" className="h-8 w-8 focus-glow shimmer-sweep" disabled={safePage <= 1} onClick={() => setPage(1)}>
                   <ChevronsLeft className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage <= 1} onClick={() => setPage(safePage - 1)}>
+                <Button variant="outline" size="icon" className="h-8 w-8 focus-glow shimmer-sweep" disabled={safePage <= 1} onClick={() => setPage(safePage - 1)}>
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <span className="px-2 text-xs text-muted-foreground tabular-nums">
                   {safePage} / {pageCount}
                 </span>
-                <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage >= pageCount} onClick={() => setPage(safePage + 1)}>
+                <Button variant="outline" size="icon" className="h-8 w-8 focus-glow shimmer-sweep" disabled={safePage >= pageCount} onClick={() => setPage(safePage + 1)}>
                   <ChevronRight className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8" disabled={safePage >= pageCount} onClick={() => setPage(pageCount)}>
+                <Button variant="outline" size="icon" className="h-8 w-8 focus-glow shimmer-sweep" disabled={safePage >= pageCount} onClick={() => setPage(pageCount)}>
                   <ChevronsRight className="h-4 w-4" />
                 </Button>
               </div>
