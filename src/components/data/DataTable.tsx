@@ -298,6 +298,7 @@ export function DataTable<T>({
 
   const activeFilterCount = Object.values(filterValues).filter(Boolean).length;
   const clearFilters = () => { setFilterValues({}); setSearch(""); setPage(1); };
+  const initialLoading = isLoading && data.length === 0;
   const hasActiveQuery = activeFilterCount > 0 || search.trim().length > 0;
 
   const selectedRows = data.filter((r) => selected.has(rowKey(r)));
@@ -376,6 +377,11 @@ export function DataTable<T>({
 
     <div className={cn("bento-card premium-halo enter-soft !p-0 overflow-hidden", className)}>
       {/* TOOLBAR */}
+      {initialLoading ? (
+        <div className="p-3 sm:p-4 border-b border-border">
+          <FiltersSkeleton count={Math.max(filters.length, 2)} />
+        </div>
+      ) : (
       <div className="flex flex-wrap items-center gap-2 p-3 sm:p-4 border-b border-border">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -738,6 +744,11 @@ export function DataTable<T>({
       </div>
 
       {/* PAGINATION */}
+      {initialLoading ? (
+        <div className="p-3 sm:p-4 border-t border-border">
+          <PaginationSkeleton />
+        </div>
+      ) : (
       <div className="flex flex-wrap items-center gap-3 p-3 sm:p-4 border-t border-border">
         <div className="text-xs text-muted-foreground">
           {total === 0 ? "0 results" : (
