@@ -14,7 +14,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
   const { language, currency, setLanguage, setCurrency, t } = useI18n();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/70 backdrop-blur-xl surface-sheen shadow-[0_1px_0_0_oklch(1_0_0/0.05)_inset,0_18px_44px_-32px_color-mix(in_oklab,var(--color-primary)_85%,transparent)]">
       <div className="flex h-16 items-center gap-3 px-4 lg:px-6">
         <button
           className="lg:hidden grid place-items-center h-9 w-9 rounded-lg border border-border shrink-0"
@@ -30,7 +30,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 w-56 lg:w-72 2xl:w-96 transition-colors focus-within:border-primary/50">
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-border bg-surface/80 px-3 py-1.5 focus-glow shimmer-sweep w-56 lg:w-72 2xl:w-96 transition-colors focus-within:border-primary/50">
           <Search className="h-4 w-4 text-muted-foreground shrink-0" />
           <input
             placeholder={t("search", "Search…")}
@@ -43,7 +43,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors" aria-label={t("language", "Language")}>
+            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:border-primary/45 focus-glow shimmer-sweep transition-all duration-200" aria-label={t("language", "Language")}>
               <Globe className="h-3.5 w-3.5" /> {language.code.toUpperCase()}
               <ChevronDown className="h-3 w-3 opacity-60" />
             </button>
@@ -66,7 +66,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors" aria-label={t("currency", "Currency")}>
+            <button className="hidden lg:flex items-center gap-1 rounded-full border border-border px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:border-primary/45 focus-glow shimmer-sweep transition-all duration-200" aria-label={t("currency", "Currency")}>
               <span className="font-semibold">{currency.symbol}</span> {currency.code}
               <ChevronDown className="h-3 w-3 opacity-60" />
             </button>
@@ -87,21 +87,21 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Link to="/support" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Support">
+        <Link to="/support" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary/45 hover:shadow-[0_0_20px_-8px_color-mix(in_oklab,var(--color-primary-glow)_85%,transparent)] focus-glow transition-all duration-200" aria-label="Support">
           <LifeBuoy className="h-4 w-4" />
         </Link>
-        <Link to="/notifications" className="relative grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Notifications">
+        <Link to="/notifications" className="relative grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary/45 hover:shadow-[0_0_20px_-8px_color-mix(in_oklab,var(--color-primary-glow)_85%,transparent)] focus-glow transition-all duration-200" aria-label="Notifications">
           <Bell className="h-4 w-4" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent-pink" />
         </Link>
-        <Link to="/settings" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground transition-colors" aria-label="Settings">
+        <Link to="/settings" className="hidden lg:grid place-items-center h-9 w-9 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary/45 hover:shadow-[0_0_20px_-8px_color-mix(in_oklab,var(--color-primary-glow)_85%,transparent)] focus-glow transition-all duration-200" aria-label="Settings">
           <Settings className="h-4 w-4" />
         </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
-              className="group flex items-center gap-2.5 rounded-full bg-surface border border-border pl-1 pr-2 sm:pr-3 py-1 shrink-0 shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-200"
+              className="group flex items-center gap-2.5 rounded-full bg-surface border border-border pl-1 pr-2 sm:pr-3 py-1 shrink-0 shadow-sm hover:border-primary/50 hover:shadow-[0_0_26px_-10px_color-mix(in_oklab,var(--color-primary-glow)_90%,transparent)] focus-glow shimmer-sweep transition-all duration-200"
               aria-label="Boss profile menu"
             >
               <span className="relative shrink-0">

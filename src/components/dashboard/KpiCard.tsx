@@ -50,7 +50,7 @@ export function KpiCard({
       : "text-muted-foreground";
 
   return (
-    <div className="bento-card !p-4">
+    <div className="bento-card premium-halo hover-lift shimmer-sweep enter-soft !p-4">
       <div className="flex items-start justify-between">
         <div className="min-w-0">
           <p className="text-[11px] uppercase tracking-wider text-muted-foreground">{label}</p>
