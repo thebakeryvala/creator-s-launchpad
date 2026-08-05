@@ -601,6 +601,7 @@ export function DataTable<T>({
           {toolbar}
         </div>
       </div>
+      )}
 
       {/* TABLE */}
       <div className="relative">
@@ -798,6 +799,7 @@ export function DataTable<T>({
           })()}
         </div>
       </div>
+      )}
 
       {/* CONFIRM DIALOG (bulk action) */}
       <Dialog open={!!pendingAction} onOpenChange={(o) => !o && setPendingAction(null)}>
