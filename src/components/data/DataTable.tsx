@@ -371,7 +371,7 @@ export function DataTable<T>({
 
   return (
 
-    <div className={cn("bento-card !p-0 overflow-hidden", className)}>
+    <div className={cn("bento-card premium-halo enter-soft !p-0 overflow-hidden", className)}>
       {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-2 p-3 sm:p-4 border-b border-border">
         <div className="relative flex-1 min-w-[200px]">
