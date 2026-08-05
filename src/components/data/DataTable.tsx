@@ -53,6 +53,8 @@ import {
   exportCsv, exportXlsx, timestampedFilename, type ExportColumn,
 } from "@/lib/table/exporters";
 import { tablePrefs, type ColumnPref, type SavedPreset } from "@/lib/table/preferences";
+import { EmptyState } from "@/components/feedback/EmptyState";
+import { TableRowsSkeleton, FiltersSkeleton, PaginationSkeleton } from "@/components/feedback/Skeletons";
 
 export type SortDir = "asc" | "desc";
 
@@ -295,7 +297,9 @@ export function DataTable<T>({
   };
 
   const activeFilterCount = Object.values(filterValues).filter(Boolean).length;
-  const clearFilters = () => { setFilterValues({}); setPage(1); };
+  const clearFilters = () => { setFilterValues({}); setSearch(""); setPage(1); };
+  const initialLoading = isLoading && data.length === 0;
+  const hasActiveQuery = activeFilterCount > 0 || search.trim().length > 0;
 
   const selectedRows = data.filter((r) => selected.has(rowKey(r)));
 
@@ -373,6 +377,11 @@ export function DataTable<T>({
 
     <div className={cn("bento-card premium-halo enter-soft !p-0 overflow-hidden", className)}>
       {/* TOOLBAR */}
+      {initialLoading ? (
+        <div className="p-3 sm:p-4 border-b border-border">
+          <FiltersSkeleton count={Math.max(filters.length, 2)} />
+        </div>
+      ) : (
       <div className="flex flex-wrap items-center gap-2 p-3 sm:p-4 border-b border-border">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -592,14 +601,16 @@ export function DataTable<T>({
           {toolbar}
         </div>
       </div>
+      )}
 
       {/* TABLE */}
       <div className="relative">
-        {isLoading && (
+        {isLoading && data.length > 0 && (
           <div className="absolute inset-0 z-10 grid place-items-center bg-background/60 backdrop-blur-sm">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
           </div>
         )}
+
 
         <Table>
           <TableHeader>
@@ -648,22 +659,57 @@ export function DataTable<T>({
               <TableRow>
                 <TableCell
                   colSpan={visibleColumns.length + (visibleActions.length > 0 ? 1 : 0)}
-                  className="py-16 text-center text-sm text-destructive"
+                  className="py-10 text-center"
                 >
-                  {error}
+                  <EmptyState
+                    illustration="chart"
+                    title="Couldn't load this data"
+                    description={error}
+                    compact
+                    action={
+                      onRefresh ? (
+                        <Button size="sm" variant="outline" className="focus-glow" onClick={onRefresh}>
+                          <RefreshCw className="h-3.5 w-3.5 me-1.5" /> Try again
+                        </Button>
+                      ) : undefined
+                    }
+                  />
                 </TableCell>
               </TableRow>
-            ) : data.length === 0 && !isLoading ? (
-              <TableRow>
+            ) : isLoading && data.length === 0 ? (
+              <TableRowsSkeleton
+                rows={Math.min(pageSize, 6)}
+                columns={visibleColumns.length}
+                withCheckbox={visibleActions.length > 0}
+              />
+            ) : data.length === 0 ? (
+              <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={visibleColumns.length + (visibleActions.length > 0 ? 1 : 0)}
-                  className="py-16 text-center"
+                  className="py-10 text-center"
                 >
-                  <p className="text-sm font-medium">{emptyTitle}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{emptyDescription}</p>
+                  {hasActiveQuery ? (
+                    <EmptyState
+                      illustration="search"
+                      title="No matches found"
+                      description="Try a different search term or clear the active filters to see more results."
+                      action={
+                        <Button size="sm" variant="outline" className="focus-glow" onClick={clearFilters}>
+                          <X className="h-3.5 w-3.5 me-1.5" /> Clear filters
+                        </Button>
+                      }
+                    />
+                  ) : (
+                    <EmptyState
+                      illustration="table"
+                      title={emptyTitle}
+                      description={emptyDescription}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             ) : (
+
               data.map((row) => {
                 const id = rowKey(row);
                 const isSel = selected.has(id);
@@ -699,6 +745,11 @@ export function DataTable<T>({
       </div>
 
       {/* PAGINATION */}
+      {initialLoading ? (
+        <div className="p-3 sm:p-4 border-t border-border">
+          <PaginationSkeleton />
+        </div>
+      ) : (
       <div className="flex flex-wrap items-center gap-3 p-3 sm:p-4 border-t border-border">
         <div className="text-xs text-muted-foreground">
           {total === 0 ? "0 results" : (
@@ -748,6 +799,7 @@ export function DataTable<T>({
           })()}
         </div>
       </div>
+      )}
 
       {/* CONFIRM DIALOG (bulk action) */}
       <Dialog open={!!pendingAction} onOpenChange={(o) => !o && setPendingAction(null)}>
