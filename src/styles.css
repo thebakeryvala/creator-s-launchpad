@@ -51,56 +51,56 @@
 }
 
 :root {
-  --radius: 1rem;
+  --radius: 0.75rem;
 
-  /* Dark-first creator dashboard */
-  --background: oklch(0.16 0.02 285);
-  --foreground: oklch(0.97 0.01 280);
+  /* Deep navy enterprise surface */
+  --background: oklch(0.19 0.035 258);
+  --foreground: oklch(0.98 0.005 250);
 
-  --surface: oklch(0.21 0.02 285);
-  --surface-foreground: oklch(0.97 0.01 280);
+  --surface: oklch(0.23 0.035 258);
+  --surface-foreground: oklch(0.98 0.005 250);
 
-  --card: oklch(0.20 0.02 285);
-  --card-foreground: oklch(0.97 0.01 280);
+  --card: oklch(0.22 0.035 258);
+  --card-foreground: oklch(0.98 0.005 250);
 
-  --popover: oklch(0.22 0.02 285);
-  --popover-foreground: oklch(0.97 0.01 280);
+  --popover: oklch(0.24 0.035 258);
+  --popover-foreground: oklch(0.98 0.005 250);
 
-  --primary: oklch(0.62 0.24 295);            /* vivid purple */
-  --primary-foreground: oklch(0.99 0.005 285);
-  --primary-glow: oklch(0.72 0.22 305);
+  --primary: oklch(0.58 0.19 255);            /* premium enterprise blue */
+  --primary-foreground: oklch(0.99 0.005 250);
+  --primary-glow: oklch(0.66 0.17 250);
 
-  --secondary: oklch(0.28 0.03 285);
-  --secondary-foreground: oklch(0.97 0.01 280);
+  --secondary: oklch(0.29 0.035 258);
+  --secondary-foreground: oklch(0.98 0.005 250);
 
-  --muted: oklch(0.26 0.02 285);
-  --muted-foreground: oklch(0.72 0.03 280);
+  --muted: oklch(0.27 0.03 258);
+  --muted-foreground: oklch(0.74 0.025 255);
 
-  --accent: oklch(0.32 0.05 295);
-  --accent-foreground: oklch(0.98 0.01 280);
+  --accent: oklch(0.32 0.05 255);
+  --accent-foreground: oklch(0.98 0.005 250);
 
-  --accent-pink: oklch(0.78 0.16 350);
-  --accent-amber: oklch(0.85 0.17 85);
-  --accent-emerald: oklch(0.74 0.16 165);
+  --accent-pink: oklch(0.70 0.12 300);
+  --accent-amber: oklch(0.83 0.14 85);
+  --accent-emerald: oklch(0.72 0.14 165);
 
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.99 0.005 280);
+  --destructive: oklch(0.62 0.20 25);
+  --destructive-foreground: oklch(0.99 0.005 250);
 
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.62 0.24 295 / 60%);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 11%);
+  --ring: oklch(0.58 0.19 255 / 55%);
 
-  --chart-1: oklch(0.62 0.24 295);
-  --chart-2: oklch(0.78 0.16 350);
-  --chart-3: oklch(0.85 0.17 85);
-  --chart-4: oklch(0.74 0.16 165);
-  --chart-5: oklch(0.62 0.20 250);
+  --chart-1: oklch(0.58 0.19 255);
+  --chart-2: oklch(0.66 0.17 250);
+  --chart-3: oklch(0.72 0.14 165);
+  --chart-4: oklch(0.83 0.14 85);
+  --chart-5: oklch(0.70 0.12 300);
 }
 
 .dark {
   /* same tokens — app is dark-first */
-  --background: oklch(0.16 0.02 285);
-  --foreground: oklch(0.97 0.01 280);
+  --background: oklch(0.19 0.035 258);
+  --foreground: oklch(0.98 0.005 250);
 }
 
 @layer base {
@@ -109,11 +109,58 @@
   body {
     font-family: var(--font-display);
     background-image:
-      radial-gradient(60% 40% at 20% 0%, oklch(0.62 0.24 295 / 0.18), transparent 60%),
-      radial-gradient(50% 35% at 90% 10%, oklch(0.78 0.16 350 / 0.10), transparent 60%);
+      radial-gradient(60% 40% at 20% 0%, oklch(0.58 0.19 255 / 0.12), transparent 60%),
+      radial-gradient(50% 35% at 90% 10%, oklch(0.66 0.17 250 / 0.07), transparent 60%);
     background-attachment: fixed;
   }
+
+  /* Thin, rounded, auto-hiding premium scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  *:hover, *:focus-within {
+    scrollbar-color: color-mix(in oklab, var(--color-foreground) 22%, transparent) transparent;
+  }
+  *::-webkit-scrollbar { width: 6px; height: 6px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+    transition: background 200ms ease;
+  }
+  *:hover::-webkit-scrollbar-thumb, *:focus-within::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-foreground) 20%, transparent);
+  }
 }
+
+/* ─────────────── Premium 3D icon buttons ─────────────── */
+@utility icon3d {
+  background-image:
+    linear-gradient(180deg, oklch(1 0 0 / 0.09), oklch(1 0 0 / 0.02) 45%, oklch(0 0 0 / 0.10)),
+    linear-gradient(var(--color-surface), var(--color-surface));
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 1px 0 0 oklch(1 0 0 / 0.10) inset,
+    0 1px 2px 0 oklch(0 0 0 / 0.35);
+  &:hover {
+    border-color: color-mix(in oklab, var(--color-primary) 40%, var(--color-border));
+    box-shadow:
+      0 1px 0 0 oklch(1 0 0 / 0.14) inset,
+      0 4px 10px -4px oklch(0 0 0 / 0.45);
+  }
+  &:active {
+    box-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.35) inset;
+  }
+}
+
+@utility icon3d--accent {
+  background-image:
+    linear-gradient(180deg, oklch(1 0 0 / 0.20), oklch(1 0 0 / 0.02) 55%, oklch(0 0 0 / 0.12)),
+    linear-gradient(var(--color-primary), var(--color-primary));
+  border-color: color-mix(in oklab, var(--color-primary) 55%, transparent);
+}
+
 
 @utility bento-card {
   position: relative;
