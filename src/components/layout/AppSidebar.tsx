@@ -1,6 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronDown, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
+import {
+  ChevronDown, PanelLeftClose, PanelLeftOpen, Search, X,
+  Video, MessageSquare, MonitorSmartphone, Handshake, Settings,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { primary, groups, type NavItem } from "@/lib/nav/navigation";
