@@ -26,10 +26,13 @@ import { Route as AiSocialManagerRouteImport } from './routes/ai-social-manager'
 import { Route as AiStudioRouteImport } from './routes/ai-studio'
 import { Route as AiToolsRouteImport } from './routes/ai-tools'
 import { Route as AiVideoFactoryRouteImport } from './routes/ai-video-factory'
+import { Route as AiraCeoRouteImport } from './routes/aira-ceo'
 import { Route as AmsRouteImport } from './routes/ams'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as ApiCenterRouteImport } from './routes/api-center'
+import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AssetsVaultRouteImport } from './routes/assets-vault'
+import { Route as AssistManagerRouteImport } from './routes/assist-manager'
 import { Route as AuditLogRouteImport } from './routes/audit-log'
 import { Route as AwardCeremonyRouteImport } from './routes/award-ceremony'
 import { Route as BannerGeneratorRouteImport } from './routes/banner-generator'
@@ -97,6 +100,7 @@ import { Route as HallOfFameRouteImport } from './routes/hall-of-fame'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as InfluenceMapRouteImport } from './routes/influence-map'
 import { Route as InfluencerStoreRouteImport } from './routes/influencer-store'
+import { Route as InternalChatRouteImport } from './routes/internal-chat'
 import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as KnowledgeVaultRouteImport } from './routes/knowledge-vault'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
@@ -111,6 +115,7 @@ import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MediaKitRouteImport } from './routes/media-kit'
 import { Route as MediaLibraryRouteImport } from './routes/media-library'
 import { Route as MediaValueRouteImport } from './routes/media-value'
+import { Route as MeetValaRouteImport } from './routes/meet-vala'
 import { Route as MemoryCapsuleRouteImport } from './routes/memory-capsule'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as MultiChannelRouteImport } from './routes/multi-channel'
@@ -124,6 +129,7 @@ import { Route as PressKitRouteImport } from './routes/press-kit'
 import { Route as PrestigeRouteImport } from './routes/prestige'
 import { Route as ProductsRouteImport } from './routes/products'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PromiseTrackerRouteImport } from './routes/promise-tracker'
 import { Route as PromotionsRouteImport } from './routes/promotions'
 import { Route as QrRouteImport } from './routes/qr'
 import { Route as RankRouteImport } from './routes/rank'
@@ -145,6 +151,7 @@ import { Route as StreaksRouteImport } from './routes/streaks'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as SuccessPlaybookRouteImport } from './routes/success-playbook'
 import { Route as SupportRouteImport } from './routes/support'
+import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as ThumbnailGeneratorRouteImport } from './routes/thumbnail-generator'
 import { Route as TopContentRouteImport } from './routes/top-content'
@@ -241,6 +248,11 @@ const AiVideoFactoryRoute = AiVideoFactoryRouteImport.update({
   path: '/ai-video-factory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiraCeoRoute = AiraCeoRouteImport.update({
+  id: '/aira-ceo',
+  path: '/aira-ceo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AmsRoute = AmsRouteImport.update({
   id: '/ams',
   path: '/ams',
@@ -256,9 +268,19 @@ const ApiCenterRoute = ApiCenterRouteImport.update({
   path: '/api-center',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApprovalsRoute = ApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssetsVaultRoute = AssetsVaultRouteImport.update({
   id: '/assets-vault',
   path: '/assets-vault',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistManagerRoute = AssistManagerRouteImport.update({
+  id: '/assist-manager',
+  path: '/assist-manager',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuditLogRoute = AuditLogRouteImport.update({
@@ -596,6 +618,11 @@ const InfluencerStoreRoute = InfluencerStoreRouteImport.update({
   path: '/influencer-store',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalChatRoute = InternalChatRouteImport.update({
+  id: '/internal-chat',
+  path: '/internal-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KnowledgeBaseRoute = KnowledgeBaseRouteImport.update({
   id: '/knowledge-base',
   path: '/knowledge-base',
@@ -666,6 +693,11 @@ const MediaValueRoute = MediaValueRouteImport.update({
   path: '/media-value',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MeetValaRoute = MeetValaRouteImport.update({
+  id: '/meet-vala',
+  path: '/meet-vala',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MemoryCapsuleRoute = MemoryCapsuleRouteImport.update({
   id: '/memory-capsule',
   path: '/memory-capsule',
@@ -729,6 +761,11 @@ const ProductsRoute = ProductsRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromiseTrackerRoute = PromiseTrackerRouteImport.update({
+  id: '/promise-tracker',
+  path: '/promise-tracker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PromotionsRoute = PromotionsRouteImport.update({
@@ -836,6 +873,11 @@ const SupportRoute = SupportRouteImport.update({
   path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
@@ -905,10 +947,13 @@ export interface FileRoutesByFullPath {
   '/ai-studio': typeof AiStudioRoute
   '/ai-tools': typeof AiToolsRoute
   '/ai-video-factory': typeof AiVideoFactoryRoute
+  '/aira-ceo': typeof AiraCeoRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
+  '/approvals': typeof ApprovalsRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/assist-manager': typeof AssistManagerRoute
   '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
@@ -976,6 +1021,7 @@ export interface FileRoutesByFullPath {
   '/inbox': typeof InboxRoute
   '/influence-map': typeof InfluenceMapRoute
   '/influencer-store': typeof InfluencerStoreRoute
+  '/internal-chat': typeof InternalChatRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/knowledge-vault': typeof KnowledgeVaultRoute
   '/leaderboard': typeof LeaderboardRoute
@@ -990,6 +1036,7 @@ export interface FileRoutesByFullPath {
   '/media-kit': typeof MediaKitRoute
   '/media-library': typeof MediaLibraryRoute
   '/media-value': typeof MediaValueRoute
+  '/meet-vala': typeof MeetValaRoute
   '/memory-capsule': typeof MemoryCapsuleRoute
   '/messages': typeof MessagesRoute
   '/multi-channel': typeof MultiChannelRoute
@@ -1003,6 +1050,7 @@ export interface FileRoutesByFullPath {
   '/prestige': typeof PrestigeRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
+  '/promise-tracker': typeof PromiseTrackerRoute
   '/promotions': typeof PromotionsRoute
   '/qr': typeof QrRoute
   '/rank': typeof RankRoute
@@ -1024,6 +1072,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof SubscriptionsRoute
   '/success-playbook': typeof SuccessPlaybookRoute
   '/support': typeof SupportRoute
+  '/tasks': typeof TasksRoute
   '/team': typeof TeamRoute
   '/thumbnail-generator': typeof ThumbnailGeneratorRoute
   '/top-content': typeof TopContentRoute
@@ -1053,10 +1102,13 @@ export interface FileRoutesByTo {
   '/ai-studio': typeof AiStudioRoute
   '/ai-tools': typeof AiToolsRoute
   '/ai-video-factory': typeof AiVideoFactoryRoute
+  '/aira-ceo': typeof AiraCeoRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
+  '/approvals': typeof ApprovalsRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/assist-manager': typeof AssistManagerRoute
   '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
@@ -1124,6 +1176,7 @@ export interface FileRoutesByTo {
   '/inbox': typeof InboxRoute
   '/influence-map': typeof InfluenceMapRoute
   '/influencer-store': typeof InfluencerStoreRoute
+  '/internal-chat': typeof InternalChatRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/knowledge-vault': typeof KnowledgeVaultRoute
   '/leaderboard': typeof LeaderboardRoute
@@ -1138,6 +1191,7 @@ export interface FileRoutesByTo {
   '/media-kit': typeof MediaKitRoute
   '/media-library': typeof MediaLibraryRoute
   '/media-value': typeof MediaValueRoute
+  '/meet-vala': typeof MeetValaRoute
   '/memory-capsule': typeof MemoryCapsuleRoute
   '/messages': typeof MessagesRoute
   '/multi-channel': typeof MultiChannelRoute
@@ -1151,6 +1205,7 @@ export interface FileRoutesByTo {
   '/prestige': typeof PrestigeRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
+  '/promise-tracker': typeof PromiseTrackerRoute
   '/promotions': typeof PromotionsRoute
   '/qr': typeof QrRoute
   '/rank': typeof RankRoute
@@ -1172,6 +1227,7 @@ export interface FileRoutesByTo {
   '/subscriptions': typeof SubscriptionsRoute
   '/success-playbook': typeof SuccessPlaybookRoute
   '/support': typeof SupportRoute
+  '/tasks': typeof TasksRoute
   '/team': typeof TeamRoute
   '/thumbnail-generator': typeof ThumbnailGeneratorRoute
   '/top-content': typeof TopContentRoute
@@ -1202,10 +1258,13 @@ export interface FileRoutesById {
   '/ai-studio': typeof AiStudioRoute
   '/ai-tools': typeof AiToolsRoute
   '/ai-video-factory': typeof AiVideoFactoryRoute
+  '/aira-ceo': typeof AiraCeoRoute
   '/ams': typeof AmsRoute
   '/analytics': typeof AnalyticsRoute
   '/api-center': typeof ApiCenterRoute
+  '/approvals': typeof ApprovalsRoute
   '/assets-vault': typeof AssetsVaultRoute
+  '/assist-manager': typeof AssistManagerRoute
   '/audit-log': typeof AuditLogRoute
   '/award-ceremony': typeof AwardCeremonyRoute
   '/banner-generator': typeof BannerGeneratorRoute
@@ -1273,6 +1332,7 @@ export interface FileRoutesById {
   '/inbox': typeof InboxRoute
   '/influence-map': typeof InfluenceMapRoute
   '/influencer-store': typeof InfluencerStoreRoute
+  '/internal-chat': typeof InternalChatRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/knowledge-vault': typeof KnowledgeVaultRoute
   '/leaderboard': typeof LeaderboardRoute
@@ -1287,6 +1347,7 @@ export interface FileRoutesById {
   '/media-kit': typeof MediaKitRoute
   '/media-library': typeof MediaLibraryRoute
   '/media-value': typeof MediaValueRoute
+  '/meet-vala': typeof MeetValaRoute
   '/memory-capsule': typeof MemoryCapsuleRoute
   '/messages': typeof MessagesRoute
   '/multi-channel': typeof MultiChannelRoute
@@ -1300,6 +1361,7 @@ export interface FileRoutesById {
   '/prestige': typeof PrestigeRoute
   '/products': typeof ProductsRoute
   '/profile': typeof ProfileRoute
+  '/promise-tracker': typeof PromiseTrackerRoute
   '/promotions': typeof PromotionsRoute
   '/qr': typeof QrRoute
   '/rank': typeof RankRoute
@@ -1321,6 +1383,7 @@ export interface FileRoutesById {
   '/subscriptions': typeof SubscriptionsRoute
   '/success-playbook': typeof SuccessPlaybookRoute
   '/support': typeof SupportRoute
+  '/tasks': typeof TasksRoute
   '/team': typeof TeamRoute
   '/thumbnail-generator': typeof ThumbnailGeneratorRoute
   '/top-content': typeof TopContentRoute
@@ -1352,10 +1415,13 @@ export interface FileRouteTypes {
     | '/ai-studio'
     | '/ai-tools'
     | '/ai-video-factory'
+    | '/aira-ceo'
     | '/ams'
     | '/analytics'
     | '/api-center'
+    | '/approvals'
     | '/assets-vault'
+    | '/assist-manager'
     | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
@@ -1423,6 +1489,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/influence-map'
     | '/influencer-store'
+    | '/internal-chat'
     | '/knowledge-base'
     | '/knowledge-vault'
     | '/leaderboard'
@@ -1437,6 +1504,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/media-library'
     | '/media-value'
+    | '/meet-vala'
     | '/memory-capsule'
     | '/messages'
     | '/multi-channel'
@@ -1450,6 +1518,7 @@ export interface FileRouteTypes {
     | '/prestige'
     | '/products'
     | '/profile'
+    | '/promise-tracker'
     | '/promotions'
     | '/qr'
     | '/rank'
@@ -1471,6 +1540,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/success-playbook'
     | '/support'
+    | '/tasks'
     | '/team'
     | '/thumbnail-generator'
     | '/top-content'
@@ -1500,10 +1570,13 @@ export interface FileRouteTypes {
     | '/ai-studio'
     | '/ai-tools'
     | '/ai-video-factory'
+    | '/aira-ceo'
     | '/ams'
     | '/analytics'
     | '/api-center'
+    | '/approvals'
     | '/assets-vault'
+    | '/assist-manager'
     | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
@@ -1571,6 +1644,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/influence-map'
     | '/influencer-store'
+    | '/internal-chat'
     | '/knowledge-base'
     | '/knowledge-vault'
     | '/leaderboard'
@@ -1585,6 +1659,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/media-library'
     | '/media-value'
+    | '/meet-vala'
     | '/memory-capsule'
     | '/messages'
     | '/multi-channel'
@@ -1598,6 +1673,7 @@ export interface FileRouteTypes {
     | '/prestige'
     | '/products'
     | '/profile'
+    | '/promise-tracker'
     | '/promotions'
     | '/qr'
     | '/rank'
@@ -1619,6 +1695,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/success-playbook'
     | '/support'
+    | '/tasks'
     | '/team'
     | '/thumbnail-generator'
     | '/top-content'
@@ -1648,10 +1725,13 @@ export interface FileRouteTypes {
     | '/ai-studio'
     | '/ai-tools'
     | '/ai-video-factory'
+    | '/aira-ceo'
     | '/ams'
     | '/analytics'
     | '/api-center'
+    | '/approvals'
     | '/assets-vault'
+    | '/assist-manager'
     | '/audit-log'
     | '/award-ceremony'
     | '/banner-generator'
@@ -1719,6 +1799,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/influence-map'
     | '/influencer-store'
+    | '/internal-chat'
     | '/knowledge-base'
     | '/knowledge-vault'
     | '/leaderboard'
@@ -1733,6 +1814,7 @@ export interface FileRouteTypes {
     | '/media-kit'
     | '/media-library'
     | '/media-value'
+    | '/meet-vala'
     | '/memory-capsule'
     | '/messages'
     | '/multi-channel'
@@ -1746,6 +1828,7 @@ export interface FileRouteTypes {
     | '/prestige'
     | '/products'
     | '/profile'
+    | '/promise-tracker'
     | '/promotions'
     | '/qr'
     | '/rank'
@@ -1767,6 +1850,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/success-playbook'
     | '/support'
+    | '/tasks'
     | '/team'
     | '/thumbnail-generator'
     | '/top-content'
@@ -1797,10 +1881,13 @@ export interface RootRouteChildren {
   AiStudioRoute: typeof AiStudioRoute
   AiToolsRoute: typeof AiToolsRoute
   AiVideoFactoryRoute: typeof AiVideoFactoryRoute
+  AiraCeoRoute: typeof AiraCeoRoute
   AmsRoute: typeof AmsRoute
   AnalyticsRoute: typeof AnalyticsRoute
   ApiCenterRoute: typeof ApiCenterRoute
+  ApprovalsRoute: typeof ApprovalsRoute
   AssetsVaultRoute: typeof AssetsVaultRoute
+  AssistManagerRoute: typeof AssistManagerRoute
   AuditLogRoute: typeof AuditLogRoute
   AwardCeremonyRoute: typeof AwardCeremonyRoute
   BannerGeneratorRoute: typeof BannerGeneratorRoute
@@ -1868,6 +1955,7 @@ export interface RootRouteChildren {
   InboxRoute: typeof InboxRoute
   InfluenceMapRoute: typeof InfluenceMapRoute
   InfluencerStoreRoute: typeof InfluencerStoreRoute
+  InternalChatRoute: typeof InternalChatRoute
   KnowledgeBaseRoute: typeof KnowledgeBaseRoute
   KnowledgeVaultRoute: typeof KnowledgeVaultRoute
   LeaderboardRoute: typeof LeaderboardRoute
@@ -1882,6 +1970,7 @@ export interface RootRouteChildren {
   MediaKitRoute: typeof MediaKitRoute
   MediaLibraryRoute: typeof MediaLibraryRoute
   MediaValueRoute: typeof MediaValueRoute
+  MeetValaRoute: typeof MeetValaRoute
   MemoryCapsuleRoute: typeof MemoryCapsuleRoute
   MessagesRoute: typeof MessagesRoute
   MultiChannelRoute: typeof MultiChannelRoute
@@ -1895,6 +1984,7 @@ export interface RootRouteChildren {
   PrestigeRoute: typeof PrestigeRoute
   ProductsRoute: typeof ProductsRoute
   ProfileRoute: typeof ProfileRoute
+  PromiseTrackerRoute: typeof PromiseTrackerRoute
   PromotionsRoute: typeof PromotionsRoute
   QrRoute: typeof QrRoute
   RankRoute: typeof RankRoute
@@ -1916,6 +2006,7 @@ export interface RootRouteChildren {
   SubscriptionsRoute: typeof SubscriptionsRoute
   SuccessPlaybookRoute: typeof SuccessPlaybookRoute
   SupportRoute: typeof SupportRoute
+  TasksRoute: typeof TasksRoute
   TeamRoute: typeof TeamRoute
   ThumbnailGeneratorRoute: typeof ThumbnailGeneratorRoute
   TopContentRoute: typeof TopContentRoute
@@ -2049,6 +2140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiVideoFactoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aira-ceo': {
+      id: '/aira-ceo'
+      path: '/aira-ceo'
+      fullPath: '/aira-ceo'
+      preLoaderRoute: typeof AiraCeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ams': {
       id: '/ams'
       path: '/ams'
@@ -2070,11 +2168,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCenterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/approvals': {
+      id: '/approvals'
+      path: '/approvals'
+      fullPath: '/approvals'
+      preLoaderRoute: typeof ApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assets-vault': {
       id: '/assets-vault'
       path: '/assets-vault'
       fullPath: '/assets-vault'
       preLoaderRoute: typeof AssetsVaultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assist-manager': {
+      id: '/assist-manager'
+      path: '/assist-manager'
+      fullPath: '/assist-manager'
+      preLoaderRoute: typeof AssistManagerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/audit-log': {
@@ -2546,6 +2658,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InfluencerStoreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/internal-chat': {
+      id: '/internal-chat'
+      path: '/internal-chat'
+      fullPath: '/internal-chat'
+      preLoaderRoute: typeof InternalChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/knowledge-base': {
       id: '/knowledge-base'
       path: '/knowledge-base'
@@ -2644,6 +2763,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MediaValueRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/meet-vala': {
+      id: '/meet-vala'
+      path: '/meet-vala'
+      fullPath: '/meet-vala'
+      preLoaderRoute: typeof MeetValaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/memory-capsule': {
       id: '/memory-capsule'
       path: '/memory-capsule'
@@ -2733,6 +2859,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promise-tracker': {
+      id: '/promise-tracker'
+      path: '/promise-tracker'
+      fullPath: '/promise-tracker'
+      preLoaderRoute: typeof PromiseTrackerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/promotions': {
@@ -2882,6 +3015,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -2973,10 +3113,13 @@ const rootRouteChildren: RootRouteChildren = {
   AiStudioRoute: AiStudioRoute,
   AiToolsRoute: AiToolsRoute,
   AiVideoFactoryRoute: AiVideoFactoryRoute,
+  AiraCeoRoute: AiraCeoRoute,
   AmsRoute: AmsRoute,
   AnalyticsRoute: AnalyticsRoute,
   ApiCenterRoute: ApiCenterRoute,
+  ApprovalsRoute: ApprovalsRoute,
   AssetsVaultRoute: AssetsVaultRoute,
+  AssistManagerRoute: AssistManagerRoute,
   AuditLogRoute: AuditLogRoute,
   AwardCeremonyRoute: AwardCeremonyRoute,
   BannerGeneratorRoute: BannerGeneratorRoute,
@@ -3044,6 +3187,7 @@ const rootRouteChildren: RootRouteChildren = {
   InboxRoute: InboxRoute,
   InfluenceMapRoute: InfluenceMapRoute,
   InfluencerStoreRoute: InfluencerStoreRoute,
+  InternalChatRoute: InternalChatRoute,
   KnowledgeBaseRoute: KnowledgeBaseRoute,
   KnowledgeVaultRoute: KnowledgeVaultRoute,
   LeaderboardRoute: LeaderboardRoute,
@@ -3058,6 +3202,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaKitRoute: MediaKitRoute,
   MediaLibraryRoute: MediaLibraryRoute,
   MediaValueRoute: MediaValueRoute,
+  MeetValaRoute: MeetValaRoute,
   MemoryCapsuleRoute: MemoryCapsuleRoute,
   MessagesRoute: MessagesRoute,
   MultiChannelRoute: MultiChannelRoute,
@@ -3071,6 +3216,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrestigeRoute: PrestigeRoute,
   ProductsRoute: ProductsRoute,
   ProfileRoute: ProfileRoute,
+  PromiseTrackerRoute: PromiseTrackerRoute,
   PromotionsRoute: PromotionsRoute,
   QrRoute: QrRoute,
   RankRoute: RankRoute,
@@ -3092,6 +3238,7 @@ const rootRouteChildren: RootRouteChildren = {
   SubscriptionsRoute: SubscriptionsRoute,
   SuccessPlaybookRoute: SuccessPlaybookRoute,
   SupportRoute: SupportRoute,
+  TasksRoute: TasksRoute,
   TeamRoute: TeamRoute,
   ThumbnailGeneratorRoute: ThumbnailGeneratorRoute,
   TopContentRoute: TopContentRoute,
