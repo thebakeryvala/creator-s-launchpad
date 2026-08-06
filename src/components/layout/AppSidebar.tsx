@@ -200,7 +200,14 @@ export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMo
           );
         })}
       </nav>
+
+      <div className="shrink-0 border-t border-border px-2 py-2 space-y-0.5">
+        {bottomItems.filter((i) => allowed(i.to)).map((item) => (
+          <ItemLink key={item.to} item={item} />
+        ))}
+      </div>
     </div>
+
   );
 
   return (
