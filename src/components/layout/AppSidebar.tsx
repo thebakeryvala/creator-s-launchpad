@@ -75,23 +75,38 @@ export function AppSidebar({ collapsed, onToggleCollapsed, mobileOpen, onCloseMo
   const groupOpen = (label: string, items: NavItem[]) =>
     openGroups[label] ?? items.some((i) => isActive(i.to));
 
-  const ItemLink = ({ item }: { item: NavItem }) => (
-    <Link
-      to={item.to}
-      onClick={onCloseMobile}
-      title={collapsed ? item.label : undefined}
-      className={cn(
-        "group/item flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-all duration-200",
-        collapsed && "justify-center px-0",
-        isActive(item.to)
-          ? "bg-primary/15 text-foreground ring-1 ring-primary/25"
-          : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
-      )}
-    >
-      <item.icon className="h-4 w-4 shrink-0" />
-      {!collapsed && <span className="truncate">{item.label}</span>}
-    </Link>
-  );
+  const ItemLink = ({ item }: { item: NavItem }) => {
+    const active = isActive(item.to);
+    return (
+      <Link
+        to={item.to}
+        onClick={onCloseMobile}
+        title={item.label}
+        className={cn(
+          "group/item relative flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm transition-colors duration-150",
+          collapsed && "justify-center px-0",
+          active
+            ? "bg-primary/18 text-foreground font-medium"
+            : "text-muted-foreground hover:text-foreground hover:bg-white/[0.04]",
+        )}
+      >
+        {active && (
+          <span className="absolute left-0 top-1.5 bottom-1.5 w-[2px] rounded-full bg-primary" />
+        )}
+        <item.icon className="h-4 w-4 shrink-0" />
+        {!collapsed && <span className="truncate">{item.label}</span>}
+      </Link>
+    );
+  };
+
+  const bottomItems: NavItem[] = [
+    { label: "Meet Vala", to: "/meet-vala", icon: Video },
+    { label: "Internal Chat", to: "/internal-chat", icon: MessageSquare },
+    { label: "Assist Manager", to: "/assist-manager", icon: MonitorSmartphone },
+    { label: "Promise Tracker", to: "/promise-tracker", icon: Handshake },
+    { label: "Settings", to: "/settings", icon: Settings },
+  ];
+
 
   const content = (
     <div className="flex h-full flex-col">
