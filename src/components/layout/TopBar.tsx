@@ -3,12 +3,13 @@ import {
   Search, ClipboardList, CheckCircle2, Bell, MessageSquare, Brain,
   MonitorSmartphone, Handshake, Calendar, Globe, Settings, Plus, Menu,
   Crown, User, LayoutDashboard, ShieldCheck, KeyRound,
-  ListPlus, Ticket, AlarmClock, Megaphone, Users, MoreHorizontal,
+  ListPlus, Ticket, AlarmClock, Megaphone, Users, MoreHorizontal, CheckCheck, MailCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n, LANGUAGES } from "@/lib/i18n/I18nProvider";
-import { useHeaderBadges, formatBadge } from "@/lib/notifications/useHeaderBadges";
+import { useHeaderBadges, setHeaderBadges, formatBadge } from "@/lib/notifications/useHeaderBadges";
+
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
