@@ -113,16 +113,42 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
               <TooltipContent side="bottom">Global Search</TooltipContent>
             </Tooltip>
 
-            <IconAction icon={ClipboardList} label="Tasks" to="/tasks" />
-            <IconAction icon={CheckCircle2} label="Approvals" to="/approvals" />
-            <IconAction icon={Bell} label="Notifications" to="/notifications" dot />
-            <IconAction icon={MessageSquare} label="Internal Chat" to="/internal-chat" />
-            <IconAction icon={Brain} label="AIRA CEO" to="/aira-ceo" />
-            <IconAction icon={MonitorSmartphone} label="Assist Manager" to="/assist-manager" />
-            <IconAction icon={Handshake} label="Promise Tracker" to="/promise-tracker" />
-            <IconAction icon={Calendar} label="Calendar" to="/calendar" />
+            <IconAction icon={ClipboardList} label="Tasks" to="/tasks" count={badges.tasks} />
+            <IconAction icon={CheckCircle2} label="Approvals" to="/approvals" count={badges.approvals} />
+            <IconAction icon={Bell} label="Notifications" to="/notifications" count={badges.notifications} />
+            <IconAction icon={MessageSquare} label="Internal Chat" to="/internal-chat" count={badges.chat} />
 
-            {/* Language */}
+            {/* Full set on wide screens */}
+            {OVERFLOW_ACTIONS.filter((a) => a.to !== "/settings").map((a) => (
+              <IconAction key={a.label} icon={a.icon} label={a.label} to={a.to} className="hidden xl:grid" />
+            ))}
+
+            {/* Overflow menu on narrow screens */}
+            <DropdownMenu>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DropdownMenuTrigger asChild>
+                    <button className={cn(ICON_BTN, "xl:hidden")} aria-label="More actions">
+                      <MoreHorizontal className="h-[18px] w-[18px]" aria-hidden="true" />
+                    </button>
+                  </DropdownMenuTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">More actions</TooltipContent>
+              </Tooltip>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>More</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {OVERFLOW_ACTIONS.map((a) => (
+                  <DropdownMenuItem key={a.label} asChild>
+                    <Link to={a.to} className="cursor-pointer">
+                      <a.icon className="h-4 w-4 mr-2" aria-hidden="true" /> {a.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+
             <DropdownMenu>
               <Tooltip>
                 <TooltipTrigger asChild>
