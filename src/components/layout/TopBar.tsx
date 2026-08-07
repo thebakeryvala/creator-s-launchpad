@@ -55,6 +55,53 @@ function IconAction({
   );
 }
 
+/**
+ * Icon button that opens a small menu (badge + quick actions).
+ * Radix DropdownMenu provides arrow-key navigation, focus trapping,
+ * Escape-to-close and focus restore to the trigger.
+ */
+function IconMenuAction({
+  icon: Icon, label, to, count = 0, openLabel, actionLabel, actionIcon: ActionIcon, onAction,
+}: {
+  icon: LucideIcon; label: string; to: string; count?: number;
+  openLabel: string; actionLabel: string; actionIcon: LucideIcon; onAction: () => void;
+}) {
+  const accessibleName = count > 0 ? `${label} (${count} ${count === 1 ? "item" : "items"})` : label;
+  return (
+    <DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <button className={ICON_BTN} aria-label={accessibleName}>
+              <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+              <CountBadge count={count} label={accessibleName} />
+            </button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">{accessibleName}</TooltipContent>
+      </Tooltip>
+      <DropdownMenuContent align="end" loop className="w-60">
+        <DropdownMenuLabel className="flex items-center justify-between gap-2">
+          <span>{label}</span>
+          <span className="text-[11px] font-normal text-muted-foreground">
+            {count > 0 ? `${formatBadge(count)} pending` : "All clear"}
+          </span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to={to} className="cursor-pointer">
+            <Icon className="h-4 w-4 mr-2" aria-hidden="true" /> {openLabel}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={count <= 0} onSelect={onAction} className="cursor-pointer">
+          <ActionIcon className="h-4 w-4 mr-2" aria-hidden="true" /> {actionLabel}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+
 const QUICK_ACTIONS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "New Task", icon: ListPlus, to: "/tasks" },
   { label: "New Ticket", icon: Ticket, to: "/support" },
