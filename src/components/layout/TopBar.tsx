@@ -76,6 +76,8 @@ const OVERFLOW_ACTIONS: { label: string; icon: LucideIcon; to: string }[] = [
 export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
   const { language, setLanguage, t } = useI18n();
   const navigate = useNavigate();
+  const badges = useHeaderBadges();
+
 
   return (
     <TooltipProvider delayDuration={120}>
