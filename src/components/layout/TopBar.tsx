@@ -3,12 +3,13 @@ import {
   Search, ClipboardList, CheckCircle2, Bell, MessageSquare, Brain,
   MonitorSmartphone, Handshake, Calendar, Globe, Settings, Plus, Menu,
   Crown, User, LayoutDashboard, ShieldCheck, KeyRound,
-  ListPlus, Ticket, AlarmClock, Megaphone, Users, MoreHorizontal,
+  ListPlus, Ticket, AlarmClock, Megaphone, Users, MoreHorizontal, CheckCheck, MailCheck,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n, LANGUAGES } from "@/lib/i18n/I18nProvider";
-import { useHeaderBadges, formatBadge } from "@/lib/notifications/useHeaderBadges";
+import { useHeaderBadges, setHeaderBadges, formatBadge } from "@/lib/notifications/useHeaderBadges";
+
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -54,6 +55,53 @@ function IconAction({
     </Tooltip>
   );
 }
+
+/**
+ * Icon button that opens a small menu (badge + quick actions).
+ * Radix DropdownMenu provides arrow-key navigation, focus trapping,
+ * Escape-to-close and focus restore to the trigger.
+ */
+function IconMenuAction({
+  icon: Icon, label, to, count = 0, openLabel, actionLabel, actionIcon: ActionIcon, onAction,
+}: {
+  icon: LucideIcon; label: string; to: string; count?: number;
+  openLabel: string; actionLabel: string; actionIcon: LucideIcon; onAction: () => void;
+}) {
+  const accessibleName = count > 0 ? `${label} (${count} ${count === 1 ? "item" : "items"})` : label;
+  return (
+    <DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenuTrigger asChild>
+            <button className={ICON_BTN} aria-label={accessibleName}>
+              <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+              <CountBadge count={count} label={accessibleName} />
+            </button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">{accessibleName}</TooltipContent>
+      </Tooltip>
+      <DropdownMenuContent align="end" loop className="w-60">
+        <DropdownMenuLabel className="flex items-center justify-between gap-2">
+          <span>{label}</span>
+          <span className="text-[11px] font-normal text-muted-foreground">
+            {count > 0 ? `${formatBadge(count)} pending` : "All clear"}
+          </span>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to={to} className="cursor-pointer">
+            <Icon className="h-4 w-4 mr-2" aria-hidden="true" /> {openLabel}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={count <= 0} onSelect={onAction} className="cursor-pointer">
+          <ActionIcon className="h-4 w-4 mr-2" aria-hidden="true" /> {actionLabel}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 
 const QUICK_ACTIONS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "New Task", icon: ListPlus, to: "/tasks" },
@@ -114,8 +162,17 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
             </Tooltip>
 
             <IconAction icon={ClipboardList} label="Tasks" to="/tasks" count={badges.tasks} />
-            <IconAction icon={CheckCircle2} label="Approvals" to="/approvals" count={badges.approvals} />
-            <IconAction icon={Bell} label="Notifications" to="/notifications" count={badges.notifications} />
+            <IconMenuAction
+              icon={CheckCircle2} label="Approvals" to="/approvals" count={badges.approvals}
+              openLabel="Open Approvals" actionLabel="Clear pending" actionIcon={CheckCheck}
+              onAction={() => setHeaderBadges({ approvals: 0 })}
+            />
+            <IconMenuAction
+              icon={Bell} label="Notifications" to="/notifications" count={badges.notifications}
+              openLabel="Open Notifications" actionLabel="Mark all as read" actionIcon={MailCheck}
+              onAction={() => setHeaderBadges({ notifications: 0 })}
+            />
+
             <IconAction icon={MessageSquare} label="Internal Chat" to="/internal-chat" count={badges.chat} />
 
             {/* Full set on wide screens */}
@@ -135,7 +192,8 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
                 </TooltipTrigger>
                 <TooltipContent side="bottom">More actions</TooltipContent>
               </Tooltip>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" loop className="w-56">
+
                 <DropdownMenuLabel>More</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {OVERFLOW_ACTIONS.map((a) => (
