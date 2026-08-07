@@ -3,11 +3,12 @@ import {
   Search, ClipboardList, CheckCircle2, Bell, MessageSquare, Brain,
   MonitorSmartphone, Handshake, Calendar, Globe, Settings, Plus, Menu,
   Crown, User, LayoutDashboard, ShieldCheck, KeyRound,
-  ListPlus, Ticket, AlarmClock, Megaphone, Users,
+  ListPlus, Ticket, AlarmClock, Megaphone, Users, MoreHorizontal,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n, LANGUAGES } from "@/lib/i18n/I18nProvider";
+import { useHeaderBadges, formatBadge } from "@/lib/notifications/useHeaderBadges";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -18,20 +19,38 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 const ICON_BTN =
   "icon3d relative grid h-9 w-9 shrink-0 place-items-center rounded-xl text-muted-foreground " +
   "transition-[transform,box-shadow,color,background-color] duration-200 " +
-  "hover:text-foreground active:scale-[0.96]";
+  "hover:text-foreground active:scale-[0.96] " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+  "focus-visible:ring-offset-background";
+
+/** Count pill / dot rendered on top of a header icon. */
+function CountBadge({ count, label }: { count: number; label: string }) {
+  if (count <= 0) return null;
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute -top-1 -right-1 grid min-w-[18px] h-[18px] place-items-center rounded-full bg-primary px-1 text-[10px] font-bold leading-none text-primary-foreground ring-2 ring-background"
+    >
+      {formatBadge(count)}
+      <span className="sr-only">{label}</span>
+    </span>
+  );
+}
 
 function IconAction({
-  icon: Icon, label, to, dot,
-}: { icon: LucideIcon; label: string; to: string; dot?: boolean }) {
+  icon: Icon, label, to, count = 0,
+  className,
+}: { icon: LucideIcon; label: string; to: string; count?: number; className?: string }) {
+  const accessibleName = count > 0 ? `${label} (${count} ${count === 1 ? "item" : "items"})` : label;
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Link to={to} aria-label={label} className={ICON_BTN}>
-          <Icon className="h-[18px] w-[18px]" />
-          {dot && <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-primary" />}
+        <Link to={to} aria-label={accessibleName} className={cn(ICON_BTN, className)}>
+          <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+          <CountBadge count={count} label={accessibleName} />
         </Link>
       </TooltipTrigger>
-      <TooltipContent side="bottom">{label}</TooltipContent>
+      <TooltipContent side="bottom">{accessibleName}</TooltipContent>
     </Tooltip>
   );
 }
@@ -43,6 +62,16 @@ const QUICK_ACTIONS: { label: string; icon: LucideIcon; to: string }[] = [
   { label: "New Announcement", icon: Megaphone, to: "/notifications" },
   { label: "New Internal Chat", icon: Users, to: "/internal-chat" },
 ];
+
+/** Actions that collapse into the "More" dropdown on narrow screens. */
+const OVERFLOW_ACTIONS: { label: string; icon: LucideIcon; to: string }[] = [
+  { label: "AIRA CEO", icon: Brain, to: "/aira-ceo" },
+  { label: "Assist Manager", icon: MonitorSmartphone, to: "/assist-manager" },
+  { label: "Promise Tracker", icon: Handshake, to: "/promise-tracker" },
+  { label: "Calendar", icon: Calendar, to: "/calendar" },
+  { label: "Settings", icon: Settings, to: "/settings" },
+];
+
 
 export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
   const { language, setLanguage, t } = useI18n();
