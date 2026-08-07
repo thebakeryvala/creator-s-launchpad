@@ -176,7 +176,7 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <IconAction icon={Settings} label="Settings" to="/settings" />
+            <IconAction icon={Settings} label="Settings" to="/settings" className="hidden xl:grid" />
 
             {/* Quick Actions */}
             <DropdownMenu>
