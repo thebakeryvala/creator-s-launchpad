@@ -161,8 +161,17 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
             </Tooltip>
 
             <IconAction icon={ClipboardList} label="Tasks" to="/tasks" count={badges.tasks} />
-            <IconAction icon={CheckCircle2} label="Approvals" to="/approvals" count={badges.approvals} />
-            <IconAction icon={Bell} label="Notifications" to="/notifications" count={badges.notifications} />
+            <IconMenuAction
+              icon={CheckCircle2} label="Approvals" to="/approvals" count={badges.approvals}
+              openLabel="Open Approvals" actionLabel="Clear pending" actionIcon={CheckCheck}
+              onAction={() => setHeaderBadges({ approvals: 0 })}
+            />
+            <IconMenuAction
+              icon={Bell} label="Notifications" to="/notifications" count={badges.notifications}
+              openLabel="Open Notifications" actionLabel="Mark all as read" actionIcon={MailCheck}
+              onAction={() => setHeaderBadges({ notifications: 0 })}
+            />
+
             <IconAction icon={MessageSquare} label="Internal Chat" to="/internal-chat" count={badges.chat} />
 
             {/* Full set on wide screens */}
