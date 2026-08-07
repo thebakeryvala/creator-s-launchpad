@@ -192,7 +192,8 @@ export function TopBar({ onOpenMenu }: { onOpenMenu?: () => void }) {
                 </TooltipTrigger>
                 <TooltipContent side="bottom">More actions</TooltipContent>
               </Tooltip>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" loop className="w-56">
+
                 <DropdownMenuLabel>More</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {OVERFLOW_ACTIONS.map((a) => (
